@@ -42,7 +42,7 @@
         .slide {
             width: 100%;
             height: 100%;
-            padding: 4.5rem 3rem 3rem 3rem;
+            padding: 5.25rem 3rem 3rem 3rem;
             display: none;
             flex-direction: column;
             background: var(--panw-dark);
@@ -200,7 +200,7 @@
             top: 12px;
             left: 25px;
             z-index: 999;
-            height: 28px;
+            height: 52px;
             width: auto;
         }
 
@@ -561,11 +561,6 @@
                         <p>No standardized deliverables checklist between PS and CS, so packages arrive missing artifacts and onboarding stalls while teams chase documentation.</p>
                     </div>
                 </div>
-
-                <div class="quote-box" style="margin-top: 1.25rem;">
-                    "Context dies at every handoff — we keep re-doing work that was already done one step upstream, and resourcing comes down to who happens to be free."
-                    <br><br>— Synthesized from post-sales practitioner conversations
-                </div>
             </div>
         </div>
 
@@ -697,10 +692,50 @@
             </div>
         </div>
 
-        <!-- SLIDE 6: AI Use Case 1 — Task Generation -->
+        <!-- SLIDE 6: AI Use Case 1 — Intelligent Case Intake -->
         <div class="slide">
             <div class="slide-content">
-                <h2>AI Use Case 1 — Task Generation</h2>
+                <h2>AI Use Case 1 — Intelligent Case Intake</h2>
+                <p class="subtitle">Turn unstructured pre-sales context into a structured Design of Record</p>
+
+                <div class="grid grid-2">
+                    <div>
+                        <h4>The job</h4>
+                        <p>Capture customer requirements <strong>once</strong>, in a structured form, so nothing is re-keyed or lost as the case moves downstream.</p>
+                        <h4>How the AI helps</h4>
+                        <ul style="font-size: 0.95rem;">
+                            <li>Reads an <strong>SOW (or a fetched SFDC case)</strong> and extracts the key fields — customer, ARR, products, integrations, timeline, business goals.</li>
+                            <li>Maps them into a strongly-typed <strong>Design of Record (DoR)</strong> — the AI's input contract for every downstream step.</li>
+                            <li>The engineer reviews &amp; confirms; <code>data_source</code> is stamped <code>sfdc</code> or <code>manual</code> for provenance.</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="background: rgba(250, 88, 45, 0.08);">
+                        <h4 style="color: var(--panw-orange);">Flow</h4>
+                        <div style="font-family:'Courier New',monospace; font-size:0.85rem; line-height:1.9; color: var(--panw-text);">
+                            SOW / SFDC case <span style="color:var(--panw-text-dim)">(unstructured)</span><br/>
+                            &nbsp;&nbsp;↓<br/>
+                            Extract: customer · products · integrations · timeline<br/>
+                            &nbsp;&nbsp;↓<br/>
+                            Map → <span class="highlight">Design of Record</span> (typed contract)<br/>
+                            &nbsp;&nbsp;↓<br/>
+                            Human review &amp; confirm<br/>
+                            &nbsp;&nbsp;↓<br/>
+                            Create unified <code>case</code> · status <span style="color:var(--panw-success)">submitted</span>
+                        </div>
+                        <p style="font-size:0.85rem; margin-top:0.75rem;"><strong>Why a DoR first:</strong> design the data contract, then build the AI around it — the schema <em>is</em> the spec.</p>
+                    </div>
+                </div>
+
+                <div class="quote-box" style="border-left-color: var(--panw-orange);">
+                    <strong>Why it matters:</strong> this is the bridge that ends re-entry and lost context — captured once at intake, every downstream agent reads the <em>same</em> structured record.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: AI Use Case 2 — Task Generation -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>AI Use Case 2 — Task Generation</h2>
                 <p class="subtitle">From a structured Design of Record to a standardized task list</p>
 
                 <div class="grid grid-2">
@@ -737,10 +772,10 @@
             </div>
         </div>
 
-        <!-- SLIDE 7: AI Use Case 2 — Best-Fit Resource Allocation -->
+        <!-- SLIDE 8: AI Use Case 3 — Best-Fit Resource Allocation -->
         <div class="slide">
             <div class="slide-content">
-                <h2>AI Use Case 2 — Best-Fit Resource Allocation</h2>
+                <h2>AI Use Case 3 — Best-Fit Resource Allocation</h2>
                 <p class="subtitle">The shift from "First Available" to "Best Fit"</p>
 
                 <div class="grid grid-2">
@@ -774,10 +809,10 @@
             </div>
         </div>
 
-        <!-- SLIDE 8: AI Use Case 3 — TRD Generation + RAG -->
+        <!-- SLIDE 9: AI Use Case 4 — TRD Generation + RAG -->
         <div class="slide">
             <div class="slide-content">
-                <h2>AI Use Case 3 — TRD Generation (RAG-Grounded)</h2>
+                <h2>AI Use Case 4 — TRD Generation (RAG-Grounded)</h2>
                 <p class="subtitle">No more rebuilding designs from scratch — a cited, review-ready TRD in one click</p>
 
                 <div class="flow-row">
@@ -819,62 +854,151 @@
             </div>
         </div>
 
-        <!-- SLIDE 9: How the Agents Work (Orchestrator diagram) -->
+        <!-- SLIDE 9: The 25-Agent Catalog -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>The Agent Catalog (25 + Orchestrator)</h2>
+                <p class="subtitle">When a PS Manager reviews &amp; approves a case, agents across 4 tiers analyze it</p>
+
+                <div class="grid grid-4">
+                    <div class="card" style="border-top:4px solid var(--panw-orange);">
+                        <h4 style="margin-top:0; color:var(--panw-orange);">Tier 1 · Pre-Sales → PS Handoff</h4>
+                        <ul style="font-size:0.8rem;">
+                            <li>Sales Intelligence</li>
+                            <li>SFDC Support Risk</li>
+                            <li>Implementation RAG</li>
+                            <li>Scope Creep Detection</li>
+                            <li>Customer Maturity</li>
+                            <li>Competitor Displacement</li>
+                            <li>Integration Complexity</li>
+                            <li>Knowledge Graph</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="border-top:4px solid var(--panw-purple);">
+                        <h4 style="margin-top:0; color:var(--panw-purple);">Tier 2 · Resource &amp; Capacity</h4>
+                        <ul style="font-size:0.8rem;">
+                            <li>Skills-Based Optimizer</li>
+                            <li>Calendar Availability</li>
+                            <li>Workload &amp; Burnout</li>
+                            <li>Performance &amp; Success Rate</li>
+                            <li>Complexity Matching</li>
+                            <li>Capacity Planning</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="border-top:4px solid var(--panw-blue);">
+                        <h4 style="margin-top:0; color:var(--panw-blue);">Tier 3 · Deployment &amp; Execution</h4>
+                        <ul style="font-size:0.8rem;">
+                            <li>GDPR Compliance</li>
+                            <li>Multi-Cloud Orchestration</li>
+                            <li>Configuration Drift</li>
+                            <li>Technical Debt</li>
+                            <li>Compliance &amp; Governance</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="border-top:4px solid var(--panw-success);">
+                        <h4 style="margin-top:0; color:var(--panw-success);">Tier 4 · Customer Success</h4>
+                        <ul style="font-size:0.8rem;">
+                            <li>Sentiment Analysis</li>
+                            <li>Outcome Realization</li>
+                            <li>Change Management</li>
+                            <li>Customer Journey Mapper</li>
+                            <li>Executive Relations</li>
+                            <li>Contract Value Maximizer</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="emphasis-box" style="margin-top:0.5rem; padding:0.85rem;">
+                    <p style="font-size:0.9rem; color:var(--panw-text);">
+                        <strong>Tier 0 · Orchestrator</strong> sits above all four tiers — it spawns the relevant agents, collects their outputs, and synthesizes one recommendation for the PS Manager to approve. <span style="color:var(--panw-text-dim);">Honest status: 5 agents make real LLM calls today; the rest are heuristic or designed interfaces a real sprint would fill.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: How the Agents Work (Orchestrator diagram) -->
         <div class="slide">
             <div class="slide-content">
                 <h2>How the Agents Work</h2>
-                <p class="subtitle">Fan-out / fan-in orchestration with a synthesizer and a human gate</p>
+                <p class="subtitle">Which agents power which use case — and the two interaction patterns we use</p>
 
-                <div style="text-align:center; margin: 0.5rem 0 0.25rem;">
-                    <span class="badge badge-orange">Design of Record (input)</span>
-                </div>
-                <div class="down-arrow">↓ &nbsp; spawn in parallel</div>
+                <h3 style="margin-top:0.5rem;">Agents by use case</h3>
+                <table style="font-size:0.82rem;">
+                    <thead>
+                        <tr>
+                            <th>Use case</th>
+                            <th>Agent(s)</th>
+                            <th>Model</th>
+                            <th>What it does</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Best-Fit Assignment</strong></td>
+                            <td>SalesIntel · SFDCRisk · ImplementationRAG · ResourceOptimizer · Sentiment → <em>Synthesizer</em></td>
+                            <td>Sonnet ×5 → <span class="highlight">Opus</span></td>
+                            <td>5 specialists analyze the case in parallel; Opus synthesizes one recommendation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TRD Generation</strong></td>
+                            <td>Planner → Section Drafters → Critic → Reviser</td>
+                            <td><span class="highlight">Opus</span> → Sonnet ×N → Sonnet</td>
+                            <td>Opus plans sections; Sonnet drafts in parallel + critiques + revises</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Task Generation</strong></td>
+                            <td>Task-generation agent</td>
+                            <td>Sonnet</td>
+                            <td>Turns the Design of Record into 5–8 dependency-aware tasks</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                <div class="grid" style="grid-template-columns: repeat(5, 1fr); gap:0.6rem;">
-                    <div class="agent-chip">Sales Intel<br/><span style="color:var(--panw-text-dim);font-size:0.72rem;">Sonnet</span></div>
-                    <div class="agent-chip">SFDC Risk<br/><span style="color:var(--panw-text-dim);font-size:0.72rem;">Sonnet</span></div>
-                    <div class="agent-chip">Implementation RAG<br/><span style="color:var(--panw-text-dim);font-size:0.72rem;">Sonnet + RAG</span></div>
-                    <div class="agent-chip">Resource Optimizer<br/><span style="color:var(--panw-text-dim);font-size:0.72rem;">Sonnet</span></div>
-                    <div class="agent-chip">Sentiment<br/><span style="color:var(--panw-text-dim);font-size:0.72rem;">Sonnet</span></div>
-                </div>
-
-                <div class="down-arrow">↓ &nbsp; <span style="font-size:0.85rem; color:var(--panw-text-dim);">Promise.all — parallel = low latency · each agent wrapped in try/catch (graceful degradation)</span></div>
-
-                <div class="layer" style="border-color: var(--panw-purple); background: rgba(159,122,234,0.08);">
-                    <div class="layer-label">Synthesizer · Opus</div>
-                    <div class="layer-body">Cross-checks all agents, resolves disagreement, and <span class="highlight">lowers confidence when agents conflict</span></div>
-                    <div class="layer-detail">Has a fallback path that pulls directly from individual agent outputs if JSON synthesis fails.</div>
-                </div>
-
-                <div class="down-arrow">↓</div>
-
-                <div class="layer" style="border-color: var(--panw-orange);">
-                    <div class="layer-label">Unified Recommendation</div>
-                    <div class="layer-body">Priority · best-fit engineer · timeline · risks · confidence score</div>
-                </div>
-
-                <div class="down-arrow">↓</div>
-
-                <div style="text-align:center;">
-                    <span class="badge badge-green">Human-in-the-Loop — Manager approves / edits / rejects</span>
-                </div>
-
-                <div class="grid grid-3" style="margin-top:1.25rem;">
-                    <div class="card">
-                        <h4>Composable</h4>
-                        <p style="font-size:0.88rem;">Each agent is a pure <code>(DoR) → Result</code> function — independently testable and replaceable.</p>
+                <div class="grid grid-2" style="margin-top:0.75rem;">
+                    <!-- Pattern A: fan-out/fan-in -->
+                    <div class="card" style="border-left:4px solid var(--panw-purple);">
+                        <h4 style="margin-top:0; color:var(--panw-purple);">Pattern A · Fan-out / Fan-in (Assignment)</h4>
+                        <div style="text-align:center; margin:0.25rem 0;">
+                            <span class="badge badge-orange" style="font-size:0.72rem;">Design of Record</span>
+                        </div>
+                        <div class="down-arrow" style="font-size:1rem; margin:0.2rem;">↓ spawn in parallel (Promise.all)</div>
+                        <div class="grid" style="grid-template-columns: repeat(5, 1fr); gap:0.35rem;">
+                            <div class="agent-chip" style="font-size:0.68rem; padding:0.35rem;">Sales<br/>Intel</div>
+                            <div class="agent-chip" style="font-size:0.68rem; padding:0.35rem;">SFDC<br/>Risk</div>
+                            <div class="agent-chip" style="font-size:0.68rem; padding:0.35rem;">Impl.<br/>RAG</div>
+                            <div class="agent-chip" style="font-size:0.68rem; padding:0.35rem;">Resource<br/>Optimizer</div>
+                            <div class="agent-chip" style="font-size:0.68rem; padding:0.35rem;">Senti-<br/>ment</div>
+                        </div>
+                        <div class="down-arrow" style="font-size:1rem; margin:0.2rem;">↓</div>
+                        <div style="text-align:center; background:rgba(159,122,234,0.12); border:1px solid var(--panw-purple); border-radius:6px; padding:0.4rem; font-size:0.78rem; color:var(--panw-text);">
+                            <strong>Synthesizer (Opus)</strong> — cross-checks, <span class="highlight">lowers confidence on conflict</span>
+                        </div>
+                        <div class="down-arrow" style="font-size:1rem; margin:0.2rem;">↓</div>
+                        <div style="text-align:center;"><span class="badge badge-green" style="font-size:0.72rem;">Human approves / edits / rejects</span></div>
                     </div>
-                    <div class="card">
-                        <h4>Observable</h4>
-                        <p style="font-size:0.88rem;">Every agent returns <strong>confidence, latency, and cost</strong>, logged to an AI audit trail.</p>
-                    </div>
-                    <div class="card">
-                        <h4>Resilient</h4>
-                        <p style="font-size:0.88rem;">A single agent failure degrades gracefully instead of crashing the orchestration.</p>
+
+                    <!-- Pattern B: plan-draft-critic-revise -->
+                    <div class="card" style="border-left:4px solid var(--panw-blue);">
+                        <h4 style="margin-top:0; color:var(--panw-blue);">Pattern B · Plan → Draft → Critic → Revise (TRD)</h4>
+                        <div style="font-size:0.8rem; line-height:1.5;">
+                            <div style="background:rgba(250,88,45,0.1); border-radius:6px; padding:0.45rem; margin-bottom:0.3rem;"><strong>1 · Plan (Opus)</strong> — decides 10–12 sections + a retrieval query per section</div>
+                            <div class="down-arrow" style="font-size:0.95rem; margin:0.15rem;">↓</div>
+                            <div style="background:rgba(159,122,234,0.1); border-radius:6px; padding:0.45rem; margin-bottom:0.3rem;"><strong>2 · Draft (Sonnet ×N)</strong> — sections drafted in parallel, grounded in RAG docs, every claim cited <code>[DOC-X]</code></div>
+                            <div class="down-arrow" style="font-size:0.95rem; margin:0.15rem;">↓</div>
+                            <div style="background:rgba(66,153,225,0.1); border-radius:6px; padding:0.45rem; margin-bottom:0.3rem;"><strong>3 · Critic (Sonnet)</strong> — rejects uncited claims &amp; flags compliance gaps</div>
+                            <div class="down-arrow" style="font-size:0.95rem; margin:0.15rem;">↓</div>
+                            <div style="background:rgba(72,187,120,0.1); border-radius:6px; padding:0.45rem;"><strong>4 · Revise (Sonnet)</strong> — re-drafts high-severity flagged sections</div>
+                        </div>
                     </div>
                 </div>
-                <p style="font-size:0.82rem; color: var(--panw-text-dim); margin-top:0.5rem;">
-                    The full design is a 4-tier, 25-agent catalog (Pre-Sales · Resource · Deployment · CS). The 5 agents above are the fully-implemented core; the rest are designed interfaces a real sprint would fill.
+
+                <div class="emphasis-box" style="margin-top:0.5rem; padding:0.85rem;">
+                    <p style="font-size:0.85rem; color:var(--panw-text);">
+                        <strong>Shared agent contract:</strong> each agent is a pure <code>(DoR) → Result</code> function returning <strong>confidence, latency &amp; cost</strong> (logged to the <code>agent_decisions</code> audit trail); wrapped in try/catch so one failure degrades gracefully. The synthesizer has a fallback that reads individual agent outputs if JSON parsing fails.
+                    </p>
+                </div>
+                <p style="font-size:0.8rem; color: var(--panw-text-dim);">
+                    Full design = a 4-tier, 25-agent catalog (Pre-Sales · Resource · Deployment · CS). The agents above are the fully-implemented core; the rest are designed interfaces a real sprint would fill.
                 </p>
             </div>
         </div>
