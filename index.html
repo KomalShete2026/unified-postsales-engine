@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified PostSales Engine | Palo Alto Networks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --panw-orange: #FA582D;
+            --panw-dark: #0A0F1A;
+            --panw-darker: #060A12;
+            --panw-border: #2D3648;
+            --panw-text: #E2E8F0;
+            --panw-text-dim: #A0AEC0;
+            --panw-success: #48BB78;
+            --panw-warning: #F6AD55;
+            --panw-purple: #9F7AEA;
+            --panw-blue: #4299E1;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, var(--panw-darker) 0%, var(--panw-dark) 100%);
+            color: var(--panw-text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--panw-orange);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-100px) translateX(50px); }
+            50% { transform: translateY(-200px) translateX(-50px); }
+            75% { transform: translateY(-100px) translateX(100px); }
+        }
+
+        /* Header */
+        .header {
+            position: relative;
+            z-index: 10;
+            padding: 2rem;
+            text-align: center;
+            background: rgba(10, 15, 26, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--panw-border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--panw-orange);
+            letter-spacing: -0.5px;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--panw-orange) 0%, var(--panw-warning) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--panw-text-dim);
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+            line-height: 1.6;
+        }
+
+        .hero .subtitle {
+            font-size: 1rem;
+            color: var(--panw-text-dim);
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cards Container */
+        .cards-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            animation: fadeIn 1s ease-out 0.4s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Document Cards */
+        .doc-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--panw-border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .doc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--panw-orange), var(--panw-warning));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .doc-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .doc-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(250, 88, 45, 0.1) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .doc-card:hover::after {
+            width: 500px;
+            height: 500px;
+        }
+
+        .doc-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--panw-orange);
+            box-shadow: 0 20px 60px rgba(250, 88, 45, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .doc-card .icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.4s ease;
+        }
+
+        .doc-card:hover .icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .doc-card.prd .icon {
+            background: linear-gradient(135deg, var(--panw-orange), #ff7557);
+        }
+
+        .doc-card.presentation .icon {
+            background: linear-gradient(135deg, var(--panw-purple), #b794f6);
+        }
+
+        .doc-card.technical .icon {
+            background: linear-gradient(135deg, var(--panw-blue), #63b3ed);
+        }
+
+        .doc-card h2 {
+            font-size: 1.5rem;
+            color: var(--panw-text);
+            margin-bottom: 0.75rem;
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
+        }
+
+        .doc-card p {
+            color: var(--panw-text-dim);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .doc-card .meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: var(--panw-text-dim);
+            position: relative;
+            z-index: 1;
+        }
+
+        .doc-card .meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .doc-card .arrow {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            font-size: 1.5rem;
+            color: var(--panw-orange);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.4s ease;
+            z-index: 1;
+        }
+
+        .doc-card:hover .arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Footer */
+        .footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+            color: var(--panw-text-dim);
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: var(--panw-orange);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--panw-warning);
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(250, 88, 45, 0.1);
+            border: 1px solid var(--panw-orange);
+            border-radius: 20px;
+            color: var(--panw-orange);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .doc-card .arrow {
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">Palo Alto Networks</div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="badge">Product Management Case Study</div>
+        <h1>Unified PostSales Engine</h1>
+        <p>Transform PostSales Operations with AI-Powered Intelligence</p>
+        <p class="subtitle">
+            A comprehensive solution to unify and enhance customer success, professional services, and support operations.
+        </p>
+    </section>
+
+    <!-- Documentation Cards -->
+    <section class="cards-container">
+        <!-- PRD Card -->
+        <a href="COMPREHENSIVE_PRD.html" class="doc-card prd">
+            <div class="icon">📋</div>
+            <h2>Product Requirements Document</h2>
+            <p>
+                Complete PRD detailing the vision, features, and roadmap for the Unified PostSales Engine.
+                Includes user stories, success metrics, and technical requirements.
+            </p>
+            <div class="meta">
+                <span>📄 Comprehensive</span>
+                <span>🎯 Strategic</span>
+            </div>
+            <div class="arrow">→</div>
+        </a>
+
+        <!-- Presentation Card -->
+        <a href="FINAL_PRESENTATION.html" class="doc-card presentation">
+            <div class="icon">🎯</div>
+            <h2>Executive Presentation</h2>
+            <p>
+                Interactive slide deck presenting the business case, market analysis, and implementation strategy.
+                Perfect for stakeholder alignment and decision-making.
+            </p>
+            <div class="meta">
+                <span>📊 Interactive</span>
+                <span>💼 Executive</span>
+            </div>
+            <div class="arrow">→</div>
+        </a>
+
+        <!-- Technical Documentation Card -->
+        <a href="TECHNICAL_DOCUMENTATION.html" class="doc-card technical">
+            <div class="icon">⚙️</div>
+            <h2>Technical Documentation</h2>
+            <p>
+                In-depth technical architecture, system design, API specifications, and implementation guides.
+                Everything engineering teams need to build and deploy.
+            </p>
+            <div class="meta">
+                <span>🔧 Detailed</span>
+                <span>🏗️ Architecture</span>
+            </div>
+            <div class="arrow">→</div>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>
+            Built with ❤️ for Palo Alto Networks |
+            <a href="https://github.com" target="_blank">View on GitHub</a>
+        </p>
+        <p style="margin-top: 1rem; font-size: 0.85rem;">
+            © 2026 Unified PostSales Engine Documentation
+        </p>
+    </footer>
+
+    <script>
+        // Generate floating particles
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 50;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Add smooth hover effects to cards
+        document.querySelectorAll('.doc-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.zIndex = '100';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.zIndex = '1';
+            });
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const cards = Array.from(document.querySelectorAll('.doc-card'));
+            const focused = document.activeElement;
+            const index = cards.indexOf(focused);
+
+            if (e.key === 'ArrowRight' && index < cards.length - 1) {
+                cards[index + 1].focus();
+            } else if (e.key === 'ArrowLeft' && index > 0) {
+                cards[index - 1].focus();
+            } else if (e.key === 'Enter' && focused.classList.contains('doc-card')) {
+                focused.click();
+            }
+        });
+
+        // Smooth scroll to cards on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.cards-container').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest'
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>

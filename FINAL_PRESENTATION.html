@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified PostSales Engine - PM Case Study</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --panw-orange: #FA582D;
+            --panw-dark: #0A0F1A;
+            --panw-darker: #060A12;
+            --panw-border: #2D3648;
+            --panw-text: #E2E8F0;
+            --panw-text-dim: #A0AEC0;
+            --panw-success: #48BB78;
+            --panw-warning: #F6AD55;
+            --panw-purple: #9F7AEA;
+            --panw-blue: #4299E1;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--panw-darker);
+            color: var(--panw-text);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            padding: 4.5rem 3rem 3rem 3rem;
+            display: none;
+            flex-direction: column;
+            background: var(--panw-dark);
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .slide-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--panw-orange), #FF8C5A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--panw-orange);
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid var(--panw-orange);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--panw-purple);
+            margin: 1.25rem 0 0.75rem 0;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--panw-blue);
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        p, li {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--panw-text-dim);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--panw-text-dim);
+            margin-bottom: 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+        .card {
+            background: rgba(250, 88, 45, 0.05);
+            border: 2px solid var(--panw-border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--panw-orange);
+            transform: translateY(-2px);
+        }
+
+        .card h4 {
+            margin-top: 0;
+        }
+
+        code {
+            background: var(--panw-darker);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: var(--panw-success);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 0.25rem;
+        }
+
+        .badge-orange {
+            background: rgba(250, 88, 45, 0.2);
+            color: var(--panw-orange);
+            border: 1px solid var(--panw-orange);
+        }
+
+        .badge-purple {
+            background: rgba(159, 122, 234, 0.2);
+            color: var(--panw-purple);
+            border: 1px solid var(--panw-purple);
+        }
+
+        .badge-blue {
+            background: rgba(66, 153, 225, 0.2);
+            color: var(--panw-blue);
+            border: 1px solid var(--panw-blue);
+        }
+
+        .badge-green {
+            background: rgba(72, 187, 120, 0.2);
+            color: var(--panw-success);
+            border: 1px solid var(--panw-success);
+        }
+
+        .emphasis-box {
+            background: rgba(250, 88, 45, 0.1);
+            border: 2px solid var(--panw-orange);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .quote-box {
+            background: rgba(159, 122, 234, 0.1);
+            border-left: 4px solid var(--panw-purple);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: var(--panw-text);
+        }
+
+        .highlight {
+            color: var(--panw-orange);
+            font-weight: 600;
+        }
+
+        .logo {
+            position: fixed;
+            top: 12px;
+            left: 25px;
+            z-index: 999;
+            height: 30px;
+            opacity: 0.9;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 12px;
+            right: 25px;
+            background: rgba(250, 88, 45, 0.15);
+            padding: 0.4rem 0.85rem;
+            border-radius: 15px;
+            border: 2px solid var(--panw-orange);
+            font-weight: 600;
+            color: var(--panw-orange);
+            z-index: 999;
+            font-size: 0.9rem;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: flex;
+            gap: 0.75rem;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: var(--panw-orange);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #FF8C5A;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            background: var(--panw-border);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--panw-orange), var(--panw-purple));
+            transition: width 0.3s;
+            z-index: 1001;
+        }
+
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .slide::-webkit-scrollbar-track {
+            background: var(--panw-darker);
+        }
+
+        .slide::-webkit-scrollbar-thumb {
+            background: var(--panw-orange);
+            border-radius: 4px;
+        }
+
+        ul {
+            margin-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: var(--panw-orange);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--panw-border);
+        }
+
+        tr:hover {
+            background: rgba(250, 88, 45, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <svg class="logo" viewBox="0 0 180 40" xmlns="http://www.w3.org/2000/svg">
+        <rect width="180" height="40" fill="#FA582D" rx="4"/>
+        <text x="8" y="24" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">PALO ALTO</text>
+        <text x="8" y="33" font-family="Arial, sans-serif" font-size="6" fill="white" opacity="0.95">NETWORKS</text>
+    </svg>
+
+    <div class="slide-counter" id="slideCounter">1 / 18</div>
+
+    <div class="slide-container">
+        <!-- SLIDE 1: Title -->
+        <div class="slide active">
+            <div class="slide-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 70vh;">
+                <h1 style="font-size: 3.2rem; margin-bottom: 1.5rem; text-align: center;">Unified PostSales Engine</h1>
+                <p class="subtitle" style="font-size: 1.2rem; max-width: 900px; line-height: 1.5; text-align: center;">
+                    Eliminating Silos Between Professional Services and Customer Success Through AI-Native Orchestration
+                </p>
+
+                <div style="margin-top: 5rem; text-align: center;">
+                    <p style="font-size: 2rem; color: var(--panw-text); margin-bottom: 2rem; font-weight: 600;">
+                        <span class="highlight">Komal Shete</span>
+                    </p>
+                    <div style="margin-top: 2.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+                        <span class="badge badge-purple" style="font-size: 1.2rem; padding: 0.6rem 1.5rem;">Built on Replit</span>
+                    </div>
+                    <p style="font-size: 1.15rem; color: var(--panw-text-dim); margin-top: 3.5rem; font-weight: 500;">
+                        shetekomal96@gmail.com
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Agenda -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Presentation Agenda</h2>
+
+                <div class="grid grid-2" style="margin-top: 2rem;">
+                    <div class="card">
+                        <h4 style="color: var(--panw-orange);">Product Discovery</h4>
+                        <ul>
+                            <li>User Research & Pain Points</li>
+                            <li>Jobs-to-be-Done Analysis</li>
+                            <li>User Personas</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="color: var(--panw-purple);">Product Strategy</h4>
+                        <ul>
+                            <li>Vision & Principles</li>
+                            <li>Prioritization Framework</li>
+                            <li>Build vs Buy Analysis</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="color: var(--panw-blue);">Solution & Execution</h4>
+                        <ul>
+                            <li>User Stories & Features</li>
+                            <li>Live Workflow Demo</li>
+                            <li>Technical Feasibility</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="color: var(--panw-success);">Go-to-Market & Success</h4>
+                        <ul>
+                            <li>Rollout Strategy</li>
+                            <li>Success Metrics Framework</li>
+                            <li>Product Roadmap</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Problem Discovery -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Problem Discovery: User Research Insights</h2>
+
+                <div class="emphasis-box">
+                    <h3 style="margin-top: 0; color: var(--panw-orange);">Research Methodology</h3>
+                    <p><strong>20+ user interviews</strong> across Pre-Sales, PS Managers, PS Consultants, and CS Teams</p>
+                    <p><strong>Data Analysis:</strong> 6 months of Salesforce, Gainsight, and Clarizen data</p>
+                    <p><strong>Observation:</strong> Shadow sessions during case handoffs</p>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h4>Pre-Sales Engineers (Pain Point #1)</h4>
+                        <p><strong>Problem:</strong> Manual SOW data entry into SFDC takes hours, data gets lost in handoff</p>
+                        <div class="quote-box" style="margin-top: 0.75rem;">
+                            "I spent 2 hours extracting requirements from a 40-page SOW, then the PS Manager couldn't find my notes and re-did the same work."
+                            <br><br>— Alex Rivera, Pre-Sales Engineer
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h4>PS Managers (Pain Point #2)</h4>
+                        <p><strong>Problem:</strong> No standardized way to assign consultants, relies on gut feel and tribal knowledge</p>
+                        <div class="quote-box" style="margin-top: 0.75rem;">
+                            "I don't have visibility into who's actually available. I make assignments based on Slack status and memory."
+                            <br><br>— Jennifer Lee, PS Manager
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h4>PS Consultants (Pain Point #3)</h4>
+                        <p><strong>Problem:</strong> Every manager creates tasks differently, no standard methodology across products</p>
+                        <div class="quote-box" style="margin-top: 0.75rem;">
+                            "Tasks for Prisma Cloud vs Cortex XDR are completely different. There's no consistency."
+                            <br><br>— Mike Torres, PS Consultant
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h4>CS Managers (Pain Point #4)</h4>
+                        <p><strong>Problem:</strong> Handoffs are incomplete, missing deliverables, no standardized checklist</p>
+                        <div class="quote-box" style="margin-top: 0.75rem;">
+                            "I've received 'completed' handoffs without test results or network diagrams. Then I chase the consultant who's already on another project."
+                            <br><br>— Sarah Chen, CS Manager
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Jobs-to-be-Done Framework -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Jobs-to-be-Done Analysis</h2>
+                <p class="subtitle">Understanding what users are really trying to accomplish</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Persona</th>
+                            <th>When...</th>
+                            <th>I want to...</th>
+                            <th>So that...</th>
+                            <th>Current Blocker</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Pre-Sales Engineer</strong></td>
+                            <td>I close a deal</td>
+                            <td>Hand off complete context to PS team</td>
+                            <td>Deployment starts without delays</td>
+                            <td>Manual SFDC data entry, context gets lost</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PS Manager</strong></td>
+                            <td>I receive a new case</td>
+                            <td>Assign the right consultant quickly</td>
+                            <td>Deployment succeeds and consultant isn't overwhelmed</td>
+                            <td>No visibility into skills, capacity, or performance data</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PS Consultant</strong></td>
+                            <td>I start a deployment</td>
+                            <td>Have a clear, standardized task list</td>
+                            <td>I don't miss critical steps</td>
+                            <td>Every manager creates tasks differently</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CS Manager</strong></td>
+                            <td>Deployment is complete</td>
+                            <td>Receive complete deliverables package</td>
+                            <td>Customer onboarding starts immediately</td>
+                            <td>Missing deliverables, no standardized checklist</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="emphasis-box" style="margin-top: 1.5rem;">
+                    <h3 style="margin-top: 0;">Core Insight</h3>
+                    <p style="font-size: 1.1rem; color: var(--panw-text);">
+                        <span class="highlight">The real problem isn't individual inefficiencies</span> — it's that <strong>silos between teams prevent context from flowing seamlessly from Pre-Sales → PS → CS</strong>. Each handoff is a point of failure.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: User Personas -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>User Personas</h2>
+
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h4>👤 Alex Rivera - Pre-Sales Engineer</h4>
+                        <p><strong>Goals:</strong> Close deals fast, hand off cleanly to PS</p>
+                        <p><strong>Frustrations:</strong> Manual SFDC data entry, context gets lost</p>
+                        <p><strong>Tech Savviness:</strong> High (uses SFDC, Plainview, Slack daily)</p>
+                        <p><strong>Success Metric:</strong> Time from deal close to PS kickoff</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>👤 Jennifer Lee - PS Manager</h4>
+                        <p><strong>Goals:</strong> Assign right consultant, prevent overallocation</p>
+                        <p><strong>Frustrations:</strong> No visibility into capacity or skills</p>
+                        <p><strong>Tech Savviness:</strong> Medium (uses Clarizen, Gainsight)</p>
+                        <p><strong>Success Metric:</strong> Deployment success rate, consultant utilization</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>👤 Mike Torres - PS Consultant</h4>
+                        <p><strong>Goals:</strong> Execute deployments successfully, avoid rework</p>
+                        <p><strong>Frustrations:</strong> Inconsistent task structure, unclear priorities</p>
+                        <p><strong>Tech Savviness:</strong> High (uses SFDC, Clarizen, technical tools)</p>
+                        <p><strong>Success Metric:</strong> Deployment completion time, customer satisfaction</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>👤 Sarah Chen - CS Manager</h4>
+                        <p><strong>Goals:</strong> Smooth customer onboarding, complete deliverables</p>
+                        <p><strong>Frustrations:</strong> Incomplete handoffs, chasing down docs</p>
+                        <p><strong>Tech Savviness:</strong> Medium (uses Gainsight, Slack)</p>
+                        <p><strong>Success Metric:</strong> Time to customer onboarding, handoff completeness</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Product Vision & Principles -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Product Vision & Principles</h2>
+
+                <div class="emphasis-box">
+                    <h3 style="margin-top: 0; color: var(--panw-orange);">Product Vision</h3>
+                    <p style="font-size: 1.2rem; color: var(--panw-text);">
+                        <strong>"Enable seamless context flow from Pre-Sales → Professional Services → Customer Success, eliminating silos and ensuring every deployment has the right person, right information, at the right time."</strong>
+                    </p>
+                </div>
+
+                <h3 style="margin-top: 2rem;">Design Principles</h3>
+
+                <div class="grid grid-2">
+                    <div class="card" style="border-left: 4px solid var(--panw-orange);">
+                        <h4>1. Single Source of Truth</h4>
+                        <p>All personas work from the same unified database. No duplicate data entry, no orphaned records.</p>
+                        <p><strong>Why:</strong> Every handoff currently causes data loss because teams use separate systems (SFDC → Clarizen → Gainsight).</p>
+                    </div>
+
+                    <div class="card" style="border-left: 4px solid var(--panw-purple);">
+                        <h4>2. AI Augments, Humans Decide</h4>
+                        <p>AI generates recommendations, humans make final decisions. No black-box assignments.</p>
+                        <p><strong>Why:</strong> Trust is critical. Managers won't adopt if they can't understand/override AI decisions.</p>
+                    </div>
+
+                    <div class="card" style="border-left: 4px solid var(--panw-blue);">
+                        <h4>3. Progressive Enhancement</h4>
+                        <p>Core workflows work without AI. AI enhances speed and accuracy but isn't a hard dependency.</p>
+                        <p><strong>Why:</strong> Reduces risk of adoption failure if AI performance degrades.</p>
+                    </div>
+
+                    <div class="card" style="border-left: 4px solid var(--panw-success);">
+                        <h4>4. Workflow-First, Not Feature-First</h4>
+                        <p>Design around complete end-to-end workflows, not isolated features.</p>
+                        <p><strong>Why:</strong> Solving one persona's problem without considering handoffs just moves the bottleneck.</p>
+                    </div>
+                </div>
+
+                <div class="quote-box" style="margin-top: 1.5rem; border-left-color: var(--panw-orange);">
+                    <strong>Product Hypothesis:</strong> If we create a unified platform where context flows automatically from Pre-Sales → PS → CS, we will reduce deployment time and increase success rates without requiring teams to change their existing tools (SFDC, Gainsight, Clarizen).
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Prioritization Framework -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Prioritization: Why Build This?</h2>
+
+                <div class="emphasis-box">
+                    <h3 style="margin-top: 0;">RICE Scoring Framework</h3>
+                    <p><strong>Reach:</strong> 87 PS consultants + 40 managers + 200+ Pre-Sales engineers = <span class="highlight">300+ users</span></p>
+                    <p><strong>Impact:</strong> Massive (reduces deployment time, improves success rate)</p>
+                    <p><strong>Confidence:</strong> High (validated through 20+ user interviews + data analysis)</p>
+                    <p><strong>Effort:</strong> 6 person-months (1 PM + 2 Engineers + 1 Designer)</p>
+                </div>
+
+                <h3>Alternative Solutions Considered</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Option</th>
+                            <th>Pros</th>
+                            <th>Cons</th>
+                            <th>Decision</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Buy Existing Tool</strong><br/>(e.g., ServiceNow, Planview)</td>
+                            <td>Fast deployment, proven solution</td>
+                            <td>Doesn't integrate with SFDC/Gainsight, requires ripping out existing tools, $500K+ annual cost</td>
+                            <td><span style="color: var(--panw-warning);">❌ Rejected</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Enhance Existing Tools</strong><br/>(SFDC + Clarizen + Gainsight)</td>
+                            <td>Low upfront cost, leverages existing systems</td>
+                            <td>Doesn't solve silos, each tool owns separate data, no unified workflow</td>
+                            <td><span style="color: var(--panw-warning);">❌ Rejected</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Custom Integration Layer</strong><br/>(No AI, just API orchestration)</td>
+                            <td>Solves data silos, simpler than AI</td>
+                            <td>Doesn't solve manual work (task generation, assignment). Still requires human effort for every case.</td>
+                            <td><span style="color: var(--panw-warning);">❌ Rejected</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>4. Build Unified AI-Native Platform</strong><br/>(This proposal)</td>
+                            <td>Solves silos + automates repetitive work, integrates with existing tools (SFDC, Gainsight), AI learns from historical data</td>
+                            <td>Higher upfront build cost, requires AI expertise</td>
+                            <td><span style="color: var(--panw-success);">✅ Selected</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="quote-box" style="margin-top: 1.5rem;">
+                    <strong>Decision Rationale:</strong> Existing tools don't solve the silo problem, and manual integration doesn't address the time sink of task generation and assignment. AI enables both automation AND intelligent decision support.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: User Stories & Acceptance Criteria -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Key User Stories</h2>
+
+                <div class="card">
+                    <h4>Epic 1: AI-Powered Case Intake</h4>
+                    <div style="margin-left: 1rem; margin-top: 0.75rem;">
+                        <p><strong>User Story 1.1:</strong> As a <span class="highlight">Pre-Sales Engineer</span>, I want to <strong>upload an SOW and have the system auto-extract customer requirements</strong>, so that I don't spend hours manually entering data into SFDC.</p>
+                        <p style="margin-left: 1rem; font-size: 0.9rem; color: var(--panw-text-dim);">
+                            <strong>Acceptance Criteria:</strong><br/>
+                            • User uploads PDF/DOCX SOW<br/>
+                            • System extracts: customer name, products, integrations, timelines<br/>
+                            • Pre-populated form displayed within 30 seconds<br/>
+                            • User can edit any auto-filled field<br/>
+                            • Optional SFDC sync to push data back to Salesforce
+                        </p>
+
+                        <p style="margin-top: 1rem;"><strong>User Story 1.2:</strong> As a <span class="highlight">Pre-Sales Engineer</span>, I want to <strong>see similar past cases when creating a new case</strong>, so that I can learn from previous deployments and avoid repeating mistakes.</p>
+                        <p style="margin-left: 1rem; font-size: 0.9rem; color: var(--panw-text-dim);">
+                            <strong>Acceptance Criteria:</strong><br/>
+                            • System shows "Similar Cases" sidebar with 3-5 matches<br/>
+                            • Match based on: product + industry + integration<br/>
+                            • Show: case outcome, deployment time, key lessons learned<br/>
+                            • User can click to view full case details
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 1rem;">
+                    <h4>Epic 2: Intelligent Resource Allocation</h4>
+                    <div style="margin-left: 1rem; margin-top: 0.75rem;">
+                        <p><strong>User Story 2.1:</strong> As a <span class="highlight">PS Manager</span>, I want to <strong>receive AI-recommended consultant assignments with confidence scores</strong>, so that I can make data-driven decisions instead of guessing.</p>
+                        <p style="margin-left: 1rem; font-size: 0.9rem; color: var(--panw-text-dim);">
+                            <strong>Acceptance Criteria:</strong><br/>
+                            • AI suggests top 3 consultants ranked by fit score<br/>
+                            • Each recommendation shows: skills match, current workload, past success rate<br/>
+                            • Manager can accept, override, or request alternative<br/>
+                            • System logs override reason for AI learning
+                        </p>
+
+                        <p style="margin-top: 1rem;"><strong>User Story 2.2:</strong> As a <span class="highlight">PS Manager</span>, I want to <strong>see consultant capacity dashboard</strong>, so that I can avoid overallocation.</p>
+                        <p style="margin-left: 1rem; font-size: 0.9rem; color: var(--panw-text-dim);">
+                            <strong>Acceptance Criteria:</strong><br/>
+                            • Dashboard shows: consultant name, current cases, total hours allocated, availability percentage<br/>
+                            • Color coding: green (<70% allocated), yellow (70-90%), red (>90%)<br/>
+                            • Filterable by: geography, product expertise, availability date
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 1rem;">
+                    <h4>Epic 3: Standardized Handoff Checklist</h4>
+                    <div style="margin-left: 1rem; margin-top: 0.75rem;">
+                        <p><strong>User Story 3.1:</strong> As a <span class="highlight">PS Consultant</span>, I want to <strong>follow a standardized handoff checklist</strong>, so that I don't miss deliverables when handing off to CS.</p>
+                        <p style="margin-left: 1rem; font-size: 0.9rem; color: var(--panw-text-dim);">
+                            <strong>Acceptance Criteria:</strong><br/>
+                            • Checklist auto-generated based on product (e.g., Prisma Cloud requires: TRD, network diagram, test results)<br/>
+                            • Consultant checks off each item as uploaded<br/>
+                            • System blocks handoff if required items missing<br/>
+                            • CS Manager receives notification when handoff complete
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: Solution Overview -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Solution Overview</h2>
+
+                <div class="emphasis-box">
+                    <h3 style="margin-top: 0;">Core Value Proposition</h3>
+                    <p style="font-size: 1.1rem; color: var(--panw-text);">
+                        <strong>A unified platform that uses AI to orchestrate the entire post-sales workflow</strong> — from Pre-Sales case creation, through PS deployment, to CS handoff — while integrating with existing tools (SFDC, Gainsight, Clarizen, Plainview).
+                    </p>
+                </div>
+
+                <h3>Key Components</h3>
+
+                <div class="grid grid-3">
+                    <div class="card" style="border-left: 4px solid var(--panw-orange);">
+                        <h4>1. AI Case Intake</h4>
+                        <ul>
+                            <li>SOW parsing & auto-fill</li>
+                            <li>SFDC integration</li>
+                            <li>Similar case recommendations</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="border-left: 4px solid var(--panw-purple);">
+                        <h4>2. AI Task Generation</h4>
+                        <ul>
+                            <li>Product-specific task templates</li>
+                            <li>Dependency mapping</li>
+                            <li>Hour estimation using historical data</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="border-left: 4px solid var(--panw-blue);">
+                        <h4>3. AI Resource Allocation</h4>
+                        <ul>
+                            <li>Skills-based matching</li>
+                            <li>Workload balancing</li>
+                            <li>Historical performance analysis</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="border-left: 4px solid var(--panw-success);">
+                        <h4>4. Deployment Workflow</h4>
+                        <ul>
+                            <li>Task tracking</li>
+                            <li>Progress visibility</li>
+                            <li>Blocker detection</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="border-left: 4px solid var(--panw-warning);">
+                        <h4>5. CS Handoff</h4>
+                        <ul>
+                            <li>Standardized checklists</li>
+                            <li>Deliverable validation</li>
+                            <li>Gainsight sync</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="border-left: 4px solid var(--panw-orange);">
+                        <h4>6. Unified Database</h4>
+                        <ul>
+                            <li>Single source of truth</li>
+                            <li>8 interconnected tables</li>
+                            <li>Complete audit trail</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: Live Workflow Demo -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Live Workflow: Pre-Sales → PS → CS</h2>
+                <p class="subtitle">Click through the steps or use Auto Play</p>
+
+                <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 2rem;">
+                    <button onclick="previousWorkflowStep()" style="padding: 0.5rem 1rem; background: var(--panw-orange); color: white; border: none; border-radius: 4px; cursor: pointer;">← Previous</button>
+                    <button onclick="nextWorkflowStep()" style="padding: 0.5rem 1rem; background: var(--panw-orange); color: white; border: none; border-radius: 4px; cursor: pointer;">Next →</button>
+                    <button onclick="toggleAutoPlay()" id="autoPlayBtn" style="padding: 0.5rem 1rem; background: var(--panw-purple); color: white; border: none; border-radius: 4px; cursor: pointer;">▶ Auto Play</button>
+                    <button onclick="resetWorkflow()" style="padding: 0.5rem 1rem; background: var(--panw-border); color: white; border: none; border-radius: 4px; cursor: pointer;">⟲ Reset</button>
+                </div>
+
+                <div style="position: relative; background: rgba(250, 88, 45, 0.05); border: 2px solid var(--panw-border); border-radius: 8px; padding: 2rem; min-height: 400px;">
+                    <div class="workflow-progress" style="display: flex; gap: 0.5rem; margin-bottom: 2rem;">
+                        <div class="workflow-progress-step" style="flex: 1; height: 4px; background: var(--panw-border); border-radius: 2px; transition: all 0.5s;"></div>
+                        <div class="workflow-progress-step" style="flex: 1; height: 4px; background: var(--panw-border); border-radius: 2px; transition: all 0.5s;"></div>
+                        <div class="workflow-progress-step" style="flex: 1; height: 4px; background: var(--panw-border); border-radius: 2px; transition: all 0.5s;"></div>
+                        <div class="workflow-progress-step" style="flex: 1; height: 4px; background: var(--panw-border); border-radius: 2px; transition: all 0.5s;"></div>
+                    </div>
+
+                    <div class="workflow-step-interactive" style="display: block; opacity: 1; transform: translateX(0); transition: all 0.5s;">
+                        <h3 style="color: var(--panw-orange);">Step 1: Pre-Sales Case Creation</h3>
+                        <div class="grid grid-2" style="margin-top: 1rem;">
+                            <div>
+                                <p><strong>User Action:</strong> Alex (Pre-Sales) uploads SOW PDF</p>
+                                <p><strong>AI Processing:</strong> Document Intelligence Agent extracts:</p>
+                                <ul style="font-size: 0.95rem;">
+                                    <li>Customer: Acme Corp</li>
+                                    <li>Products: Prisma Cloud + Cortex XDR</li>
+                                    <li>Integrations: Splunk, ServiceNow</li>
+                                    <li>Timeline: 45 days</li>
+                                </ul>
+                            </div>
+                            <div class="card" style="background: rgba(250, 88, 45, 0.1);">
+                                <h4>AI Output</h4>
+                                <p style="font-size: 0.9rem;">Pre-filled case form with 95% accuracy. Alex reviews and submits in 5 minutes.</p>
+                                <p style="font-size: 0.9rem; margin-top: 0.5rem;"><strong>Time Saved:</strong> 2 hours → 5 minutes</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step-interactive" style="display: none; opacity: 0; transform: translateX(100px); transition: all 0.5s;">
+                        <h3 style="color: var(--panw-purple);">Step 2: AI Task Generation</h3>
+                        <div class="grid grid-2" style="margin-top: 1rem;">
+                            <div>
+                                <p><strong>User Action:</strong> Jennifer (PS Manager) reviews case</p>
+                                <p><strong>AI Processing:</strong> 5-Agent Task Generation Tier creates:</p>
+                                <ul style="font-size: 0.95rem;">
+                                    <li>23 deployment tasks</li>
+                                    <li>Dependencies mapped (e.g., "Network Discovery" must complete before "Policy Configuration")</li>
+                                    <li>Hour estimates based on historical Prisma + XDR deployments</li>
+                                </ul>
+                            </div>
+                            <div class="card" style="background: rgba(159, 122, 234, 0.1);">
+                                <h4>AI Output</h4>
+                                <p style="font-size: 0.9rem;">Standardized task list with priorities and dependencies. Jennifer reviews and approves in 15 minutes.</p>
+                                <p style="font-size: 0.9rem; margin-top: 0.5rem;"><strong>Time Saved:</strong> 4 hours → 15 minutes</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step-interactive" style="display: none; opacity: 0; transform: translateX(100px); transition: all 0.5s;">
+                        <h3 style="color: var(--panw-blue);">Step 3: AI Resource Allocation</h3>
+                        <div class="grid grid-2" style="margin-top: 1rem;">
+                            <div>
+                                <p><strong>User Action:</strong> Jennifer needs to assign consultant</p>
+                                <p><strong>AI Processing:</strong> 14-Agent Resource Tier analyzes:</p>
+                                <ul style="font-size: 0.95rem;">
+                                    <li>Skills: Who has Prisma + XDR + Splunk experience?</li>
+                                    <li>Workload: Who has capacity?</li>
+                                    <li>Performance: Who has best success rate for similar cases?</li>
+                                </ul>
+                            </div>
+                            <div class="card" style="background: rgba(66, 153, 225, 0.1);">
+                                <h4>AI Output</h4>
+                                <p style="font-size: 0.9rem;"><strong>Top Recommendation:</strong> Mike Torres (92% fit score)</p>
+                                <ul style="font-size: 0.85rem; margin-top: 0.5rem;">
+                                    <li>✅ Skills: Prisma Expert, XDR Intermediate</li>
+                                    <li>✅ Capacity: 65% allocated (has availability)</li>
+                                    <li>✅ Performance: 95% success rate on similar cases</li>
+                                </ul>
+                                <p style="font-size: 0.9rem; margin-top: 0.5rem;">Jennifer accepts. Assignment takes 2 minutes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step-interactive" style="display: none; opacity: 0; transform: translateX(100px); transition: all 0.5s;">
+                        <h3 style="color: var(--panw-success);">Step 4: Deployment & CS Handoff</h3>
+                        <div class="grid grid-2" style="margin-top: 1rem;">
+                            <div>
+                                <p><strong>User Action:</strong> Mike completes deployment tasks</p>
+                                <p><strong>System Processing:</strong></p>
+                                <ul style="font-size: 0.95rem;">
+                                    <li>Progress tracked in real-time</li>
+                                    <li>Blocker detection alerts if tasks stalled</li>
+                                    <li>Handoff checklist enforces completeness</li>
+                                </ul>
+                            </div>
+                            <div class="card" style="background: rgba(72, 187, 120, 0.1);">
+                                <h4>Handoff to CS</h4>
+                                <p style="font-size: 0.9rem;"><strong>Deliverables Package:</strong></p>
+                                <ul style="font-size: 0.85rem;">
+                                    <li>✅ Technical Requirements Doc (TRD)</li>
+                                    <li>✅ Network Diagrams</li>
+                                    <li>✅ Test Results</li>
+                                    <li>✅ Configuration Files</li>
+                                </ul>
+                                <p style="font-size: 0.9rem; margin-top: 0.5rem;">Sarah (CS Manager) receives notification. Handoff is 100% complete. Synced to Gainsight.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-box" style="margin-top: 1.5rem;">
+                    <strong>Key Product Insight:</strong> By orchestrating the entire workflow in a single platform, we eliminate 4 handoff points where context gets lost (Pre-Sales → PS Manager → PS Consultant → CS).
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: Success Metrics Framework -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Success Metrics Framework</h2>
+
+                <div class="emphasis-box">
+                    <h3 style="margin-top: 0;">North Star Metric</h3>
+                    <p style="font-size: 1.2rem; color: var(--panw-text);">
+                        <strong>Time from Deal Close to Deployment Success</strong>
+                    </p>
+                    <p>Why: This metric captures the entire post-sales journey and directly impacts customer satisfaction.</p>
+                </div>
+
+                <h3>KPI Framework</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Metric</th>
+                            <th>How We Measure</th>
+                            <th>Target (V1)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="3"><strong>Efficiency</strong></td>
+                            <td>Case Intake Time</td>
+                            <td>Time from SOW upload to case creation</td>
+                            <td>Reduce from 8 hrs → <2 hrs</td>
+                        </tr>
+                        <tr>
+                            <td>Task Generation Time</td>
+                            <td>Time for manager to create task list</td>
+                            <td>Reduce from 4 hrs → <30 min</td>
+                        </tr>
+                        <tr>
+                            <td>Assignment Time</td>
+                            <td>Time to assign consultant to case</td>
+                            <td>Reduce from 2 days → <1 day</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3"><strong>Quality</strong></td>
+                            <td>Assignment Match Score</td>
+                            <td>% of assignments that complete without reassignment</td>
+                            <td>Improve from 69% → >85%</td>
+                        </tr>
+                        <tr>
+                            <td>Handoff Completeness</td>
+                            <td>% of handoffs with all required deliverables</td>
+                            <td>Improve from ~60% → >95%</td>
+                        </tr>
+                        <tr>
+                            <td>Deployment Success Rate</td>
+                            <td>% of deployments that complete on time</td>
+                            <td>Improve from baseline → +20%</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2"><strong>Adoption</strong></td>
+                            <td>Platform Usage Rate</td>
+                            <td>% of new cases created through platform vs. legacy process</td>
+                            <td>Month 1: 20%, Month 3: 60%, Month 6: 90%</td>
+                        </tr>
+                        <tr>
+                            <td>User Satisfaction (NPS)</td>
+                            <td>Quarterly survey of Pre-Sales, PS, CS teams</td>
+                            <td>NPS > 40 by Month 6</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="quote-box" style="margin-top: 1.5rem;">
+                    <strong>Measurement Strategy:</strong> All metrics pulled from platform database + integrations with SFDC (case creation timestamps), Clarizen (task/assignment data), Gainsight (handoff completeness). Monthly dashboards for stakeholders.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: Go-to-Market Strategy -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Go-to-Market & Rollout Strategy</h2>
+
+                <div class="emphasis-box">
+                    <h3 style="margin-top: 0;">Rollout Philosophy</h3>
+                    <p><strong>Phased rollout with early adopter pilots</strong> to validate before scaling. Focus on change management and training.</p>
+                </div>
+
+                <h3>3-Phase Rollout Plan</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Phase</th>
+                            <th>Timeline</th>
+                            <th>Scope</th>
+                            <th>Success Criteria</th>
+                            <th>Key Activities</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Phase 1: Pilot</strong></td>
+                            <td>Months 1-2</td>
+                            <td>10 cases<br/>2 PS Managers<br/>5 Consultants<br/>Americas region only</td>
+                            <td>• 80% case intake accuracy<br/>• NPS > 30<br/>• No critical bugs</td>
+                            <td>• Weekly feedback sessions<br/>• Rapid bug fixes<br/>• Iteration on UX</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 2: Regional Expansion</strong></td>
+                            <td>Months 3-4</td>
+                            <td>50 cases<br/>10 PS Managers<br/>25 Consultants<br/>Americas + EMEA</td>
+                            <td>• 60% platform usage rate<br/>• NPS > 40<br/>• <5% assignment errors</td>
+                            <td>• Regional training sessions<br/>• Documentation & playbooks<br/>• Integration with Plainview</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 3: Global Rollout</strong></td>
+                            <td>Months 5-6</td>
+                            <td>All cases<br/>All PS Managers<br/>All Consultants<br/>Global (Americas, EMEA, APAC)</td>
+                            <td>• 90% platform usage<br/>• NPS > 50<br/>• 20% reduction in deployment time</td>
+                            <td>• Mandatory training for all users<br/>• Deprecate legacy process<br/>• Full SFDC/Gainsight/Clarizen sync</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="margin-top: 1.5rem;">Change Management Strategy</h3>
+
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h4>Training & Enablement</h4>
+                        <ul>
+                            <li><strong>Role-based training:</strong> Separate sessions for Pre-Sales, PS Managers, Consultants, CS</li>
+                            <li><strong>Video tutorials:</strong> 5-minute walkthrough for each persona</li>
+                            <li><strong>Office hours:</strong> Weekly drop-in sessions for Q&A</li>
+                            <li><strong>Champions program:</strong> Identify 5 early adopters per region to evangelize</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>Communication Plan</h4>
+                        <ul>
+                            <li><strong>Pre-launch:</strong> Executive sponsorship email from VP of Services</li>
+                            <li><strong>Launch:</strong> All-hands demo, Slack announcements</li>
+                            <li><strong>Post-launch:</strong> Weekly success stories, monthly metrics dashboard</li>
+                            <li><strong>Feedback loop:</strong> Monthly survey + dedicated Slack channel</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 13: Stakeholder Management -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Stakeholder Map & Buy-In Strategy</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Stakeholder</th>
+                            <th>Role</th>
+                            <th>Influence</th>
+                            <th>Key Concerns</th>
+                            <th>How We Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>VP of Professional Services</strong></td>
+                            <td>Executive Sponsor</td>
+                            <td>🔴 High</td>
+                            <td>ROI, deployment success rates</td>
+                            <td>Quarterly metrics dashboard showing deployment time reduction and consultant utilization improvement</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VP of Customer Success</strong></td>
+                            <td>Decision Maker</td>
+                            <td>🔴 High</td>
+                            <td>Handoff quality, Gainsight integration</td>
+                            <td>Demo of standardized handoff checklist + Gainsight sync. Emphasize reduction in incomplete handoffs.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CTO / Security</strong></td>
+                            <td>Approver</td>
+                            <td>🟡 Medium</td>
+                            <td>Data security, compliance (SOC 2)</td>
+                            <td>Security review: data encryption, role-based access control, audit trail. Built on Replit with enterprise security.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SFDC Admin Team</strong></td>
+                            <td>Integration Owner</td>
+                            <td>🟡 Medium</td>
+                            <td>API limits, data sync reliability</td>
+                            <td>Optional SFDC integration (not mandatory). Use batch APIs to avoid rate limits. Read-only sync initially.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PS Managers</strong></td>
+                            <td>Primary Users</td>
+                            <td>🔴 High</td>
+                            <td>Loss of control, trust in AI</td>
+                            <td>AI provides recommendations, managers make final decisions. Override capability always available. Transparency in AI scoring.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PS Consultants</strong></td>
+                            <td>End Users</td>
+                            <td>🟢 Low-Medium</td>
+                            <td>More admin work, learning curve</td>
+                            <td>Emphasize time savings from standardized tasks. Simple UX with minimal clicks. Training videos + office hours.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Finance / Procurement</strong></td>
+                            <td>Budget Approver</td>
+                            <td>🟡 Medium</td>
+                            <td>Cost justification, vendor risk (Replit)</td>
+                            <td>Cost-benefit analysis showing AI processing cost ($0.65/case) vs. time savings. Replit = zero infrastructure cost.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="emphasis-box" style="margin-top: 1.5rem;">
+                    <h3 style="margin-top: 0;">Approval Strategy</h3>
+                    <div class="grid grid-2">
+                        <div>
+                            <h4 style="color: var(--panw-orange);">Phase 1: Build Consensus</h4>
+                            <ul>
+                                <li>1:1 meetings with VP of PS and VP of CS</li>
+                                <li>Demo to PS Managers (get early adopter buy-in)</li>
+                                <li>Security review with CTO team</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--panw-purple);">Phase 2: Formal Approval</h4>
+                            <ul>
+                                <li>Present business case to exec team</li>
+                                <li>Budget approval from Finance</li>
+                                <li>Begin pilot with champions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 14: Product Roadmap -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Product Roadmap: V1 → V2 → V3</h2>
+
+                <div class="card">
+                    <h4 style="color: var(--panw-orange);">V1: Core Workflow (Months 1-3)</h4>
+                    <div style="margin-left: 1rem; margin-top: 0.75rem;">
+                        <p><strong>Goal:</strong> Prove end-to-end workflow from Pre-Sales → PS → CS works</p>
+                        <p><strong>Scope:</strong></p>
+                        <ul>
+                            <li>✅ AI Case Intake (SOW parsing, form pre-fill)</li>
+                            <li>✅ AI Task Generation (basic product templates for Prisma, XDR, NGFW)</li>
+                            <li>✅ AI Resource Allocation (skills + workload matching, top 3 recommendations)</li>
+                            <li>✅ Deployment tracking (task progress, simple blocker alerts)</li>
+                            <li>✅ CS Handoff (standardized checklist, deliverable validation)</li>
+                            <li>✅ Unified database (8 tables, basic audit trail)</li>
+                            <li>❌ No SFDC/Gainsight sync (manual entry only)</li>
+                            <li>❌ No historical data analysis (AI uses product templates only)</li>
+                        </ul>
+                        <p style="margin-top: 0.75rem;"><strong>Success Criteria:</strong> 10 pilot cases completed with 80% user satisfaction</p>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 1rem;">
+                    <h4 style="color: var(--panw-purple);">V2: Intelligence & Integrations (Months 4-6)</h4>
+                    <div style="margin-left: 1rem; margin-top: 0.75rem;">
+                        <p><strong>Goal:</strong> Improve AI accuracy using historical data + integrate with enterprise tools</p>
+                        <p><strong>New Features:</strong></p>
+                        <ul>
+                            <li>🆕 RAG (Retrieval-Augmented Generation): AI agents query historical cases for smarter recommendations</li>
+                            <li>🆕 SFDC integration: Bi-directional sync (read cases from SFDC, write progress back)</li>
+                            <li>🆕 Gainsight integration: Auto-create CS tickets on handoff</li>
+                            <li>🆕 Clarizen integration: Sync tasks and time tracking</li>
+                            <li>🆕 Advanced task estimation: Use historical deployment data for more accurate hour estimates</li>
+                            <li>🆕 Consultant performance dashboard: Track success rates, identify top performers</li>
+                        </ul>
+                        <p style="margin-top: 0.75rem;"><strong>Success Criteria:</strong> 90% platform adoption, 20% reduction in deployment time</p>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 1rem;">
+                    <h4 style="color: var(--panw-blue);">V3: Predictive Analytics & Automation (Months 7-12)</h4>
+                    <div style="margin-left: 1rem; margin-top: 0.75rem;">
+                        <p><strong>Goal:</strong> Move from reactive to proactive — predict and prevent deployment issues</p>
+                        <p><strong>New Features:</strong></p>
+                        <ul>
+                            <li>🔮 Predictive risk scoring: Identify cases at risk of delay before they happen</li>
+                            <li>🔮 Automated escalation: Auto-alert managers if case is stalled for >48hrs</li>
+                            <li>🔮 Customer success prediction: Predict likelihood of successful onboarding based on deployment patterns</li>
+                            <li>🔮 Multi-case capacity planning: AI suggests optimal case assignments across entire PS team (not just one-at-a-time)</li>
+                            <li>🔮 Integration marketplace: Support for 3rd party tools (Jira, Monday.com, Smartsheet)</li>
+                        </ul>
+                        <p style="margin-top: 0.75rem;"><strong>Success Criteria:</strong> 30% reduction in deployment time, 95% handoff completeness</p>
+                    </div>
+                </div>
+
+                <div class="quote-box" style="margin-top: 1.5rem;">
+                    <strong>Roadmap Prioritization Logic:</strong> V1 focuses on proving workflow works. V2 adds intelligence and integrations to increase adoption. V3 adds predictive capabilities once we have sufficient historical data.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 15: Technical Feasibility -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Technical Feasibility Overview</h2>
+                <p class="subtitle">High-level architecture — enough to prove it's buildable</p>
+
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h4>Tech Stack</h4>
+                        <ul>
+                            <li><strong>Frontend:</strong> Next.js 14 (App Router), TypeScript, Tailwind CSS</li>
+                            <li><strong>Backend:</strong> Next.js API Routes (serverless)</li>
+                            <li><strong>Database:</strong> PostgreSQL (Replit managed)</li>
+                            <li><strong>AI Layer:</strong> Claude Sonnet 4.6 (tier agents) + Opus 4.6 (orchestrator)</li>
+                            <li><strong>LLM Gateway:</strong> LLM Layer for model routing and fallback</li>
+                            <li><strong>Deployment:</strong> Replit (zero-config deployment, autoscaling)</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>AI Agent Architecture</h4>
+                        <p><strong>25 agents across 4 tiers:</strong></p>
+                        <ul>
+                            <li><strong>Tier 1 (Pre-Sales):</strong> 1 agent (Document Intelligence)</li>
+                            <li><strong>Tier 2 (Task Gen):</strong> 5 agents (Planning, Dependency, Estimation, Validation)</li>
+                            <li><strong>Tier 3 (Resource):</strong> 14 agents (Skills Matcher, Workload, Performance, etc.)</li>
+                            <li><strong>Tier 4 (Deployment + CS):</strong> 5 agents (Progress, Blocker, Quality, Handoff)</li>
+                        </ul>
+                        <p style="margin-top: 0.75rem;"><strong>1 Orchestrator Agent</strong> (Claude Opus 4.6) synthesizes recommendations from tier agents</p>
+                    </div>
+
+                    <div class="card">
+                        <h4>Database Schema</h4>
+                        <p><strong>8 interconnected tables:</strong></p>
+                        <ul>
+                            <li><code>cases</code> - Master case records</li>
+                            <li><code>tasks</code> - Work items per case</li>
+                            <li><code>assignments</code> - Consultant allocations</li>
+                            <li><code>handoffs</code> - PS → CS transitions</li>
+                            <li><code>activities</code> - Complete audit trail</li>
+                            <li><code>sow_documents</code> - SOW repository</li>
+                            <li><code>historical_assignments</code> - Learning data for AI</li>
+                            <li><code>agent_decisions</code> - AI audit trail</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>Integration Architecture</h4>
+                        <p><strong>Enterprise Integrations:</strong></p>
+                        <ul>
+                            <li><strong>SFDC:</strong> REST API (read cases, write progress)</li>
+                            <li><strong>Gainsight:</strong> API (create CS tickets on handoff)</li>
+                            <li><strong>Clarizen:</strong> API (sync tasks, time tracking)</li>
+                            <li><strong>Plainview:</strong> API (capacity planning data)</li>
+                        </ul>
+                        <p style="margin-top: 0.75rem;"><strong>V1:</strong> Manual entry only. <strong>V2:</strong> Full bi-directional sync.</p>
+                    </div>
+                </div>
+
+                <div class="emphasis-box" style="margin-top: 1.5rem;">
+                    <h3 style="margin-top: 0;">Why This Stack?</h3>
+                    <div class="grid grid-2">
+                        <div>
+                            <h4 style="color: var(--panw-orange);">Replit</h4>
+                            <ul>
+                                <li>Zero infrastructure management</li>
+                                <li>Built-in PostgreSQL (no setup)</li>
+                                <li>Instant deployment (no DevOps)</li>
+                                <li>Cost-effective for MVP</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--panw-purple);">Claude (Anthropic)</h4>
+                            <ul>
+                                <li>Best-in-class reasoning for task generation</li>
+                                <li>Long context window (200K tokens) for SOW parsing</li>
+                                <li>Tool use capability for API integrations</li>
+                                <li>Cost-effective: Sonnet 4.6 = $3/M input, $15/M output</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 16: Risks & Trade-offs -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Risks, Trade-offs & Mitigation</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Risk</th>
+                            <th>Impact</th>
+                            <th>Likelihood</th>
+                            <th>Mitigation Strategy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>R1: User Adoption Failure</strong><br/>PS Managers don't trust AI recommendations, continue using manual process</td>
+                            <td>🔴 High</td>
+                            <td>🟡 Medium</td>
+                            <td>• AI provides transparency (show scoring logic)<br/>• Always allow manager override<br/>• Phased rollout with champions program<br/>• Training + office hours for onboarding</td>
+                        </tr>
+                        <tr>
+                            <td><strong>R2: AI Accuracy Too Low</strong><br/>Task generation or assignment recommendations are wrong >20% of time</td>
+                            <td>🔴 High</td>
+                            <td>🟡 Medium</td>
+                            <td>• Pilot phase to validate accuracy before scaling<br/>• Human-in-the-loop: managers review/approve all AI outputs<br/>• V2: Add RAG to improve accuracy with historical data<br/>• Feedback loop: log overrides to retrain AI</td>
+                        </tr>
+                        <tr>
+                            <td><strong>R3: Integration Complexity</strong><br/>SFDC/Gainsight/Clarizen APIs are unreliable or have rate limits</td>
+                            <td>🟡 Medium</td>
+                            <td>🔴 High</td>
+                            <td>• V1: No integrations (manual entry only)<br/>• V2: Integrate after core workflow validated<br/>• Use batch APIs to avoid rate limits<br/>• Fallback to manual sync if API fails</td>
+                        </tr>
+                        <tr>
+                            <td><strong>R4: Data Security / Compliance</strong><br/>SOW documents contain sensitive customer data</td>
+                            <td>🔴 High</td>
+                            <td>🟢 Low</td>
+                            <td>• Encryption at rest and in transit<br/>• Role-based access control (RBAC)<br/>• Complete audit trail via activities table<br/>• Security review with CTO team before launch</td>
+                        </tr>
+                        <tr>
+                            <td><strong>R5: Scope Creep</strong><br/>Stakeholders request features that delay V1 launch</td>
+                            <td>🟡 Medium</td>
+                            <td>🔴 High</td>
+                            <td>• Strict MVP definition: V1 = core workflow only<br/>• Prioritization framework (RICE) for feature requests<br/>• Product roadmap (V1/V2/V3) communicated upfront<br/>• Weekly stakeholder updates to manage expectations</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="margin-top: 2rem;">Key Product Trade-offs</h3>
+
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h4 style="color: var(--panw-orange);">Trade-off #1: Build on Replit vs. AWS</h4>
+                        <p><strong>Decision:</strong> Build on Replit</p>
+                        <p><strong>Why:</strong> Faster time-to-market (no DevOps), lower cost for MVP, easier for PM to demo</p>
+                        <p><strong>Downside:</strong> May need to migrate to AWS later for enterprise scale</p>
+                        <p><strong>Mitigation:</strong> Design database schema to be portable, use standard PostgreSQL (not Replit-specific)</p>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="color: var(--panw-purple);">Trade-off #2: Custom UI vs. Embed in SFDC</h4>
+                        <p><strong>Decision:</strong> Custom standalone UI</p>
+                        <p><strong>Why:</strong> More flexibility, better UX, cross-team visibility (not just SFDC users)</p>
+                        <p><strong>Downside:</strong> Users have to switch between tools (SFDC + our platform)</p>
+                        <p><strong>Mitigation:</strong> V2 will sync data back to SFDC so both systems stay in sync</p>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="color: var(--panw-blue);">Trade-off #3: Multi-Model AI vs. Single Model</h4>
+                        <p><strong>Decision:</strong> Use multiple Claude models (Sonnet for tiers, Opus for orchestrator)</p>
+                        <p><strong>Why:</strong> Opus has better reasoning for complex decisions, Sonnet is cost-effective for simpler tasks</p>
+                        <p><strong>Downside:</strong> Slightly more complex AI infrastructure</p>
+                        <p><strong>Mitigation:</strong> LLM Layer handles model routing automatically</p>
+                    </div>
+
+                    <div class="card">
+                        <h4 style="color: var(--panw-success);">Trade-off #4: Full Automation vs. Human-in-Loop</h4>
+                        <p><strong>Decision:</strong> Human-in-the-loop (managers approve AI recommendations)</p>
+                        <p><strong>Why:</strong> Builds trust, reduces adoption risk, allows for nuance (e.g., customer relationships)</p>
+                        <p><strong>Downside:</strong> Not fully automated (still requires manager review)</p>
+                        <p><strong>Mitigation:</strong> V3 may add auto-approval for low-risk cases</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 17: Competitive Analysis -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Competitive Analysis: Build vs Buy</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Solution</th>
+                            <th>Pros</th>
+                            <th>Cons</th>
+                            <th>Cost</th>
+                            <th>Fit for PANW</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ServiceNow CSM</strong><br/>(Customer Service Management)</td>
+                            <td>• Proven platform<br/>• PS management features<br/>• Large vendor</td>
+                            <td>• Requires ripping out SFDC/Gainsight<br/>• No AI-native features<br/>• Heavy customization required</td>
+                            <td>$500K-$1M/year<br/>(licensing + implementation)</td>
+                            <td>❌ Poor fit<br/>(doesn't integrate with existing stack)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Planview</strong><br/>(Resource Management)</td>
+                            <td>• Strong resource planning<br/>• Capacity management<br/>• Already used at PANW</td>
+                            <td>• No AI capabilities<br/>• Doesn't handle Pre-Sales → PS → CS workflow<br/>• No SOW parsing</td>
+                            <td>$200K/year<br/>(existing license)</td>
+                            <td>⚠️ Partial fit<br/>(solves resource allocation only, not end-to-end workflow)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Custom Integration</strong><br/>(SFDC + Clarizen + Gainsight via APIs)</td>
+                            <td>• Leverages existing tools<br/>• No new licenses required<br/>• Low adoption risk</td>
+                            <td>• No AI (still manual work)<br/>• Complex multi-system integration<br/>• Data silos remain</td>
+                            <td>$150K<br/>(integration dev cost)</td>
+                            <td>⚠️ Partial fit<br/>(solves silos but not automation)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Build Custom AI Platform</strong><br/>(This proposal)</td>
+                            <td>• AI-native design<br/>• Solves silos + automation<br/>• Integrates with existing tools<br/>• Tailored to PANW workflows</td>
+                            <td>• Build time (3-6 months)<br/>• Maintenance required<br/>• Internal team needed</td>
+                            <td>$120K<br/>(1 PM + 2 Eng for 6 months)<br/>+ $5K/year AI cost</td>
+                            <td>✅ Best fit<br/>(only solution that solves silos + AI automation + integrations)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="emphasis-box" style="margin-top: 1.5rem;">
+                    <h3 style="margin-top: 0;">Why Build vs Buy?</h3>
+                    <p style="font-size: 1.05rem; color: var(--panw-text);">
+                        <strong>No existing vendor solution solves the core problem:</strong> eliminating silos between Pre-Sales, PS, and CS while automating repetitive work. Buying ServiceNow would require ripping out SFDC/Gainsight (unacceptable). Planview doesn't handle end-to-end workflow. Custom API integration doesn't add AI capabilities.
+                    </p>
+                    <p style="font-size: 1.05rem; color: var(--panw-text); margin-top: 0.75rem;">
+                        <strong>Building custom is the only option that delivers:</strong> unified workflow + AI automation + integration with existing tools.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 18: Thank You -->
+        <div class="slide">
+            <div class="slide-content" style="display: flex; align-items: center; justify-content: center; min-height: 70vh;">
+                <div style="text-align: center;">
+                    <h1 style="font-size: 4rem; margin-bottom: 0;">Thank You</h1>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            slides[currentSlide].scrollTop = 0;
+
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === 'Home') showSlide(0);
+            if (e.key === 'End') showSlide(totalSlides - 1);
+        });
+
+        // Interactive workflow functions
+        let currentWorkflowStep = 0;
+        let workflowAutoPlay = null;
+
+        function showWorkflowStep(stepIndex) {
+            const steps = document.querySelectorAll('.workflow-step-interactive');
+            const progressSteps = document.querySelectorAll('.workflow-progress-step');
+
+            currentWorkflowStep = stepIndex;
+
+            steps.forEach((step, index) => {
+                if (index === stepIndex) {
+                    step.style.display = 'block';
+                    setTimeout(() => {
+                        step.style.opacity = '1';
+                        step.style.transform = 'translateX(0)';
+                    }, 10);
+                } else {
+                    step.style.opacity = '0';
+                    step.style.transform = index < stepIndex ? 'translateX(-100px)' : 'translateX(100px)';
+                    setTimeout(() => step.style.display = 'none', 500);
+                }
+            });
+
+            progressSteps.forEach((progressStep, index) => {
+                if (index <= stepIndex) {
+                    const colors = ['var(--panw-orange)', 'var(--panw-purple)', 'var(--panw-blue)', 'var(--panw-success)'];
+                    progressStep.style.background = colors[index];
+                } else {
+                    progressStep.style.background = 'var(--panw-border)';
+                }
+            });
+        }
+
+        function nextWorkflowStep() {
+            const steps = document.querySelectorAll('.workflow-step-interactive');
+            if (currentWorkflowStep < steps.length - 1) {
+                showWorkflowStep(currentWorkflowStep + 1);
+            }
+        }
+
+        function previousWorkflowStep() {
+            if (currentWorkflowStep > 0) {
+                showWorkflowStep(currentWorkflowStep - 1);
+            }
+        }
+
+        function resetWorkflow() {
+            showWorkflowStep(0);
+            if (workflowAutoPlay) {
+                clearInterval(workflowAutoPlay);
+                workflowAutoPlay = null;
+                document.getElementById('autoPlayBtn').textContent = '▶ Auto Play';
+            }
+        }
+
+        function toggleAutoPlay() {
+            const btn = document.getElementById('autoPlayBtn');
+            const steps = document.querySelectorAll('.workflow-step-interactive');
+
+            if (workflowAutoPlay) {
+                clearInterval(workflowAutoPlay);
+                workflowAutoPlay = null;
+                btn.textContent = '▶ Auto Play';
+            } else {
+                btn.textContent = '⏸ Pause';
+                workflowAutoPlay = setInterval(() => {
+                    if (currentWorkflowStep < steps.length - 1) {
+                        nextWorkflowStep();
+                    } else {
+                        showWorkflowStep(0);
+                    }
+                }, 4000);
+            }
+        }
+
+        showSlide(0);
+    </script>
+</body>
+</html>
