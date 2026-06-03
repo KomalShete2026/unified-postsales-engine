@@ -348,50 +348,56 @@
 
 <h3>Solution Components</h3>
 
-<h4>1. Intelligent Case Intake</h4>
+<p>The platform delivers <strong>six AI use cases</strong> across the post-sales lifecycle (Pre-Sales → PS Manager → PS Consultant → CS), on a single unified record, with a human approving every high-stakes decision. Models are matched to the task ("best-fit model strategy") via an OpenAI-compatible gateway, so any model can be swapped without changing agent code.</p>
+
+<h4>AI Use Case 1 — Intelligent Case Intake</h4>
 <ul>
-<li><strong>AI-powered SOW parsing</strong> extracts customer requirements, products, integrations</li>
-<li><strong>Pre-filled case forms</strong> reduce Pre-Sales data entry from 8 hours → 30 minutes</li>
-<li><strong>Salesforce integration</strong> fetches cases directly from SFDC (optional)</li>
-<li><strong>SOW Repository</strong> with customer templates and product templates</li>
+<li>Pulls unstructured context from the <strong>DMS (SOW docs)</strong>, <strong>Slack threads</strong>, and <strong>SFDC</strong>, and AI-extracts it into a structured <strong>Design of Record</strong>.</li>
+<li>Each extracted field is stamped with its <strong>source (provenance)</strong> — proving "no lost context" and making extraction auditable.</li>
+<li><em>Best-fit model:</em> a strong reasoning / long-context model for messy SOWs, with schema-constrained output.</li>
 </ul>
 
-<h4>2. AI Task Generation</h4>
-<p><strong>5-Agent Task Generation Tier</strong> analyzes SOW and generates comprehensive task list:</p>
+<h4>AI Use Case 2 — Case Briefing &amp; Summary</h4>
 <ul>
-<li>Document Intelligence Agent (extracts requirements)</li>
-<li>Task Planning Agent (creates task structure)</li>
-<li>Dependency Mapper (identifies task dependencies)</li>
-<li>Estimation Agent (estimates hours/duration)</li>
-<li>Validation Agent (ensures completeness)</li>
-</ul>
-<p><strong>Output:</strong> Structured task list with priorities, dependencies, hour estimates</p>
-
-<h4>3. Multi-Agent Resource Allocation</h4>
-<p><strong>14-Agent Resource/Capacity Tier</strong> optimizes consultant assignment:</p>
-<ul>
-<li>Skills-Based Matcher</li>
-<li>Workload Intelligence</li>
-<li>Historical Performance Analyzer</li>
-<li>Geographic/Timezone Optimizer</li>
-<li>Risk Assessment Agent</li>
-<li>+ 9 more specialized agents</li>
-</ul>
-<p><strong>1 Orchestrator Agent (Claude Opus 4.6)</strong> synthesizes all recommendations</p>
-<p><strong>Output:</strong> Optimal consultant assignment with confidence score</p>
-
-<h4>4. Deployment Workflow Automation</h4>
-<p><strong>5-Agent Deployment Tier</strong> guides PS Consultants through execution:</p>
-<ul>
-<li>Progress Tracker</li>
-<li>Blocker Detector</li>
-<li>Quality Validator</li>
-<li>Documentation Generator</li>
-<li>Handoff Preparedness Checker</li>
+<li>Persona-aware briefing so the receiving party (PS Manager triage view, or Consultant execution view) starts with an instant, plain-English summary instead of re-discovering context.</li>
+<li>Output: executive summary, key risks, recommended actions, engagement sentiment, timeline read, communication highlights.</li>
+<li><em>Best-fit model:</em> a fast, low-cost model (short, frequent, low-stakes summaries).</li>
 </ul>
 
-<h4>5. Customer Success Handoff</h4>
-<p><strong>1-Agent CS Tier</strong> validates handoff completeness</p>
+<h4>AI Use Case 3 — Task Generation</h4>
+<ul>
+<li>Turns the Design of Record into a standardized, dependency-aware list of 5–8 lifecycle tasks (discovery → architecture → configuration → integration → testing → documentation → training).</li>
+<li>Each task carries type, priority, hour estimate, dependencies, and an AI confidence + reasoning. Includes a deterministic template fallback so it never dead-ends.</li>
+<li><em>Best-fit model:</em> a high-volume workhorse model (reliable structured JSON).</li>
+</ul>
+
+<h4>AI Use Case 4 — Best-Fit Resource Allocation</h4>
+<ul>
+<li>Ranks consultants on a transparent weighted rubric: <strong>Skills 35 · Recency 20 · Customer familiarity 15 · Timezone 10 · Availability 10 · Utilization 10</strong> — availability is only 30% combined, so the engine produces "Best Fit," not "First Available."</li>
+<li>A multi-tier agent set analyzes the case in parallel; an <strong>Orchestrator</strong> synthesizes one recommendation and <em>lowers confidence when agents disagree</em>.</li>
+<li><em>Best-fit model:</em> deterministic scoring for fairness/auditability; reasoning model only to resolve ties and explain.</li>
+</ul>
+
+<h4>AI Use Case 5 — TRD Generation (RAG-Grounded)</h4>
+<ul>
+<li>Agentic flow: <strong>Plan → Draft → Critic → Revise</strong>. Each section retrieves product docs + past engagements (RAG) and every claim must cite a source <code>[DOC-X]</code>; the critic rejects uncited claims — grounding is enforced, not hoped for.</li>
+<li>High-stake sections (Scope, Pricing, Timeline, Success Criteria, Migration) are tagged for human approval before the TRD ships.</li>
+<li><em>Best-fit model:</em> a top reasoning model for planning/critique + a high-volume model for parallel drafting.</li>
+</ul>
+
+<h4>AI Use Case 6 — Customer Health Signals</h4>
+<ul>
+<li>Analyzes communication sentiment and risk into a <strong>health score, NPS, adoption, and renewal-risk</strong> view on the CS dashboard; surfaces escalation risk proactively.</li>
+<li>Outcome + Time-to-Value feed the <strong>learning loop</strong>, improving future best-fit recommendations — the "Outcome Engine" payoff.</li>
+<li><em>Best-fit model:</em> a reasoning model for nuanced tone, with a keyword-heuristic fallback for resilience.</li>
+</ul>
+
+<h4>Supporting layers</h4>
+<ul>
+<li><strong>Enterprise integrations:</strong> bidirectional, loop-safe sync with SFDC · Clarizen · Gainsight, plus DMS &amp; Slack on intake — single-writer ownership, origin-stamped (see Section 13).</li>
+<li><strong>Standardized CS handoff:</strong> a complete deliverables package (TRD, configs, test results) is enforced before PS → CS handoff.</li>
+<li><strong>HITL + learning loop:</strong> humans gate every high-stakes decision; every completed outcome improves the next recommendation.</li>
+</ul>
 
 <h3>Core Innovation: Unified Database Architecture</h3>
 
@@ -1875,9 +1881,35 @@ Status: All required deliverables present ✓</code></pre>
 
 <h3>Overview</h3>
 
-<p>The Unified PostSales Engine integrates with 4 core enterprise systems at Palo Alto Networks. In the demo version, integrations are mocked. Production deployment requires full API integration.</p>
+<p>The Unified PostSales Engine is a <strong>system of engagement</strong> that sits on top of the enterprise systems of record. It integrates across the post-sales lifecycle on both the <strong>intake side</strong> (pulling unstructured context) and the <strong>delivery / customer-success side</strong> (syncing state bidirectionally):</p>
 
-<h3>Integration 1: Salesforce (SFDC)</h3>
+<ul>
+<li><strong>Document Management System (DMS)</strong> — source of SOW documents (intake)</li>
+<li><strong>Slack</strong> — pre-sales conversation context in, case notifications out</li>
+<li><strong>Salesforce (SFDC)</strong> — owns the deal / opportunity / ARR</li>
+<li><strong>Clarizen</strong> — owns PS project delivery, task progress, and actual hours</li>
+<li><strong>Gainsight</strong> — owns customer health, adoption, NPS, and renewal risk</li>
+</ul>
+
+<p><strong>Single-writer ownership (loop-safe sync):</strong> every external system owns a distinct set of fields, so there is exactly one writer per field. Outbound writes are <em>origin-stamped</em> with a correlation ID; inbound webhooks that match our own origin are dropped (idempotency guard) — preventing the classic A→B→A infinite sync loop. Every sync action is recorded in the Activity audit trail.</p>
+
+<p><em>In the prototype these integrations are simulated in-memory (no external network calls); the ownership contracts and sync logic are real and demoable.</em></p>
+
+<h3>Integration 1: Document Management System (DMS) — SOW Repository</h3>
+
+<p><strong>Purpose:</strong> Pull SOW documents (and their metadata) into the SOW tab so case intake uses real source documents.</p>
+
+<p><strong>Direction:</strong> Engine <strong>reads</strong> the SOW PDF + metadata (name, version, author, tags, checksum); writes back only a "linked to case" reference. <strong>The DMS owns the document; the engine owns the extracted Design of Record.</strong></p>
+
+<p><strong>Flow:</strong> Pre-Sales opens the SOW tab → DMS connector lists/pulls documents for the customer → AI extracts structured fields → Design of Record (each field stamped with its source).</p>
+
+<h3>Integration 2: Slack — Conversation Context &amp; Notifications</h3>
+
+<p><strong>Purpose:</strong> Capture pre-sales conversation context at intake, and notify stakeholders on case events.</p>
+
+<p><strong>Direction (bidirectional):</strong> Engine <strong>reads</strong> thread messages, participants, and timestamps to extract key points / concerns / commitments into the Design of Record; Engine <strong>writes</strong> notifications (case created, consultant assigned, handoff ready, escalation) — origin-stamped so an inbound echo is dropped. <strong>Slack owns the conversation; the engine owns the case.</strong></p>
+
+<h3>Integration 3: Salesforce (SFDC)</h3>
 
 <p><strong>Purpose:</strong> Bi-directional sync of case data</p>
 
@@ -1993,7 +2025,7 @@ export async function updateSFDCCase(caseId: string, updates: any) {
 
 <p><strong>Sync Frequency:</strong> Real-time (on case status change)</p>
 
-<h3>Integration 2: Gainsight</h3>
+<h3>Integration 4: Gainsight (Customer Success)</h3>
 
 <p><strong>Purpose:</strong> Customer health scoring and deployment tracking</p>
 
@@ -2067,7 +2099,7 @@ export async function updateSFDCCase(caseId: string, updates: any) {
 
 <p><strong>Sync Frequency:</strong> Real-time (webhook on case status change)</p>
 
-<h3>Integration 3: Clarizen (Project Management)</h3>
+<h3>Integration 5: Clarizen (PS Delivery)</h3>
 
 <p><strong>Purpose:</strong> Sync deployment tasks to Clarizen projects</p>
 
@@ -2114,7 +2146,10 @@ export async function updateSFDCCase(caseId: string, updates: any) {
 
 <p><strong>Sync Frequency:</strong> Batch sync every 15 minutes</p>
 
-<h3>Integration 4: Plainview (Resource Planning)</h3>
+<h3>Integration 6: Resource &amp; Capacity Data (via Clarizen)</h3>
+
+<p><em>Note: consultant availability and capacity data is sourced from Clarizen (the PS delivery system of record), not a separate tool. The resource endpoints below describe the capacity-data contract.</em></p>
+
 
 <p><strong>Purpose:</strong> Real-time consultant capacity and workload visibility</p>
 
@@ -2132,7 +2167,7 @@ export async function updateSFDCCase(caseId: string, updates: any) {
 
 <table>
 <tr>
-<th>Plainview Endpoint</th>
+<th>Resource/Capacity Endpoint</th>
 <th>Method</th>
 <th>Purpose</th>
 </tr>

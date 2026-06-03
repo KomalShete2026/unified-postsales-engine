@@ -655,7 +655,7 @@
                     <div class="flow-arrow">→</div>
                     <div class="flow-node" style="border-color: var(--panw-success);">
                         <div class="node-title">CS Team</div>
-                        <div class="node-sub">Accept handoff + deploy</div>
+                        <div class="node-sub">Accept handoff + deploy + measure outcome</div>
                     </div>
                 </div>
                 <p style="text-align:center; color: var(--panw-text-dim); font-size: 0.9rem;">
@@ -663,30 +663,34 @@
                 </p>
 
                 <h3>Key Components</h3>
-                <div class="grid grid-3">
+                <div class="grid grid-4">
                     <div class="card" style="border-left: 4px solid var(--panw-orange);">
-                        <h4>1. Intelligent Case Intake</h4>
-                        <p style="font-size:0.9rem;">Turn an unstructured SOW / SFDC context into a structured <strong>Design of Record</strong> — captured once, never re-entered.</p>
+                        <h4>1. Unified Record</h4>
+                        <p style="font-size:0.88rem;">Single source of truth (8 tables, full audit trail) — context captured once, never re-entered across personas.</p>
                     </div>
                     <div class="card" style="border-left: 4px solid var(--panw-purple);">
-                        <h4>2. AI Task Generation</h4>
-                        <p style="font-size:0.9rem;">Generate a standardized, dependency-aware task list per case from the Design of Record.</p>
+                        <h4>2. AI Across the Lifecycle</h4>
+                        <p style="font-size:0.88rem;">Intake → briefing → task generation → best-fit assignment → TRD → health (the 6 AI use cases that follow).</p>
                     </div>
                     <div class="card" style="border-left: 4px solid var(--panw-blue);">
-                        <h4>3. Best-Fit Resource Allocation</h4>
-                        <p style="font-size:0.9rem;">Rank consultants on a transparent, weighted rubric — skills &amp; familiarity over raw availability.</p>
+                        <h4>3. Best-Fit Resourcing</h4>
+                        <p style="font-size:0.88rem;">Transparent weighted scoring — skills &amp; familiarity over raw availability; "First Available → Best Fit."</p>
                     </div>
                     <div class="card" style="border-left: 4px solid var(--panw-warning);">
-                        <h4>4. TRD Generation (RAG)</h4>
-                        <p style="font-size:0.9rem;">Draft a cited, review-ready TRD grounded in product docs and past engagements.</p>
+                        <h4>4. Enterprise Integrations</h4>
+                        <p style="font-size:0.88rem;">Bidirectional, <strong>loop-safe</strong> sync with <strong>SFDC · Clarizen · Gainsight</strong> — single-writer ownership, origin-stamped.</p>
                     </div>
                     <div class="card" style="border-left: 4px solid var(--panw-success);">
-                        <h4>5. Standardized CS Handoff</h4>
-                        <p style="font-size:0.9rem;">Enforce a complete deliverables package before PS → CS handoff is allowed.</p>
+                        <h4>5. Customer Health &amp; Outcomes</h4>
+                        <p style="font-size:0.88rem;">Health score, escalation risk, sentiment &amp; <strong>Time-to-Value</strong> — the "Outcome Engine" payoff on the CS side.</p>
                     </div>
                     <div class="card" style="border-left: 4px solid var(--panw-orange);">
-                        <h4>6. Unified Database + Learning Loop</h4>
-                        <p style="font-size:0.9rem;">Single source of truth (8 tables, full audit trail); every outcome improves the next recommendation.</p>
+                        <h4>6. Standardized CS Handoff</h4>
+                        <p style="font-size:0.88rem;">Complete deliverables package (TRD, configs, test results) enforced before PS → CS handoff.</p>
+                    </div>
+                    <div class="card" style="border-left: 4px solid var(--panw-purple);">
+                        <h4>7. HITL + Learning Loop</h4>
+                        <p style="font-size:0.88rem;">Humans gate every high-stakes decision; every completed outcome improves the next recommendation.</p>
                     </div>
                 </div>
             </div>
@@ -697,6 +701,11 @@
             <div class="slide-content">
                 <h2>AI Use Case 1 — Intelligent Case Intake</h2>
                 <p class="subtitle">Turn unstructured pre-sales context into a structured Design of Record</p>
+                <div style="margin:-0.5rem 0 0.75rem;">
+                    <span class="badge badge-blue">🧠 Method: LLM structured extraction (document → typed JSON)</span>
+                    <span class="badge badge-purple">Model: reasoning LLM (Opus-class) + schema-constrained output</span>
+                    <span class="badge badge-green">Why: long, messy SOWs need strong long-context reasoning to extract accurately</span>
+                </div>
 
                 <div class="grid grid-2">
                     <div>
@@ -732,11 +741,57 @@
             </div>
         </div>
 
-        <!-- SLIDE 7: AI Use Case 2 — Task Generation -->
+        <!-- AI Use Case 2 — Case Briefing / Summary -->
         <div class="slide">
             <div class="slide-content">
-                <h2>AI Use Case 2 — Task Generation</h2>
+                <h2>AI Use Case 2 — Case Briefing &amp; Summary</h2>
+                <p class="subtitle">A persona-aware briefing so context is never re-discovered at a handoff</p>
+                <div style="margin:-0.5rem 0 0.75rem;">
+                    <span class="badge badge-blue">🧠 Method: LLM summarization &amp; synthesis (context → JSON brief)</span>
+                    <span class="badge badge-purple">Model: fast, low-cost LLM (Haiku-class / mini)</span>
+                    <span class="badge badge-green">Why: short, frequent, low-stakes summaries — optimize for speed &amp; cost, not deep reasoning</span>
+                </div>
+
+                <div class="grid grid-2">
+                    <div>
+                        <h4>The job</h4>
+                        <p>When a case lands on someone's desk — a PS Manager receiving it, a Consultant being assigned — give them an instant, plain-English brief instead of making them re-read the whole record.</p>
+                        <h4>How the AI helps</h4>
+                        <ul style="font-size: 0.95rem;">
+                            <li>Synthesizes the case data, activity trail, document status, and communications into a <strong>2–3 sentence executive summary</strong>.</li>
+                            <li>Surfaces <strong>top risks</strong>, <strong>recommended next actions</strong>, a <strong>timeline read</strong>, and an <strong>engagement sentiment</strong> (on-track / needs-attention / at-risk).</li>
+                            <li><strong>Persona-aware:</strong> the PS Manager gets a triage/assign view; the Consultant gets an execution head-start view.</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="background: rgba(159, 122, 234, 0.08);">
+                        <h4 style="color: var(--panw-purple);">Output</h4>
+                        <ul style="font-size:0.9rem;">
+                            <li>Executive summary</li>
+                            <li>Key risks (with detail)</li>
+                            <li>Recommended actions</li>
+                            <li>Engagement sentiment + timeline assessment</li>
+                            <li>Communication highlights</li>
+                        </ul>
+                        <p style="font-size:0.85rem; margin-top:0.5rem;"><strong>Best-fit model:</strong> a fast, cost-effective model (e.g. a Haiku-class / mini model) — structured JSON, high volume, low latency.</p>
+                    </div>
+                </div>
+
+                <div class="quote-box" style="border-left-color: var(--panw-orange);">
+                    <strong>Why it matters:</strong> this is the direct antidote to "context lost at handoff" — every receiving persona starts with the same AI-synthesized picture instead of re-discovering it.
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Use Case 3 — Task Generation -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>AI Use Case 3 — Task Generation</h2>
                 <p class="subtitle">From a structured Design of Record to a standardized task list</p>
+                <div style="margin:-0.5rem 0 0.75rem;">
+                    <span class="badge badge-blue">🧠 Method: LLM structured generation (DoR → task JSON) + template fallback</span>
+                    <span class="badge badge-purple">Model: high-volume workhorse LLM (Sonnet-class)</span>
+                    <span class="badge badge-green">Why: best price/performance for frequent structured generation; reliable JSON</span>
+                </div>
 
                 <div class="grid grid-2">
                     <div>
@@ -772,11 +827,16 @@
             </div>
         </div>
 
-        <!-- SLIDE 8: AI Use Case 3 — Best-Fit Resource Allocation -->
+        <!-- AI Use Case 4 — Best-Fit Resource Allocation -->
         <div class="slide">
             <div class="slide-content">
-                <h2>AI Use Case 3 — Best-Fit Resource Allocation</h2>
+                <h2>AI Use Case 4 — Best-Fit Resource Allocation</h2>
                 <p class="subtitle">The shift from "First Available" to "Best Fit"</p>
+                <div style="margin:-0.5rem 0 0.75rem;">
+                    <span class="badge badge-blue">🧠 Method: weighted-scoring rubric + multi-agent synthesis (LLM ranks top candidates)</span>
+                    <span class="badge badge-purple">Model: Sonnet workers → Opus synthesizer</span>
+                    <span class="badge badge-green">Why: deterministic math for fairness/auditability; LLM only to reason over ties &amp; explain</span>
+                </div>
 
                 <div class="grid grid-2">
                     <div>
@@ -809,11 +869,16 @@
             </div>
         </div>
 
-        <!-- SLIDE 9: AI Use Case 4 — TRD Generation + RAG -->
+        <!-- AI Use Case 5 — TRD Generation + RAG -->
         <div class="slide">
             <div class="slide-content">
-                <h2>AI Use Case 4 — TRD Generation (RAG-Grounded)</h2>
+                <h2>AI Use Case 5 — TRD Generation (RAG-Grounded)</h2>
                 <p class="subtitle">No more rebuilding designs from scratch — a cited, review-ready TRD in one click</p>
+                <div style="margin:-0.5rem 0 0.75rem;">
+                    <span class="badge badge-blue">🧠 Method: agentic RAG — Plan → Draft → Critic → Revise, with [DOC-X] citations</span>
+                    <span class="badge badge-purple">Model: Opus (plan/critic) + Sonnet (parallel drafters)</span>
+                    <span class="badge badge-green">Why: hardest reasoning task — needs grounding + a tiered model split for accuracy vs. cost</span>
+                </div>
 
                 <div class="flow-row">
                     <div class="flow-node" style="border-color: var(--panw-orange);">
@@ -850,6 +915,49 @@
 
                 <div class="quote-box" style="border-left-color: var(--panw-orange);">
                     <strong>Tiered models:</strong> Opus for the hard reasoning (planning, synthesis); Sonnet for high-volume drafting and the critic. We pay for reasoning only where it changes the outcome.
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Use Case 6 — Customer Health Signals -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>AI Use Case 6 — Customer Health Signals</h2>
+                <p class="subtitle">Telemetry-guided optimization — read sentiment and surface risk on the CS side</p>
+                <div style="margin:-0.5rem 0 0.75rem;">
+                    <span class="badge badge-blue">🧠 Method: LLM sentiment/risk analysis + keyword-heuristic fallback</span>
+                    <span class="badge badge-purple">Model: reasoning LLM (Sonnet-class)</span>
+                    <span class="badge badge-green">Why: nuanced tone needs an LLM; heuristic fallback guarantees a signal if the call fails</span>
+                </div>
+
+                <div class="grid grid-2">
+                    <div>
+                        <h4>The job</h4>
+                        <p>Turn unstructured signals — emails, Slack threads, notes — into an early-warning read on customer health, so risk is caught before it becomes churn.</p>
+                        <h4>How the AI helps</h4>
+                        <ul style="font-size: 0.95rem;">
+                            <li>Analyzes <strong>communication sentiment</strong> and pre-sales risk signals into an <strong>AI health narrative</strong>.</li>
+                            <li>Feeds a <strong>health score, NPS, adoption, and renewal-risk</strong> view on the Customer Success dashboard.</li>
+                            <li>Closes the loop: the outcome + sentiment flow into the <strong>learning loop</strong> to improve future best-fit recommendations.</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="background: rgba(72, 187, 120, 0.08);">
+                        <h4 style="color: var(--panw-success);">Flow</h4>
+                        <div style="font-family:'Courier New',monospace; font-size:0.85rem; line-height:1.9; color: var(--panw-text);">
+                            Emails · Slack · notes <span style="color:var(--panw-text-dim)">(unstructured)</span><br/>
+                            &nbsp;&nbsp;↓<br/>
+                            <span class="highlight">Sentiment + risk analysis</span><br/>
+                            &nbsp;&nbsp;↓<br/>
+                            Health score · NPS · renewal risk · narrative<br/>
+                            &nbsp;&nbsp;↓<br/>
+                            CS dashboard + learning loop
+                        </div>
+                        <p style="font-size:0.85rem; margin-top:0.5rem;"><strong>Best-fit model:</strong> a strong reasoning model for nuanced sentiment + a keyword-heuristic fallback for resilience.</p>
+                    </div>
+                </div>
+
+                <div class="quote-box" style="border-left-color: var(--panw-orange);">
+                    <strong>Why it matters:</strong> this is the "Outcome Engine" payoff — measuring Time-to-Value and customer health, and feeding it back so the system gets smarter every cycle.
                 </div>
             </div>
         </div>
@@ -899,6 +1007,8 @@
                         <h4 style="margin-top:0; color:var(--panw-success);">Tier 4 · Customer Success</h4>
                         <ul style="font-size:0.8rem;">
                             <li>Sentiment Analysis</li>
+                            <li><strong>Customer Health Scoring</strong> 🆕</li>
+                            <li><strong>Escalation Risk Predictor</strong> 🆕</li>
                             <li>Outcome Realization</li>
                             <li>Change Management</li>
                             <li>Customer Journey Mapper</li>
@@ -910,8 +1020,67 @@
 
                 <div class="emphasis-box" style="margin-top:0.5rem; padding:0.85rem;">
                     <p style="font-size:0.9rem; color:var(--panw-text);">
-                        <strong>Tier 0 · Orchestrator</strong> sits above all four tiers — it spawns the relevant agents, collects their outputs, and synthesizes one recommendation for the PS Manager to approve. <span style="color:var(--panw-text-dim);">Honest status: 5 agents make real LLM calls today; the rest are heuristic or designed interfaces a real sprint would fill.</span>
+                        <strong>Tier 0 · Orchestrator</strong> sits above all four tiers — it spawns the relevant agents, collects their outputs, and synthesizes one recommendation for the PS Manager to approve. <span style="color:var(--panw-text-dim);">Honest status: the core assignment + health agents make real LLM calls today; the rest are heuristic or designed interfaces a real sprint would fill.</span>
                     </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agent Spotlight: what each does + why an agent -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Agent Spotlight — What &amp; Why</h2>
+                <p class="subtitle">For key agents: the use case it performs, and why a dedicated agent (vs. one big prompt)</p>
+
+                <table style="font-size:0.82rem;">
+                    <thead>
+                        <tr>
+                            <th>Agent (tier)</th>
+                            <th>Use case it performs</th>
+                            <th>Why a dedicated agent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Implementation RAG</strong> <span style="color:var(--panw-text-dim);">(T1)</span></td>
+                            <td>Searches historical cases for similar deployments to estimate timeline &amp; complexity</td>
+                            <td>Grounds estimates in real past engagements — RAG keeps it factual, not guessed</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Skills-Based Optimizer</strong> <span style="color:var(--panw-text-dim);">(T2)</span></td>
+                            <td>Multi-dimensional consultant match: skills × recency × familiarity × timezone</td>
+                            <td>Isolated, testable scoring logic — the core of "Best Fit," independently tunable</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Workload &amp; Burnout</strong> <span style="color:var(--panw-text-dim);">(T2)</span></td>
+                            <td>Caps concurrent load (max ~3 cases) to prevent over-allocation</td>
+                            <td>A single guardrail concern — keep it separate so it can veto humanely</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GDPR / Compliance</strong> <span style="color:var(--panw-text-dim);">(T3)</span></td>
+                            <td>Flags data-residency &amp; regulated-industry requirements (EU, SOC2, HIPAA)</td>
+                            <td>Compliance is high-stakes &amp; rule-bound — a focused agent makes it auditable</td>
+                        </tr>
+                        <tr style="background: rgba(72,187,120,0.06);">
+                            <td><strong>Customer Health Scoring</strong> <span style="color:var(--panw-success);">🆕 (T4)</span></td>
+                            <td>Computes a 0–100 health score from deployment velocity, task completion, document gaps, complexity &amp; timeline adherence</td>
+                            <td>Continuous, multi-signal scoring deserves its own agent — surfaces at-risk customers proactively across all stages</td>
+                        </tr>
+                        <tr style="background: rgba(72,187,120,0.06);">
+                            <td><strong>Escalation Risk Predictor</strong> <span style="color:var(--panw-success);">🆕 (T4)</span></td>
+                            <td>Predicts escalation likelihood from health-score trend, priority, ARR &amp; engagement signals</td>
+                            <td>Triggers when health &lt; 60 → proactive outreach + manager alert; a predictive job distinct from scoring</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Orchestrator</strong> <span style="color:var(--panw-text-dim);">(T0)</span></td>
+                            <td>Synthesizes all agent outputs into one recommendation + confidence</td>
+                            <td>Someone must resolve disagreement &amp; lower confidence on conflict — that's a distinct reasoning role</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="quote-box" style="border-left-color: var(--panw-orange); margin-top:0.5rem;">
+                    <strong>Why agents at all?</strong> Each is a small, single-responsibility <code>(input) → result</code> function returning <strong>confidence, latency &amp; cost</strong> — independently testable, observable, swappable, and resilient (one failure degrades gracefully). That's not achievable with one monolithic prompt.
                 </div>
             </div>
         </div>
@@ -1226,59 +1395,92 @@
             </div>
         </div>
 
-        <!-- SLIDE 13: API Catalog -->
+        <!-- Pre-Sales Intake Integrations: DMS + Slack -->
         <div class="slide">
             <div class="slide-content">
-                <h2>API Catalog</h2>
-                <p class="subtitle">RESTful Next.js route handlers under <code>/api/unified/*</code></p>
+                <h2>Integrations &amp; APIs</h2>
+                <p class="subtitle">Every source has one owner; the engine pulls context in, syncs state out — loop-safe</p>
 
-                <div class="grid grid-3">
-                    <div class="card" style="border-left:4px solid var(--panw-orange);">
-                        <h4 style="margin-top:0;">Core / CRUD</h4>
-                        <ul style="font-size:0.88rem;">
-                            <li><code>/cases</code> — GET · POST · PATCH</li>
-                            <li><code>/tasks</code> — GET · POST · PATCH</li>
-                            <li><code>/assignments</code> — GET · POST · PATCH</li>
-                            <li><code>/handoffs</code> — GET · POST · PATCH</li>
-                            <li><code>/sow-documents</code> — GET</li>
-                            <li><code>/stats</code> — GET</li>
-                            <li><code>/cleanup-tasks</code> — POST</li>
-                        </ul>
+                <div class="grid grid-2">
+                    <!-- Flow diagram: all 5 integration points around the engine -->
+                    <div>
+                        <div class="flow-row" style="margin:0.2rem 0;">
+                            <div class="flow-node" style="border-color:var(--panw-blue); min-width:70px; padding:0.45rem;">
+                                <div class="node-title" style="font-size:0.78rem;">DMS</div>
+                                <div class="node-sub">SOW docs</div>
+                            </div>
+                            <div class="flow-node" style="border-color:var(--panw-purple); min-width:70px; padding:0.45rem;">
+                                <div class="node-title" style="font-size:0.78rem;">Slack</div>
+                                <div class="node-sub">threads</div>
+                            </div>
+                            <div class="flow-node" style="border-color:var(--panw-orange); min-width:70px; padding:0.45rem;">
+                                <div class="node-title" style="font-size:0.78rem;">SFDC</div>
+                                <div class="node-sub">deal/$$</div>
+                            </div>
+                        </div>
+                        <div class="down-arrow" style="margin:0.1rem 0;">↓ &nbsp;<span style="font-size:0.72rem; color:var(--panw-text-dim);">pull context (read-only)</span></div>
+                        <div class="layer" style="border-color:var(--panw-orange); margin-bottom:0.35rem;">
+                            <div class="layer-label">Unified Engine</div>
+                            <div class="layer-body">Ingest → AI extract → Design of Record → Human review → Case</div>
+                            <div class="layer-detail">Owns unified case state · each field stamped with its <strong>source</strong></div>
+                        </div>
+                        <div class="down-arrow" style="margin:0.1rem 0;">↕ &nbsp;<span style="font-size:0.72rem; color:var(--panw-text-dim);">bidirectional sync · origin-stamped, drop-on-echo</span></div>
+                        <div class="flow-row" style="margin:0.2rem 0;">
+                            <div class="flow-node" style="border-color:var(--panw-warning); min-width:70px; padding:0.45rem;">
+                                <div class="node-title" style="font-size:0.78rem;">Clarizen</div>
+                                <div class="node-sub">PS delivery · hours</div>
+                            </div>
+                            <div class="flow-node" style="border-color:var(--panw-success); min-width:70px; padding:0.45rem;">
+                                <div class="node-title" style="font-size:0.78rem;">Gainsight</div>
+                                <div class="node-sub">health · NPS</div>
+                            </div>
+                            <div class="flow-node" style="border-color:var(--panw-purple); min-width:70px; padding:0.45rem;">
+                                <div class="node-title" style="font-size:0.78rem;">Slack</div>
+                                <div class="node-sub">notify</div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="margin-top:0.5rem; padding:0.7rem;">
+                            <h4 style="margin-top:0;">Single-writer ownership</h4>
+                            <p style="font-size:0.78rem;"><strong>DMS</strong> SOW · <strong>Slack</strong> conversation · <strong>SFDC</strong> deal/$$ · <strong>Clarizen</strong> delivery &amp; hours · <strong>Gainsight</strong> health/NPS · <strong>Engine</strong> case state. One writer per field → no sync loops.</p>
+                        </div>
                     </div>
 
-                    <div class="card" style="border-left:4px solid var(--panw-purple);">
-                        <h4 style="margin-top:0;">AI</h4>
-                        <ul style="font-size:0.88rem;">
-                            <li><code>/ai/generate-tasks</code> — POST</li>
-                            <li><code>/ai/recommend-consultant</code> — POST</li>
-                            <li><code>/ai/multi-agent-assignment</code> — POST</li>
-                            <li><code>/learning-loop</code> — GET · POST</li>
-                        </ul>
-                        <p style="font-size:0.8rem; color:var(--panw-text-dim);">Each AI call logs model, latency, tokens, and cost.</p>
-                    </div>
+                    <!-- Right: provenance DoR + API list -->
+                    <div>
+                        <h4 style="margin-top:0;">Design of Record — provenance per field</h4>
+                        <div style="font-family:'Courier New',monospace; font-size:0.68rem; line-height:1.45; color:var(--panw-text); background:var(--panw-darker); border:1px solid var(--panw-border); border-radius:8px; padding:0.75rem;">
+{<br/>
+&nbsp;<span style="color:var(--panw-blue)">customer_name</span>: { value:<span style="color:var(--panw-success)">"Acme"</span>, source:<span style="color:var(--panw-warning)">"dms"</span> },<br/>
+&nbsp;<span style="color:var(--panw-blue)">arr</span>: { value:<span style="color:var(--panw-warning)">850000</span>, source:<span style="color:var(--panw-warning)">"sfdc"</span> },<br/>
+&nbsp;<span style="color:var(--panw-blue)">integrations</span>: { value:[<span style="color:var(--panw-success)">"Splunk"</span>], source:<span style="color:var(--panw-warning)">"dms+slack"</span> },<br/>
+&nbsp;<span style="color:var(--panw-blue)">timeline</span>: { value:<span style="color:var(--panw-success)">"Jul 15"</span>, source:<span style="color:var(--panw-warning)">"slack"</span> },<br/>
+&nbsp;<span style="color:var(--panw-blue)">ai_confidence</span>: <span style="color:var(--panw-warning)">0.88</span><br/>
+}
+                        </div>
+                        <p style="font-size:0.76rem; margin:0.4rem 0 0.6rem; color:var(--panw-text-dim);"><strong>Provenance per field</strong> proves "no lost context" &amp; makes extraction auditable.</p>
 
-                    <div class="card" style="border-left:4px solid var(--panw-blue);">
-                        <h4 style="margin-top:0;">Integrations <span style="font-size:0.72rem; color:var(--panw-text-dim);">(production target)</span></h4>
-                        <ul style="font-size:0.88rem;">
-                            <li><code>/integrations/salesforce/cases</code></li>
-                            <li><code>/integrations/salesforce/webhook</code></li>
-                            <li><code>/integrations/clarizen/projects</code></li>
-                            <li><code>/integrations/clarizen/webhook</code></li>
-                            <li><code>/integrations/gainsight/health</code></li>
-                            <li><code>/integrations/gainsight/outcomes</code></li>
-                            <li><code>/integrations/sync/status</code></li>
-                        </ul>
+                        <h4 style="margin-top:0.4rem;">API surface <span style="font-size:0.72rem;color:var(--panw-text-dim);">(/api/unified/*)</span></h4>
+                        <div class="grid grid-3" style="gap:0.5rem; margin:0.25rem 0;">
+                            <div class="card" style="padding:0.5rem; border-left:3px solid var(--panw-orange);">
+                                <div style="font-size:0.72rem; font-weight:700; color:var(--panw-orange);">Core</div>
+                                <div style="font-size:0.68rem; color:var(--panw-text-dim);">cases · tasks · assignments · handoffs · sow-documents · stats</div>
+                            </div>
+                            <div class="card" style="padding:0.5rem; border-left:3px solid var(--panw-purple);">
+                                <div style="font-size:0.72rem; font-weight:700; color:var(--panw-purple);">AI</div>
+                                <div style="font-size:0.68rem; color:var(--panw-text-dim);">case-summary · generate-tasks · recommend-consultant · multi-agent · health-signals · learning-loop</div>
+                            </div>
+                            <div class="card" style="padding:0.5rem; border-left:3px solid var(--panw-blue);">
+                                <div style="font-size:0.72rem; font-weight:700; color:var(--panw-blue);">Integrations</div>
+                                <div style="font-size:0.68rem; color:var(--panw-text-dim);">dms/sow · slack/thread · slack/notify · clarizen/sync · gainsight/sync · sync/status</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="emphasis-box" style="margin-top:0.5rem;">
-                    <p style="font-size:0.9rem; color:var(--panw-text);">
-                        <strong>Ownership boundaries prevent sync loops:</strong> SFDC owns the deal &amp; $$ · Clarizen owns PS delivery · Gainsight owns CS health · the Engine owns unified case state. One writer per field; every sync action is logged to the audit trail.
-                    </p>
+                <div class="quote-box" style="border-left-color: var(--panw-orange); margin-top:0.3rem;">
+                    <strong>Why it matters:</strong> multi-source unstructured context (SOW + Slack + SFDC) becomes one sourced Design of Record; state syncs to Clarizen &amp; Gainsight with single-writer ownership + origin-stamping — bidirectional, but loop-safe.
                 </div>
-                <p style="font-size:0.8rem; color:var(--panw-text-dim);">
-                    In the prototype, Core + AI endpoints are real; SFDC / Clarizen / Gainsight are simulated via the <code>data_source</code> field, with the integration routes above as the production target.
-                </p>
             </div>
         </div>
 
