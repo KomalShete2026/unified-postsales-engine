@@ -269,6 +269,70 @@
 
 <h3>Current State Challenges</h3>
 
+<p><strong>The core problem:</strong> after a deal is sold, getting the customer's products deployed is slow and inconsistent — because the work passes through three disconnected teams using three disconnected systems of record, and critical context is lost at every handoff.</p>
+
+<!-- ===== Current-State Flow & Pain Points ===== -->
+<div style="border:1px solid #ddd; border-radius:10px; padding:1.5rem; margin:1.5rem 0; background:#fafbfc;">
+  <p style="text-align:center; font-weight:700; color:#333; margin:0 0 1.25rem;">The Post-Sales Journey Today — and where it breaks</p>
+
+  <!-- systems of record row -->
+  <div style="display:flex; align-items:stretch; gap:0; justify-content:center; flex-wrap:nowrap;">
+    <!-- Pre-Sales -->
+    <div style="flex:1; text-align:center;">
+      <div style="background:#fff; border:2px solid #4299E1; border-radius:8px; padding:0.75rem 0.5rem;">
+        <div style="font-weight:700; color:#333;">Pre-Sales</div>
+        <div style="font-size:0.8rem; color:#666;">System: <strong>Salesforce</strong></div>
+        <div style="font-size:0.75rem; color:#888;">owns the deal / context</div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; padding:0 0.4rem; color:#FA582D; font-size:1.4rem; font-weight:700;">→</div>
+    <!-- PS -->
+    <div style="flex:1; text-align:center;">
+      <div style="background:#fff; border:2px solid #9F7AEA; border-radius:8px; padding:0.75rem 0.5rem;">
+        <div style="font-weight:700; color:#333;">Professional Services</div>
+        <div style="font-size:0.8rem; color:#666;">System: <strong>Clarizen</strong></div>
+        <div style="font-size:0.75rem; color:#888;">owns delivery / tasks</div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; padding:0 0.4rem; color:#FA582D; font-size:1.4rem; font-weight:700;">→</div>
+    <!-- CS -->
+    <div style="flex:1; text-align:center;">
+      <div style="background:#fff; border:2px solid #48bb78; border-radius:8px; padding:0.75rem 0.5rem;">
+        <div style="font-weight:700; color:#333;">Customer Success</div>
+        <div style="font-size:0.8rem; color:#666;">System: <strong>Gainsight</strong></div>
+        <div style="font-size:0.75rem; color:#888;">owns customer health</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- pain markers row -->
+  <div style="display:flex; gap:0; justify-content:center; margin-top:0.9rem;">
+    <div style="flex:1; padding:0 0.3rem;">
+      <div style="background:#fff3cd; border:1px solid #f6ad55; border-radius:6px; padding:0.6rem; font-size:0.78rem;">
+        <strong style="color:#b9770e;">⚠ Pain #1 — Handoff Pre-Sales → PS</strong><br>
+        Context lives in Salesforce &amp; Slack and is <strong>lost at handoff</strong>; PS re-discovers what was already known.
+      </div>
+    </div>
+    <div style="flex:1; padding:0 0.3rem;">
+      <div style="background:#fff3cd; border:1px solid #f6ad55; border-radius:6px; padding:0.6rem; font-size:0.78rem;">
+        <strong style="color:#b9770e;">⚠ Pain #2 — Inside PS</strong><br>
+        Resourcing defaults to <strong>"First Available," not "Best Fit"</strong>; engineers <strong>recreate TRDs/HLDs from scratch</strong> despite similar past work.
+      </div>
+    </div>
+    <div style="flex:1; padding:0 0.3rem;">
+      <div style="background:#fff3cd; border:1px solid #f6ad55; border-radius:6px; padding:0.6rem; font-size:0.78rem;">
+        <strong style="color:#b9770e;">⚠ Pain #3 — Handoff PS → CS</strong><br>
+        Handoffs are <strong>incomplete &amp; non-standard</strong> (missing deliverables); onboarding stalls while CS chases docs.
+      </div>
+    </div>
+  </div>
+
+  <!-- root cause -->
+  <div style="margin-top:1rem; background:#f8f9fa; border-left:4px solid #FA582D; border-radius:0 6px 6px 0; padding:0.75rem 1rem; font-size:0.85rem;">
+    <strong>Root cause:</strong> the teams operate in silos — there is <strong>no single system of engagement</strong> that carries the customer's context and institutional knowledge across the entire post-sales journey. The result: slow time-to-value, delivery friction, and an org that never learns from its own deployments.
+  </div>
+</div>
+
 <h4>1. Manual Case Intake (Pre-Sales → PS)</h4>
 <p><strong>Problem:</strong> Pre-Sales teams manually create cases in Salesforce, upload SOWs, and hand off to Post-Sales managers through email/Slack.</p>
 
