@@ -488,6 +488,139 @@
             border-radius: 10px; padding: 0.1rem 0.5rem; margin-left: 0.4rem;
             vertical-align: middle;
         }
+        .route-tag {
+            font-family: 'SF Mono', Menlo, Consolas, monospace;
+            font-size: 0.68rem; font-weight: 600;
+            background: rgba(66,108,176,0.12); color: var(--panw-blue);
+            border: 1px solid var(--panw-blue);
+            border-radius: 5px; padding: 0.08rem 0.45rem; margin-left: 0.45rem;
+            vertical-align: middle;
+        }
+        .src-box {
+            display: block;
+            border: 1.5px solid var(--panw-blue);
+            border-radius: 6px;
+            padding: 0.3rem 0.5rem;
+            font-size: 0.72rem;
+            color: var(--panw-text);
+            background: #fff;
+            white-space: nowrap;
+        }
+
+        /* RAG architecture diagram */
+        .rag-phase {
+            font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em;
+            text-transform: uppercase; color: var(--panw-text-dim);
+            margin: 0.2rem 0 0.4rem;
+        }
+        .rag-step {
+            display: flex; align-items: center; gap: 0.5rem;
+            background: #fff; border: 1.5px solid var(--panw-border);
+            border-radius: 7px; padding: 0.4rem 0.55rem;
+            font-size: 0.78rem; color: var(--panw-text);
+        }
+        .rag-n {
+            flex: 0 0 auto; width: 20px; height: 20px; border-radius: 50%;
+            background: var(--panw-blue); color: #fff;
+            font-size: 0.68rem; font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .rag-store { border-color: var(--panw-success); background: rgba(47,133,90,0.07); }
+        .rag-store .rag-n { background: var(--panw-success); }
+        .rag-out { border-color: var(--panw-orange); background: rgba(250,88,45,0.07); }
+        .rag-out .rag-n { background: var(--panw-orange); }
+        .rag-down { text-align: center; color: var(--panw-blue); font-size: 0.95rem; line-height: 1.1; margin: 0.12rem 0; }
+        .rag-divider { border-top: 1px dashed var(--panw-border); margin: 0.6rem 0; }
+
+        /* Use-case hero flow */
+        .uc-flow {
+            display: flex; align-items: center; gap: 0.6rem;
+            background: linear-gradient(135deg, rgba(250,88,45,0.04), rgba(107,70,193,0.04));
+            border: 1px solid var(--panw-border);
+            border-radius: 12px;
+            padding: 1rem 1.1rem;
+        }
+        .uc-flow-sources { display: flex; flex-direction: column; gap: 0.3rem; position: relative; }
+        .uc-flow-label {
+            font-size: 0.6rem; letter-spacing: 0.08em; color: var(--panw-text-dim);
+            font-weight: 700; margin-bottom: 0.1rem;
+        }
+        .uc-flow-step { text-align: center; color: var(--panw-text-dim); }
+        .uc-arrow { color: var(--panw-orange); font-size: 1.5rem; font-weight: 700; line-height: 1; }
+        .uc-step-label { font-size: 0.66rem; line-height: 1.15; margin-top: 0.1rem; }
+        .uc-node {
+            flex: 1;
+            border: 2px solid var(--panw-border);
+            border-radius: 10px;
+            padding: 0.7rem 0.8rem;
+            text-align: center;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(20,24,34,0.05);
+        }
+        .uc-node-title { font-weight: 700; color: var(--panw-text); font-size: 0.92rem; }
+        .uc-node-sub { font-size: 0.7rem; color: var(--panw-text-dim); margin-top: 0.15rem; }
+
+        /* North-star band */
+        .northstar-band {
+            display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 0.7rem;
+            padding: 0.7rem 1rem;
+            border-radius: 10px;
+            background: linear-gradient(90deg, rgba(250,88,45,0.06), rgba(250,88,45,0.14));
+            border: 1px solid var(--panw-orange);
+        }
+        .ns-step { font-size: 0.85rem; color: var(--panw-text); font-weight: 600; }
+        .ns-arrow { color: var(--panw-orange); font-weight: 700; }
+        .ns-star {
+            font-size: 0.9rem; font-weight: 800; color: var(--panw-orange);
+        }
+
+        /* API flow diagram */
+        .apiflow { margin-top: 0.6rem; }
+        .apiflow .mono, .apiflow code {
+            font-family: 'SF Mono', Menlo, Consolas, monospace;
+        }
+        .apiflow .small { font-size: 0.68rem; color: var(--panw-text-dim); margin-top: 0.15rem; }
+        .api-actor {
+            border: 2px solid var(--panw-border); border-radius: 8px;
+            padding: 0.4rem 0.8rem; text-align: center; background: rgba(250,88,45,0.05);
+        }
+        .api-edge { text-align: center; color: var(--panw-orange); font-size: 0.74rem; margin: 0.15rem 0; }
+        .api-edge .seq, .api-edge-h .seq { }
+        .seq {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 17px; height: 17px; border-radius: 50%;
+            background: var(--panw-orange); color: #fff; font-size: 0.66rem; font-weight: 800;
+            position: relative; top: -1px; margin-right: 2px;
+        }
+        .api-platform {
+            border: 2px dashed var(--panw-purple); border-radius: 10px;
+            padding: 0.5rem 0.7rem 0.7rem; margin: 0.1rem 0 0.5rem;
+        }
+        .api-platform-label {
+            font-size: 0.66rem; letter-spacing: 0.08em; color: var(--panw-purple);
+            font-weight: 700; text-align: center; margin-bottom: 0.4rem;
+        }
+        .api-inner { display: flex; align-items: stretch; gap: 0.3rem; }
+        .api-box {
+            flex: 1; border: 2px solid var(--panw-border); border-radius: 8px;
+            padding: 0.45rem 0.6rem; background: #fff;
+        }
+        .api-box strong { font-size: 0.85rem; }
+        .api-edge-h { display: flex; align-items: center; color: var(--panw-orange); font-weight: 700; font-size: 0.9rem; }
+        .api-integrations { display: flex; gap: 0.4rem; }
+        .api-sys {
+            flex: 1; border: 1px solid var(--panw-border); border-top: 3px solid var(--panw-blue);
+            border-radius: 6px; padding: 0.4rem 0.5rem; background: rgba(0,0,0,0.01);
+        }
+        .api-sys-name { font-weight: 700; font-size: 0.78rem; margin-bottom: 0.3rem; }
+        .api-sys-name .own { display:block; font-weight:400; font-size:0.64rem; color: var(--panw-text-dim); }
+        .api-arrow { font-size: 0.64rem; line-height: 1.35; margin-bottom: 0.3rem; }
+        .api-arrow code { font-size: 0.62rem; color: var(--panw-text); background: var(--panw-darker); padding: 0.05rem 0.2rem; border-radius: 3px; }
+        .api-arrow.in { border-left: 2px solid var(--panw-success); padding-left: 0.3rem; }
+        .api-arrow.out { border-left: 2px solid var(--panw-orange); padding-left: 0.3rem; }
+        .api-arrow .resp { color: var(--panw-text-dim); }
     </style>
 </head>
 <body>
@@ -540,7 +673,7 @@
                         <div class="agenda-num">2</div>
                         <div class="agenda-text">
                             <div class="agenda-title">The Solution</div>
-                            <div class="agenda-sub">Solution overview · AI use cases &amp; how the agents work</div>
+                            <div class="agenda-sub">Solution overview · the 4 AI use cases (briefing · tasks · best-fit · health)</div>
                         </div>
                     </div>
                     <div class="agenda-connector">↓</div>
@@ -549,7 +682,7 @@
                         <div class="agenda-num">3</div>
                         <div class="agenda-text">
                             <div class="agenda-title">How It Works</div>
-                            <div class="agenda-sub">End-to-end workflow journey · data model &amp; APIs · system architecture</div>
+                            <div class="agenda-sub">Live demo journey · architecture · APIs · integrations · data architecture</div>
                         </div>
                     </div>
                     <div class="agenda-connector">↓</div>
@@ -609,7 +742,7 @@
                 </div>
 
                 <div class="quote-box" style="border-left-color: var(--panw-orange); margin-top:0.9rem;">
-                    <strong>Root cause:</strong> the teams operate in silos — there is <span class="highlight">no single system of engagement</span> carrying context &amp; institutional knowledge across the journey. The result: slow time-to-value, delivery friction, and an org that never learns from its own deployments.
+                    <strong>Root cause:</strong> the teams operate in silos — there is <span class="highlight">no single system of engagement</span> carrying context &amp; institutional knowledge across the journey. The result: slow time-to-value, delivery friction, and an org that never learns — translating directly to <span class="highlight">churn risk, delayed revenue, and a competitive gap on deployment speed</span> (vs. CrowdStrike, Zscaler), at a scale manual handoffs can't survive.
                 </div>
             </div>
         </div>
@@ -681,7 +814,7 @@
                 <div class="emphasis-box">
                     <h3 style="margin-top: 0;">Core Value Proposition</h3>
                     <p style="font-size: 1.1rem; color: var(--panw-text);">
-                        <strong>One system of engagement that sits on top of the three systems of record</strong> —
+                        <strong>One system of engagement that sits on top of the systems of record</strong> (SFDC · Clarizen · Gainsight · DMS · Slack) —
                         carrying a customer engagement through its entire post-sales lifecycle on a single unified record,
                         with AI assisting at every decision point and a human approving every high-stakes one.
                     </p>
@@ -720,7 +853,7 @@
                     </div>
                     <div class="card" style="border-left: 4px solid var(--panw-purple);">
                         <h4>2. AI Across the Lifecycle</h4>
-                        <p style="font-size:0.88rem;">Briefing → task generation → best-fit assignment → customer health (the 4 AI use cases that follow); TRD generation designed as a roadmap capability.</p>
+                        <p style="font-size:0.88rem;">Briefing → task generation → best-fit assignment → customer health (the 4 AI use cases that follow).</p>
                     </div>
                     <div class="card" style="border-left: 4px solid var(--panw-blue);">
                         <h4>3. Best-Fit Resourcing</h4>
@@ -754,7 +887,6 @@
                     <span class="badge badge-orange">👤 Persona: PS Manager (on "View Details")</span>
                     <span class="badge badge-blue">🧠 Method: LLM summarization &amp; synthesis</span>
                     <span class="badge badge-purple">Model: fast, low-cost LLM (Haiku-class / mini)</span>
-                    <span class="badge badge-green">🤖 Agents: direct LLM call (no agent orchestration)</span>
                 </div>
 
                 <div class="grid grid-2">
@@ -767,23 +899,63 @@
                     </div>
 
                     <div>
-                        <div class="card" style="background: rgba(159, 122, 234, 0.06); padding:0.9rem;">
+                        <div class="card" style="background: rgba(159, 122, 234, 0.06); padding:0.8rem;">
                             <h4 style="margin-top:0; color: var(--panw-purple);">Flow</h4>
-                            <div style="font-family:'Courier New',monospace; font-size:0.82rem; line-height:1.85; color: var(--panw-text);">
-                                PS Manager clicks <span class="highlight">View Details</span><br/>
-                                &nbsp;&nbsp;↓<br/>
-                                Gather: case data · activity trail · comms<br/>
-                                &nbsp;&nbsp;↓<br/>
-                                <span class="highlight">LLM synthesizes</span> → structured brief<br/>
-                                &nbsp;&nbsp;↓<br/>
-                                Show: summary · risks · actions · sentiment
+                            <!-- sources → GET API → gather → LLM → summary -->
+                            <div style="display:flex; align-items:center; gap:0.5rem;">
+                                <div style="flex:0 0 auto; display:flex; flex-direction:column; gap:0.25rem;">
+                                    <span class="src-box">SFDC data</span>
+                                    <span class="src-box">Slack thread</span>
+                                    <span class="src-box">SOW</span>
+                                    <span class="src-box">Email thread</span>
+                                </div>
+                                <div style="flex:0 0 auto; text-align:center; color:var(--panw-text-dim); font-size:0.7rem; line-height:1.2;">
+                                    <div style="color:var(--panw-orange); font-size:1.2rem;">→</div>
+                                    <div>GET API<br/>gather</div>
+                                </div>
+                                <div class="src-box" style="flex:0 0 auto; border-color:var(--panw-purple); background:rgba(159,122,234,0.1); text-align:center;">
+                                    <strong>LLM</strong><br/><span style="font-size:0.66rem; color:var(--panw-text-dim);">(Haiku) analyze &amp; summarize</span>
+                                </div>
+                                <div style="flex:0 0 auto; color:var(--panw-orange); font-size:1.2rem;">→</div>
+                                <div class="src-box" style="flex:1; border-color:var(--panw-success); background:rgba(72,187,120,0.1); text-align:center;">
+                                    <strong>Summarized<br/>Information</strong>
+                                </div>
                             </div>
                         </div>
-                        <div class="card" style="margin-top:0.6rem; padding:0.9rem;">
-                            <h4 style="margin-top:0;">Why this model</h4>
-                            <p style="font-size:0.85rem;">High-frequency, low-stakes summarization the manager still reviews — so optimize for <strong>speed &amp; cost</strong>, not deep reasoning. (Heavy reasoning is reserved for the TRD.) An LLM is needed because fluent, risk-aware summarization is language generation, not a template.</p>
+
+                        <div class="card" style="margin-top:0.6rem; padding:0.8rem; background:rgba(250,88,45,0.05);">
+                            <h4 style="margin-top:0; color:var(--panw-orange);">Evaluation goals <span style="font-size:0.72rem; font-weight:400; color:var(--panw-text-dim);">(user rates each 1–5★)</span></h4>
+                            <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                                <span class="badge badge-orange" style="font-size:0.74rem;">Accuracy</span>
+                                <span class="badge badge-blue" style="font-size:0.74rem;">Risk Coverage</span>
+                                <span class="badge badge-purple" style="font-size:0.74rem;">Actionability</span>
+                                <span class="badge badge-green" style="font-size:0.74rem;">Clarity</span>
+                                <span class="badge badge-orange" style="font-size:0.74rem;">Overall Usefulness</span>
+                            </div>
+                            <p style="font-size:0.72rem; color:var(--panw-text-dim); margin:0.4rem 0 0;">+ free-text feedback → captured live → feeds the learning loop.</p>
                         </div>
                     </div>
+                </div>
+
+                <!-- Outcomes -->
+                <h4 style="margin:0.8rem 0 0.3rem;">Outcomes</h4>
+                <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                    <span class="badge badge-orange">⭐ Faster triage (↓ time-to-triage)</span>
+                    <span class="badge badge-blue">No re-discovery</span>
+                    <span class="badge badge-purple">Consistent quality</span>
+                    <span class="badge badge-green">Proactive risk visibility</span>
+                    <span class="badge badge-orange">Trust signal captured</span>
+                </div>
+
+                <!-- North Star linkage -->
+                <div class="emphasis-box" style="margin-top:0.6rem; padding:0.7rem 1rem;">
+                    <p style="font-size:0.9rem; color:var(--panw-text); margin:0; text-align:center;">
+                        <strong>Ladders up to the North Star:</strong>
+                        Faithfulness <span style="color:var(--panw-text-dim);">(accurate)</span> →
+                        Acceptance <span style="color:var(--panw-text-dim);">(trusted)</span> →
+                        ↓ <strong>Time-to-Triage</strong> →
+                        ⭐ <span class="highlight">Time-to-Value (Deal Close → Deployment Success)</span>
+                    </p>
                 </div>
             </div>
         </div>
@@ -796,42 +968,79 @@
                     <span class="badge badge-orange">👤 Persona: PS Manager</span>
                     <span class="badge badge-blue">🧠 Method: RAG + LLM structured generation</span>
                     <span class="badge badge-purple">Model: embeddings (retrieval) + workhorse LLM (Sonnet-class)</span>
-                    <span class="badge badge-green">🤖 Agents: Implementation-RAG (retrieval) → Task-Generation agent</span>
                 </div>
 
-                <div class="grid grid-2">
+                <div class="grid grid-2" style="gap:1rem; align-items:start;">
+                    <!-- LEFT: RAG architecture diagram matching the sketch -->
+                    <div class="card" style="background:rgba(43,108,176,0.04); padding:0.9rem;">
+                        <h4 style="margin-top:0; color:var(--panw-blue);">RAG Architecture — Task Generation</h4>
+
+                        <!-- INGESTION across the top -->
+                        <div class="rag-phase">INGESTION · build the knowledge base</div>
+                        <div class="rag-step"><span class="rag-n" style="background:var(--panw-text-dim);">A</span><div><strong>Raw Data</strong> (past cases) → <strong>Data pipeline</strong> (chunk + embed) → store in <strong>Vector Database</strong></div></div>
+
+                        <div class="rag-divider"></div>
+
+                        <!-- QUERY flow, numbered as the sketch -->
+                        <div class="rag-phase">QUERY · generate tasks for a new case</div>
+                        <div class="rag-step"><span class="rag-n">1</span><div><strong>Generate task</strong> — query <span style="color:var(--panw-text-dim);">(e.g. "GE Health / Prisma Cloud")</span></div></div>
+                        <div class="rag-down">↓</div>
+                        <div class="rag-step"><span class="rag-n">2</span><div><strong>Agent</strong> receives the request</div></div>
+                        <div class="rag-down">↓</div>
+                        <div class="rag-step"><span class="rag-n">3</span><div><strong>Generate embedding</strong> of the query · <code>text-embedding-3-large</code></div></div>
+                        <div class="rag-down">↓ &nbsp;<span style="font-size:0.66rem;color:var(--panw-text-dim);">vectorized query → search ↑ the Vector Database</span></div>
+                        <div class="rag-step rag-store"><span class="rag-n">4</span><div><strong>Vector search</strong> → retrieve top-k similar cases / lessons</div></div>
+                        <div class="rag-down">↓</div>
+                        <div class="rag-step"><span class="rag-n">5</span><div><strong>Analyze &amp; generate</strong> tasks · <strong>LLM</strong> (grounded in retrieved context)</div></div>
+                        <div class="rag-down">↓</div>
+                        <div class="rag-step rag-out"><span class="rag-n">6</span><div><strong>List of tasks</strong> → deps · estimates → status <code>tasks_generated</code></div></div>
+                    </div>
+
+                    <!-- RIGHT: what/why + eval -->
                     <div>
-                        <h4>What Happens</h4>
-                        <p style="font-size:0.92rem;">From the case, the system <strong>retrieves similar past engagements</strong> — same products, integrations, industry — and generates <strong>5–8 lifecycle tasks</strong> (discovery → architecture → configuration → integration → testing → documentation → training) <strong>grounded in what actually worked before</strong>, including the blockers those cases hit. Each task carries type, priority, hour estimate, dependencies, and AI confidence.</p>
+                        <h4 style="margin-top:0;">What Happens</h4>
+                        <p style="font-size:0.9rem;">Retrieves <strong>similar past engagements</strong> and generates <strong>5–8 grounded lifecycle tasks</strong> — so engineers stop recreating plans from scratch and the org reuses what worked.</p>
 
                         <h4>Why It Matters</h4>
-                        <p style="font-size:0.92rem;">Two problems solved at once: engineers stop <strong>recreating plans from scratch</strong>, and the org finally <strong>learns from its own deployments</strong>. The task list reflects PANW's proven playbook for this exact kind of deployment — not the model's generic guess.</p>
-                    </div>
+                        <p style="font-size:0.9rem;">Tasks reflect PANW's <strong>proven playbook</strong> for this exact deployment, including the blockers experience knows — not the model's generic guess.</p>
 
-                    <div>
-                        <div class="card" style="background: rgba(159, 122, 234, 0.06); padding:0.9rem;">
-                            <h4 style="margin-top:0; color: var(--panw-purple);">Flow</h4>
-                            <div style="font-family:'Courier New',monospace; font-size:0.8rem; line-height:1.75; color: var(--panw-text);">
-                                Case (Design of Record)<br/>
-                                &nbsp;&nbsp;↓<br/>
-                                <span class="highlight">RETRIEVE</span> similar past cases (vector search)<br/>
-                                &nbsp;&nbsp;· task lists · lessons · blockers<br/>
-                                &nbsp;&nbsp;↓<br/>
-                                <span class="highlight">LLM generates</span> tasks grounded in that history<br/>
-                                &nbsp;&nbsp;↓<br/>
-                                Persist (ai_generated · confidence · depends_on)<br/>
-                                &nbsp;&nbsp;↓<br/>
-                                Case status → <span style="color:var(--panw-success)">tasks_generated</span>
-                            </div>
-                        </div>
-                        <div class="card" style="margin-top:0.6rem; padding:0.9rem;">
-                            <h4 style="margin-top:0;">Why this model</h4>
-                            <p style="font-size:0.84rem;"><strong>Two parts:</strong> finding similar cases is a <em>semantic similarity</em> problem → <strong>embeddings + vector search</strong> over historical engagements. Generating the structured task JSON is frequent, structured work → a <strong>workhorse LLM</strong> (best price/performance). Deterministic template fallback so it never dead-ends.</p>
+                        <div class="card" style="margin-top:0.5rem; padding:0.7rem; background:rgba(250,88,45,0.05);">
+                            <h4 style="margin-top:0; color:var(--panw-orange);">Evaluation</h4>
+                            <p style="font-size:0.74rem; margin:0 0 0.3rem;"><strong>Implicit signal — what the user does with the tasks (diagnostic):</strong></p>
+                            <table style="font-size:0.7rem; margin:0;">
+                                <tbody>
+                                    <tr><td><strong>✅ Kept as-is</strong></td><td>retention rate — the headline (good)</td></tr>
+                                    <tr><td><strong>🗑️ Deleted</strong></td><td>→ precision problem (junk tasks)</td></tr>
+                                    <tr><td><strong>✏️ Modified</strong></td><td>→ calibration (right task, wrong detail)</td></tr>
+                                    <tr><td><strong>➕ Added manually</strong></td><td>→ recall gap (AI missed tasks)</td></tr>
+                                </tbody>
+                            </table>
+                            <p style="font-size:0.72rem; margin:0.4rem 0 0.2rem;"><strong>+ 1–5★ rating</strong> &nbsp;·&nbsp; <strong>offline (golden set):</strong> completeness · dependency correctness · estimate accuracy · RAG grounding.</p>
+                            <p style="font-size:0.68rem; color:var(--panw-text-dim); margin:0.2rem 0 0;">All → feed the learning loop.</p>
                         </div>
                     </div>
                 </div>
 
-                <p style="font-size:0.8rem; color:var(--panw-text-dim); margin-top:0.3rem;"><strong>Knowledge base:</strong> historical engagements + <code>lessons_learned</code> / <code>issues_encountered</code> / <code>best_practices</code>. (Distinct from the TRD's RAG, which retrieves <em>product docs</em> — same technique, different knowledge base.)</p>
+                <!-- Outcomes -->
+                <h4 style="margin:0.8rem 0 0.3rem;">Outcomes</h4>
+                <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                    <span class="badge badge-orange">⭐ Faster planning (↓ time-to-task-list)</span>
+                    <span class="badge badge-blue">Standardized tasks</span>
+                    <span class="badge badge-purple">Fewer missed steps / blockers</span>
+                    <span class="badge badge-green">Org reuses its playbook</span>
+                    <span class="badge badge-orange">Less mid-stream rework</span>
+                </div>
+
+                <!-- North Star linkage -->
+                <div class="emphasis-box" style="margin-top:0.6rem; padding:0.7rem 1rem;">
+                    <p style="font-size:0.9rem; color:var(--panw-text); margin:0; text-align:center;">
+                        <strong>Ladders up to the North Star:</strong>
+                        RAG grounding <span style="color:var(--panw-text-dim);">(right tasks)</span> →
+                        Task retention <span style="color:var(--panw-text-dim);">(kept as-is)</span> →
+                        ↓ <strong>Time-to-task-list</strong> + fewer reworks →
+                        ⭐ <span class="highlight">Time-to-Value (Deal Close → Deployment Success)</span>
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -879,22 +1088,49 @@
                         </div>
                     </div>
 
-                    <!-- Right: what happens / why it matters / why this model -->
+                    <!-- Right: what happens / why it matters / eval -->
                     <div>
                         <h4 style="margin-top:0;">What Happens</h4>
-                        <p style="font-size:0.9rem;">The score ranks consultants; agents add context (including <strong>RAG over past cases</strong>); the Orchestrator explains the pick — then the manager decides.</p>
+                        <p style="font-size:0.88rem;">The score ranks consultants; agents add context (incl. <strong>RAG over past cases</strong>); the Orchestrator explains the pick — then the manager <strong>approves / overrides / splits</strong>. <em>The match is deterministic math, not an LLM — so it's fair, reproducible, and a manager can defend it.</em></p>
 
                         <h4>Why It Matters</h4>
-                        <p style="font-size:0.9rem;">The shift from <strong>"First Available" → "Best Fit."</strong> Availability is only <span class="highlight">30% combined</span>; skill + recency + familiarity are <span class="highlight">70%</span> — <em>mathematically</em> why it's Best-Fit.</p>
+                        <p style="font-size:0.88rem;">The shift from <strong>"First Available" → "Best Fit."</strong> Availability is only <span class="highlight">30% combined</span>; skill + recency + familiarity are <span class="highlight">70%</span> — <em>mathematically</em> why it's Best-Fit.</p>
 
-                        <div class="card" style="margin-top:0.5rem; padding:0.8rem;">
-                            <h4 style="margin-top:0;">Why this model</h4>
-                            <p style="font-size:0.83rem;">The <strong>match is deterministic math, not an LLM</strong> — so it's fair, reproducible, and a manager can <strong>defend it</strong>. The LLM/agents are used only for the <strong>judgment layer</strong> (context + explanation), and <strong>RAG</strong> grounds the history signals. Right tool per job.</p>
+                        <div class="card" style="margin-top:0.5rem; padding:0.7rem; background:rgba(250,88,45,0.05);">
+                            <h4 style="margin-top:0; color:var(--panw-orange);">Evaluation</h4>
+                            <p style="font-size:0.74rem; margin:0 0 0.3rem;"><strong>Implicit signal — what the manager does with the pick (diagnostic):</strong></p>
+                            <table style="font-size:0.7rem; margin:0;">
+                                <tbody>
+                                    <tr><td><strong>✅ Approved</strong></td><td>accepted as-is — the headline (good)</td></tr>
+                                    <tr><td><strong>🔄 Overrode</strong></td><td>→ wrong pick / missing context</td></tr>
+                                    <tr><td><strong>↩️ Reassigned mid-stream</strong></td><td>→ true bad fit (strongest negative)</td></tr>
+                                </tbody>
+                            </table>
+                            <p style="font-size:0.72rem; margin:0.4rem 0 0;"><strong>Backtest:</strong> match-score ↔ actual outcome correlation (would the score have picked the consultant who <em>succeeded</em>?).</p>
                         </div>
                     </div>
                 </div>
 
-                <p style="font-size:0.8rem; color:var(--panw-text-dim); margin-top:0.3rem;">RAG's role here is <strong>supporting</strong> (enriches inputs), unlike Task Generation &amp; TRD where it's central. The 25-agent catalog is the full system; a given assignment runs the relevant subset.</p>
+                <!-- Outcomes -->
+                <h4 style="margin:0.7rem 0 0.3rem;">Outcomes</h4>
+                <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                    <span class="badge badge-orange">⭐ First-Available → Best-Fit lift</span>
+                    <span class="badge badge-blue">Fewer reassignments</span>
+                    <span class="badge badge-purple">↓ Time-to-assign</span>
+                    <span class="badge badge-green">Auditable, defensible picks</span>
+                    <span class="badge badge-orange">Burnout guarded</span>
+                </div>
+
+                <!-- North Star linkage -->
+                <div class="emphasis-box" style="margin-top:0.6rem; padding:0.7rem 1rem;">
+                    <p style="font-size:0.9rem; color:var(--panw-text); margin:0; text-align:center;">
+                        <strong>Ladders up to the North Star:</strong>
+                        Best-Fit score <span style="color:var(--panw-text-dim);">(right person)</span> →
+                        Approval <span style="color:var(--panw-text-dim);">(manager accepts)</span> →
+                        ↑ <strong>Deployment success</strong> + fewer reassignments →
+                        ⭐ <span class="highlight">Time-to-Value (Deal Close → Deployment Success)</span>
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -933,33 +1169,61 @@
                     <!-- Right -->
                     <div>
                         <h4 style="margin-top:0;">What Happens</h4>
-                        <p style="font-size:0.9rem;">Every customer gets a continuous <strong>0–100 health score</strong> from real delivery signals, nudged by an <strong>LLM read of tone &amp; risk</strong> in their comms — surfacing at-risk accounts before they churn.</p>
+                        <p style="font-size:0.88rem;">Every customer gets a continuous <strong>0–100 health score</strong> from real delivery signals, nudged by an <strong>LLM read of tone &amp; risk</strong> in their comms — surfacing at-risk accounts before they churn. <em>Score is deterministic (auditable "C grade"); sentiment needs an LLM (tone isn't keyword-matching).</em></p>
 
                         <h4>Why It Matters</h4>
-                        <p style="font-size:0.9rem;">The <strong>"Outcome Engine" payoff</strong> &amp; the assignment's "telemetry-guided optimization": it's proactive, it measures <strong>Time-to-Value</strong>, and it <strong>feeds the learning loop</strong> so every deployment makes the next best-fit recommendation smarter.</p>
+                        <p style="font-size:0.88rem;">The <strong>"Outcome Engine" payoff</strong> &amp; the assignment's "telemetry-guided optimization": proactive, measures <strong>Time-to-Value</strong>, and <strong>feeds the learning loop</strong> so every deployment makes the next recommendation smarter.</p>
 
-                        <div class="card" style="margin-top:0.5rem; padding:0.8rem;">
-                            <h4 style="margin-top:0;">Why this model</h4>
-                            <p style="font-size:0.83rem;">The <strong>score is deterministic math</strong> (auditable — you can explain a "C grade"). The <strong>sentiment read needs an LLM</strong> — tone &amp; implied risk ("budget freeze," "exec disengagement") aren't keyword matches. Heuristic fallback guarantees a signal. Right tool per job.</p>
+                        <div class="card" style="margin-top:0.5rem; padding:0.7rem; background:rgba(250,88,45,0.05);">
+                            <h4 style="margin-top:0; color:var(--panw-orange);">Evaluation</h4>
+                            <table style="font-size:0.7rem; margin:0;">
+                                <tbody>
+                                    <tr><td><strong>🎯 Precision</strong></td><td>did flagged accounts actually escalate? (not false alarms)</td></tr>
+                                    <tr><td><strong>🔔 Recall</strong></td><td>did we catch the ones that <em>did</em> churn?</td></tr>
+                                    <tr><td><strong>⏱️ Lead time</strong></td><td>flagged <em>before</em> the escalation, not after</td></tr>
+                                    <tr><td><strong>🙂 Sentiment accuracy</strong></td><td>vs. a human-labeled set</td></tr>
+                                </tbody>
+                            </table>
+                            <p style="font-size:0.7rem; color:var(--panw-text-dim); margin:0.35rem 0 0;">+ CS Manager ✅ acted / 🚫 dismissed the alert → feeds the learning loop.</p>
                         </div>
                     </div>
+                </div>
+
+                <!-- Outcomes -->
+                <h4 style="margin:0.7rem 0 0.3rem;">Outcomes</h4>
+                <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                    <span class="badge badge-orange">⭐ Churn / escalations caught early</span>
+                    <span class="badge badge-blue">↓ Time-to-Value</span>
+                    <span class="badge badge-purple">Proactive, not reactive CS</span>
+                    <span class="badge badge-green">Closes the learning loop</span>
+                </div>
+
+                <!-- North Star linkage -->
+                <div class="emphasis-box" style="margin-top:0.6rem; padding:0.7rem 1rem;">
+                    <p style="font-size:0.9rem; color:var(--panw-text); margin:0; text-align:center;">
+                        <strong>Ladders up to the North Star:</strong>
+                        Health signal <span style="color:var(--panw-text-dim);">(accurate)</span> →
+                        Early escalation flag <span style="color:var(--panw-text-dim);">(acted on)</span> →
+                        ↓ churn + ↓ <strong>Time-to-Value</strong> →
+                        ⭐ <span class="highlight">Time-to-Value (Deal Close → Deployment Success)</span>
+                    </p>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 10: End-to-End Workflow Journey (static) -->
+        <!-- SLIDE 10: End-to-End Workflow Journey — LIVE DEMO ROADMAP -->
         <div class="slide">
             <div class="slide-content">
-                <h2>End-to-End Workflow Journey</h2>
-                <p class="subtitle">One case, one record — from Deal ID to deployed outcome</p>
+                <h2>Live Demo — End-to-End Journey</h2>
+                <p class="subtitle">One case, one record, four personas — the path we'll click through live</p>
 
                 <div class="journey">
                     <!-- Step 1 -->
                     <div class="journey-step">
                         <div class="journey-num" style="background:var(--panw-orange);">1</div>
                         <div class="journey-body" style="border-left-color:var(--panw-orange);">
-                            <div class="journey-title">Pre-Sales — Identify &amp; hand off <span class="journey-tag">no AI</span></div>
-                            <div class="journey-text">Enters the <strong>Deal ID</strong> → system fetches the deal + SOW and <strong>validates completeness</strong> → hands the case to the PS Manager. <span class="journey-out">→ Context captured once, never re-entered.</span></div>
+                            <div class="journey-title">Pre-Sales — create the case <span class="route-tag">/intake</span> <span class="journey-tag">no AI</span></div>
+                            <div class="journey-text"><strong>Click:</strong> enter Deal ID → fetch deal + SOW → validation gate → submit. &nbsp;<span class="journey-out">Show: context captured once, no manual re-entry.</span></div>
                         </div>
                     </div>
 
@@ -967,8 +1231,8 @@
                     <div class="journey-step">
                         <div class="journey-num" style="background:var(--panw-purple);">2</div>
                         <div class="journey-body" style="border-left-color:var(--panw-purple);">
-                            <div class="journey-title">PS Manager — Brief, generate tasks, assign best-fit</div>
-                            <div class="journey-text">Gets an <strong>AI brief</strong>, clicks <strong>Generate Tasks</strong> (RAG-grounded), runs <strong>Best-Fit Allocation</strong> (deterministic score + agents → orchestrator). <span class="journey-out">→ "First Available → Best Fit," reasoning transparent.</span></div>
+                            <div class="journey-title">PS Manager — brief → tasks → best-fit <span class="route-tag">/ps-manager/cases/[id]</span></div>
+                            <div class="journey-text"><strong>Click:</strong> open case → <em>View AI Brief</em> → <em>Generate Tasks</em> → <em>Get AI Recommendation</em>. &nbsp;<span class="journey-out">Show: the AI brief, RAG-grounded tasks, the best-fit score + agent reasoning.</span></div>
                         </div>
                     </div>
 
@@ -976,8 +1240,8 @@
                     <div class="journey-step">
                         <div class="journey-num" style="background:var(--panw-blue);">3</div>
                         <div class="journey-body" style="border-left-color:var(--panw-blue);">
-                            <div class="journey-title">Human-in-the-Loop — approve the high-stakes call</div>
-                            <div class="journey-text">Manager sees the recommendation + confidence + agent reasoning and <strong>approves, overrides, or splits across a team</strong>. <span class="journey-out">→ AI recommends, human decides — gated &amp; auditable.</span></div>
+                            <div class="journey-title">Human-in-the-Loop — approve / override <span class="route-tag">assign modal · /hitl-queue</span></div>
+                            <div class="journey-text"><strong>Click:</strong> review recommendation + confidence → approve, override, or split across a team. &nbsp;<span class="journey-out">Show: AI recommends, human decides — gated &amp; auditable.</span></div>
                         </div>
                     </div>
 
@@ -985,8 +1249,8 @@
                     <div class="journey-step">
                         <div class="journey-num" style="background:var(--panw-warning);">4</div>
                         <div class="journey-body" style="border-left-color:var(--panw-warning);">
-                            <div class="journey-title">PS Consultant — execute &amp; hand off</div>
-                            <div class="journey-text">Works the assigned tasks, tracks progress/blockers, then packages deliverables and hands off to CS. <span style="color:var(--panw-text-dim);">(TRD auto-generation = roadmap.)</span> <span class="journey-out">→ Standardized, complete handoff.</span></div>
+                            <div class="journey-title">PS Consultant — execute &amp; hand off <span class="route-tag">/dashboard (consultant)</span></div>
+                            <div class="journey-text"><strong>Click:</strong> work tasks → update status → create handoff with deliverables. &nbsp;<span class="journey-out">Show: task progress, then a standardized, complete PS→CS handoff.</span></div>
                         </div>
                     </div>
 
@@ -994,14 +1258,14 @@
                     <div class="journey-step">
                         <div class="journey-num" style="background:var(--panw-success);">5</div>
                         <div class="journey-body" style="border-left-color:var(--panw-success);">
-                            <div class="journey-title">CS Team — accept, deploy, close the loop</div>
-                            <div class="journey-text">Accepts the handoff, deploys, and on completion the <strong>outcome + health + Time-to-Value</strong> are recorded → feed the <strong>learning loop</strong>. <span class="journey-out">→ Every case makes the next recommendation smarter.</span></div>
+                            <div class="journey-title">CS Team — accept, deploy, close the loop <span class="route-tag">/dashboard (cs) · /analytics</span></div>
+                            <div class="journey-text"><strong>Click:</strong> accept handoff → deploy → mark complete (fires learning loop + health). &nbsp;<span class="journey-out">Show: health score, Time-to-Value, outcome feeding the next recommendation.</span></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="quote-box" style="margin-top: 1rem;">
-                    <strong>Key insight:</strong> orchestrating the whole journey on <strong>one record</strong> eliminates the handoff points where context is lost — Pre-Sales → PS Manager → PS Consultant → CS.
+                <div class="quote-box" style="margin-top: 0.8rem;">
+                    <strong>The thread to narrate:</strong> the same record flows across all four personas — <strong>context is never re-entered, and every handoff is captured.</strong> &nbsp;<span style="color:var(--panw-text-dim);">Bonus tabs if asked: <code>/sync-status</code> (loop-safe Clarizen/Gainsight sync) · <code>/agents</code> (catalog).</span>
                 </div>
             </div>
         </div>
@@ -1009,84 +1273,112 @@
         <!-- End-to-End Architecture & Data Flow -->
         <div class="slide">
             <div class="slide-content">
-                <h2>End-to-End Architecture &amp; Data Flow</h2>
-                <p class="subtitle">One unified record carries context across every layer — captured once, never lost at a handoff</p>
+                <h2>End-to-End Architecture</h2>
+                <p class="subtitle">5 simple layers — one unified record carries context across all of them</p>
 
-                <div class="grid grid-2" style="gap:1rem; align-items:start;">
+                <div style="max-width:760px; margin:1.5rem auto 0;">
+                    <div class="layer" style="border-color:var(--panw-orange); text-align:center; padding:0.7rem;">
+                        <div class="layer-body" style="font-size:1.05rem;">👥 Personas + UI</div>
+                        <div style="font-size:0.8rem; color:var(--panw-text-dim);">4 role dashboards (Next.js) — Pre-Sales · PS Manager · PS Consultant · CS</div>
+                    </div>
+                    <div class="down-arrow">↓</div>
 
-                    <!-- LEFT: the vertical stack -->
-                    <div>
-                        <!-- Personas -->
-                        <div class="layer" style="border-color:var(--panw-orange); padding:0.5rem 0.85rem; margin-bottom:0.3rem; background:rgba(250,88,45,0.05);">
-                            <div class="layer-label" style="margin-bottom:0.2rem;">① Personas</div>
-                            <div style="font-size:0.74rem; color:var(--panw-text);">Pre-Sales · PS Manager · PS Consultant · CS Manager</div>
-                        </div>
-                        <div class="down-arrow" style="margin:0; font-size:1rem;">↓</div>
+                    <div class="layer" style="border-color:var(--panw-purple); text-align:center; padding:0.7rem;">
+                        <div class="layer-body" style="font-size:1.05rem;">🔌 API Layer</div>
+                        <div style="font-size:0.8rem; color:var(--panw-text-dim);"><code>/api/unified/*</code> — Core (cases, tasks…) + AI endpoints</div>
+                    </div>
+                    <div class="down-arrow">↓</div>
 
-                        <!-- UI -->
-                        <div class="layer" style="border-color:var(--panw-blue); padding:0.5rem 0.85rem; margin-bottom:0.3rem;">
-                            <div class="layer-label" style="margin-bottom:0.2rem;">② UI · Presentation <span style="color:var(--panw-text-dim); text-transform:none; letter-spacing:0;">Next.js · React</span></div>
-                            <div style="font-size:0.74rem; color:var(--panw-text);">Role dashboards · intake · case detail + AI brief · HITL · sync-status</div>
-                        </div>
-                        <div class="down-arrow" style="margin:0; font-size:1rem;">↓ <span style="font-size:0.7rem; color:var(--panw-text-dim);">REST</span></div>
+                    <div class="layer" style="border-color:var(--panw-blue); text-align:center; padding:0.7rem;">
+                        <div class="layer-body" style="font-size:1.05rem;">🧠 Intelligence</div>
+                        <div style="font-size:0.8rem; color:var(--panw-text-dim);">Deterministic scoring · Agents → Orchestrator · RAG &nbsp;·&nbsp; via model gateway</div>
+                    </div>
+                    <div class="down-arrow">↓</div>
 
-                        <!-- APIs -->
-                        <div class="layer" style="border-color:var(--panw-purple); padding:0.5rem 0.85rem; margin-bottom:0.3rem;">
-                            <div class="layer-label" style="margin-bottom:0.2rem;">③ API · <span style="color:var(--panw-text-dim); text-transform:none; letter-spacing:0;">/api/unified/*</span></div>
-                            <div style="font-size:0.72rem; color:var(--panw-text);"><strong>Core</strong> cases·tasks·assignments·handoffs &nbsp;|&nbsp; <strong>AI</strong> case-summary·generate-tasks·recommend·multi-agent·health-signals·learning-loop</div>
-                        </div>
-                        <div class="down-arrow" style="margin:0; font-size:1rem;">↓</div>
+                    <div class="layer" style="border-color:var(--panw-success); text-align:center; padding:0.7rem; background:rgba(72,187,120,0.06);">
+                        <div class="layer-body" style="font-size:1.05rem;">🗄️ Unified Database <span style="font-weight:400; color:var(--panw-text-dim); font-size:0.85rem;">— single source of truth</span></div>
+                        <div style="font-size:0.8rem; color:var(--panw-text-dim);">one record per case (in-memory → Postgres + pgvector)</div>
+                    </div>
+                    <div class="down-arrow">↕ <span style="font-size:0.75rem; color:var(--panw-text-dim);">loop-safe sync (single-writer)</span></div>
 
-                        <!-- Intelligence -->
-                        <div class="layer" style="border-color:var(--panw-orange); padding:0.5rem 0.85rem; margin-bottom:0.3rem;">
-                            <div class="layer-label" style="margin-bottom:0.2rem;">④ Intelligence</div>
-                            <div style="font-size:0.74rem; color:var(--panw-text);">Deterministic scoring · Agents (Tier 1–4) → Orchestrator · RAG &nbsp;<span style="color:var(--panw-text-dim);">↳ model gateway: Opus/Sonnet/Haiku</span></div>
-                        </div>
-                        <div class="down-arrow" style="margin:0; font-size:1rem;">↓</div>
+                    <div class="layer" style="border-color:var(--panw-text-dim); text-align:center; padding:0.7rem;">
+                        <div class="layer-body" style="font-size:1.05rem;">🔗 Systems of Record</div>
+                        <div style="font-size:0.8rem; color:var(--panw-text-dim);">SFDC · SOW source · Slack · Clarizen · Gainsight</div>
+                    </div>
+                </div>
 
-                        <!-- DB -->
-                        <div class="layer" style="border-color:var(--panw-success); padding:0.5rem 0.85rem; margin-bottom:0.3rem; background:rgba(72,187,120,0.06);">
-                            <div class="layer-label" style="margin-bottom:0.2rem;">⑤ Unified Database <span style="color:var(--panw-text-dim); text-transform:none; letter-spacing:0;">single source of truth</span></div>
-                            <div style="font-size:0.72rem; color:var(--panw-text);">8 tables · cases·tasks·assignments·handoffs·activities·agent_decisions·history·performance &nbsp;<span style="color:var(--panw-text-dim);">(in-mem → Postgres+pgvector)</span></div>
-                        </div>
-                        <div class="down-arrow" style="margin:0; font-size:1rem;">↕ <span style="font-size:0.68rem; color:var(--panw-text-dim);">single-writer · origin-stamped · drop-on-echo</span></div>
+                <div class="emphasis-box" style="margin-top:1.25rem;">
+                    <p style="font-size:0.95rem; color:var(--panw-text); margin:0;">
+                        <strong>The whole idea in one line:</strong> a persona acts in the UI → API → Intelligence → reads/writes the <span class="highlight">one unified record</span> → syncs to the systems of record → outcomes feed the learning loop. <strong>Context is captured once and never lost at a handoff.</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
 
-                        <!-- Integrations -->
-                        <div class="layer" style="border-color:var(--panw-blue); padding:0.5rem 0.85rem;">
-                            <div class="layer-label" style="margin-bottom:0.25rem;">⑥ Integrations · systems of record</div>
-                            <div style="display:flex; gap:0.3rem; flex-wrap:wrap;">
-                                <span class="badge badge-blue" style="font-size:0.68rem;">SFDC · deal/$$</span>
-                                <span class="badge badge-orange" style="font-size:0.68rem;">SOW source</span>
-                                <span class="badge badge-purple" style="font-size:0.68rem;">Slack · ctx/notify</span>
-                                <span class="badge badge-orange" style="font-size:0.68rem;">Clarizen · delivery</span>
-                                <span class="badge badge-green" style="font-size:0.68rem;">Gainsight · health</span>
-                            </div>
+        <!-- Detailed API Flow Diagram -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>API Overview &amp; Flow</h2>
+                <p class="subtitle">The API surface, and one request's path through the stack</p>
+
+                <h4>The API surface — <code>/api/unified/*</code></h4>
+                <div class="grid grid-3" style="gap:0.6rem; margin:0.3rem 0 1.2rem;">
+                    <div class="card" style="padding:0.7rem; border-left:4px solid var(--panw-orange);">
+                        <div style="font-weight:700; color:var(--panw-orange);">Core / CRUD</div>
+                        <div style="font-size:0.78rem; color:var(--panw-text-dim);">cases · tasks · assignments · handoffs · sow-documents · stats</div>
+                    </div>
+                    <div class="card" style="padding:0.7rem; border-left:4px solid var(--panw-purple);">
+                        <div style="font-weight:700; color:var(--panw-purple);">AI</div>
+                        <div style="font-size:0.78rem; color:var(--panw-text-dim);">case-summary · generate-tasks · recommend-consultant · multi-agent · health-signals · learning-loop</div>
+                    </div>
+                    <div class="card" style="padding:0.7rem; border-left:4px solid var(--panw-blue);">
+                        <div style="font-weight:700; color:var(--panw-blue);">Integrations</div>
+                        <div style="font-size:0.78rem; color:var(--panw-text-dim);">salesforce · dms/sow · slack · clarizen/sync · gainsight/sync · sync/status</div>
+                    </div>
+                </div>
+
+                <h4>One request, end to end</h4>
+                <div class="flow-row" style="margin:0.4rem 0 1rem;">
+                    <div class="flow-node" style="border-color:var(--panw-orange);">
+                        <div class="node-title">1 · UI</div>
+                        <div class="node-sub">persona clicks → REST</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node" style="border-color:var(--panw-purple);">
+                        <div class="node-title">2 · API</div>
+                        <div class="node-sub"><code>/api/unified/*</code></div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node" style="border-color:var(--panw-blue);">
+                        <div class="node-title">3 · Intelligence</div>
+                        <div class="node-sub">scoring · agents · RAG</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node" style="border-color:var(--panw-success);">
+                        <div class="node-title">4 · Unified DB</div>
+                        <div class="node-sub">read / write the record</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node" style="border-color:var(--panw-text-dim);">
+                        <div class="node-title">5 · Sync out</div>
+                        <div class="node-sub">SFDC · Clarizen · Gainsight</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-2" style="gap:0.8rem;">
+                    <div class="card" style="padding:0.8rem;">
+                        <h4 style="margin-top:0;">Example — create from SFDC</h4>
+                        <div style="font-family:'SF Mono',Menlo,monospace; font-size:0.78rem; line-height:1.7; color:var(--panw-text);">
+                            <code>GET</code> /integrations/salesforce/cases <span style="color:var(--panw-text-dim);">→ deal + SOW</span><br/>
+                            <code>POST</code> /api/unified/cases <span style="color:var(--panw-text-dim);">→ unified case</span><br/>
+                            <code>POST</code> /ai/generate-tasks <span style="color:var(--panw-text-dim);">→ tasks</span><br/>
+                            <code>POST</code> /clarizen/sync <span style="color:var(--panw-text-dim);">→ push plan</span>
                         </div>
                     </div>
-
-                    <!-- RIGHT: the data-flow narrative + why-it-works -->
-                    <div>
-                        <div class="card" style="background:rgba(250,88,45,0.05); padding:0.9rem; margin-bottom:0.6rem;">
-                            <h4 style="margin-top:0;">The data flow (one request)</h4>
-                            <div style="font-size:0.82rem; line-height:1.7;">
-                                <strong>1.</strong> Persona acts in the UI<br/>
-                                <strong>2.</strong> → REST call to <code>/api/unified/*</code><br/>
-                                <strong>3.</strong> → Intelligence: scoring / agents / RAG (via model gateway)<br/>
-                                <strong>4.</strong> → reads &amp; writes the <span class="highlight">one unified record</span><br/>
-                                <strong>5.</strong> → syncs out to SFDC · Clarizen · Gainsight (single-writer)<br/>
-                                <strong>6.</strong> → outcomes feed the <span class="highlight">learning loop</span>
-                            </div>
-                        </div>
-
-                        <div class="card" style="padding:0.85rem; margin-bottom:0.6rem;">
-                            <h4 style="margin-top:0;">Why a unified DB</h4>
-                            <p style="font-size:0.84rem;">Every persona reads/writes the <strong>same record</strong> — the architectural answer to the SFDC / Clarizen / Gainsight silo problem. Context is never lost at a handoff.</p>
-                        </div>
-
-                        <div class="card" style="padding:0.85rem;">
-                            <h4 style="margin-top:0;">Why a model gateway</h4>
-                            <p style="font-size:0.84rem;">One endpoint for all models → swap Opus ↔ Sonnet ↔ Haiku <strong>without touching agent code</strong>. Pay for reasoning only where it changes the outcome; centralized cost &amp; keys.</p>
-                        </div>
+                    <div class="card" style="padding:0.8rem;">
+                        <h4 style="margin-top:0;">Two things to know</h4>
+                        <p style="font-size:0.84rem; margin:0;"><strong>Loop-safe sync:</strong> every outbound write is origin-stamped; a matching inbound webhook is dropped → no infinite loops.</p>
+                        <p style="font-size:0.84rem; margin:0.4rem 0 0;"><strong>Observable:</strong> every AI call logs model · latency · cost; every action logs to the audit trail; outcomes feed the learning loop.</p>
                     </div>
                 </div>
             </div>
@@ -1095,7 +1387,7 @@
         <!-- Pre-Sales Intake Integrations: DMS + Slack -->
         <div class="slide">
             <div class="slide-content">
-                <h2>Integrations &amp; APIs</h2>
+                <h2>Integration Points</h2>
                 <p class="subtitle">Every source has one owner; the engine pulls context in, syncs state out — loop-safe</p>
 
                 <div class="grid grid-2">
@@ -1143,40 +1435,93 @@
                         </div>
                     </div>
 
-                    <!-- Right: provenance DoR + API list -->
+                    <!-- Right: per-system read/write + loop prevention -->
                     <div>
-                        <h4 style="margin-top:0;">Design of Record — provenance per field</h4>
-                        <div style="font-family:'Courier New',monospace; font-size:0.68rem; line-height:1.45; color:var(--panw-text); background:var(--panw-darker); border:1px solid var(--panw-border); border-radius:8px; padding:0.75rem;">
-{<br/>
-&nbsp;<span style="color:var(--panw-blue)">customer_name</span>: { value:<span style="color:var(--panw-success)">"Acme"</span>, source:<span style="color:var(--panw-warning)">"dms"</span> },<br/>
-&nbsp;<span style="color:var(--panw-blue)">arr</span>: { value:<span style="color:var(--panw-warning)">850000</span>, source:<span style="color:var(--panw-warning)">"sfdc"</span> },<br/>
-&nbsp;<span style="color:var(--panw-blue)">integrations</span>: { value:[<span style="color:var(--panw-success)">"Splunk"</span>], source:<span style="color:var(--panw-warning)">"dms+slack"</span> },<br/>
-&nbsp;<span style="color:var(--panw-blue)">timeline</span>: { value:<span style="color:var(--panw-success)">"Jul 15"</span>, source:<span style="color:var(--panw-warning)">"slack"</span> },<br/>
-&nbsp;<span style="color:var(--panw-blue)">ai_confidence</span>: <span style="color:var(--panw-warning)">0.88</span><br/>
-}
-                        </div>
-                        <p style="font-size:0.76rem; margin:0.4rem 0 0.6rem; color:var(--panw-text-dim);"><strong>Provenance per field</strong> proves "no lost context" &amp; makes extraction auditable.</p>
+                        <h4 style="margin-top:0;">What flows where (single-writer)</h4>
+                        <table style="font-size:0.74rem;">
+                            <thead>
+                                <tr><th>System</th><th>Engine reads →</th><th>Engine writes ←</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>SFDC</strong></td><td>opportunity, ARR, account</td><td>case status</td></tr>
+                                <tr><td><strong>SOW src</strong></td><td>SOW doc + metadata</td><td>—</td></tr>
+                                <tr><td><strong>Slack</strong></td><td>thread context</td><td>notifications</td></tr>
+                                <tr><td><strong>Clarizen</strong></td><td>progress, actual hours</td><td>AI tasks, assignment</td></tr>
+                                <tr><td><strong>Gainsight</strong></td><td>health, NPS, renewal</td><td>outcome, Time-to-Value</td></tr>
+                            </tbody>
+                        </table>
 
-                        <h4 style="margin-top:0.4rem;">API surface <span style="font-size:0.72rem;color:var(--panw-text-dim);">(/api/unified/*)</span></h4>
-                        <div class="grid grid-3" style="gap:0.5rem; margin:0.25rem 0;">
-                            <div class="card" style="padding:0.5rem; border-left:3px solid var(--panw-orange);">
-                                <div style="font-size:0.72rem; font-weight:700; color:var(--panw-orange);">Core</div>
-                                <div style="font-size:0.68rem; color:var(--panw-text-dim);">cases · tasks · assignments · handoffs · sow-documents · stats</div>
-                            </div>
-                            <div class="card" style="padding:0.5rem; border-left:3px solid var(--panw-purple);">
-                                <div style="font-size:0.72rem; font-weight:700; color:var(--panw-purple);">AI</div>
-                                <div style="font-size:0.68rem; color:var(--panw-text-dim);">case-summary · generate-tasks · recommend-consultant · multi-agent · health-signals · learning-loop</div>
-                            </div>
-                            <div class="card" style="padding:0.5rem; border-left:3px solid var(--panw-blue);">
-                                <div style="font-size:0.72rem; font-weight:700; color:var(--panw-blue);">Integrations</div>
-                                <div style="font-size:0.68rem; color:var(--panw-text-dim);">dms/sow · slack/thread · slack/notify · clarizen/sync · gainsight/sync · sync/status</div>
-                            </div>
+                        <div class="card" style="margin-top:0.5rem; padding:0.8rem;">
+                            <h4 style="margin-top:0;">Loop-prevention contract</h4>
+                            <ol style="font-size:0.78rem; margin:0.3rem 0 0; padding-left:1.1rem;">
+                                <li>Every outbound write is <strong>origin-stamped</strong> + carries a <code>correlationId</code>.</li>
+                                <li>Inbound webhook with a matching id = our own echo → <strong>dropped</strong>.</li>
+                                <li>One writer per field → last-writer-wins, no conflicts.</li>
+                                <li>Every sync action logged to the <strong>audit trail</strong>.</li>
+                            </ol>
                         </div>
                     </div>
                 </div>
 
                 <div class="quote-box" style="border-left-color: var(--panw-orange); margin-top:0.3rem;">
-                    <strong>Why it matters:</strong> multi-source unstructured context (SOW + Slack + SFDC) becomes one sourced Design of Record; state syncs to Clarizen &amp; Gainsight with single-writer ownership + origin-stamping — bidirectional, but loop-safe.
+                    <strong>Why it matters:</strong> the engine is a <strong>system of engagement on top of the systems of record</strong> — it never owns what they own, so sync is bidirectional but <strong>provably loop-safe and auditable</strong>. (Demo: the <code>/sync-status</code> "fire inbound webhook" button shows the drop live.)
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Architecture -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Data Architecture</h2>
+                <p class="subtitle">Contract-first: design the data, then build the AI &amp; integrations around it — the schema <em>is</em> the spec</p>
+
+                <div class="grid grid-2" style="gap:1rem; align-items:start;">
+                    <!-- LEFT: structure -->
+                    <div>
+                        <h4 style="margin-top:0;">① Data structure — the unified record</h4>
+                        <div style="font-family:'Courier New',monospace; font-size:0.7rem; line-height:1.5; color:var(--panw-text); background:var(--panw-darker); border:1px solid var(--panw-border); border-radius:8px; padding:0.7rem;">
+<span style="color:var(--panw-orange)">cases</span> <span style="color:var(--panw-text-dim)">(master record)</span><br/>
+&nbsp;├─ <span style="color:var(--panw-blue)">tasks</span> · <span style="color:var(--panw-blue)">assignments</span> · <span style="color:var(--panw-blue)">handoffs</span><br/>
+&nbsp;├─ <span style="color:var(--panw-blue)">activities</span> <span style="color:var(--panw-text-dim)">(audit)</span> · <span style="color:var(--panw-blue)">agent_decisions</span><br/>
+&nbsp;└─ <span style="color:var(--panw-purple)">historical_assignments</span> · <span style="color:var(--panw-purple)">performance</span>
+                        </div>
+                        <p style="font-size:0.74rem; color:var(--panw-text-dim); margin:0.35rem 0 0;">8 connected tables · every child references <code>case_id</code> → context never fragments.</p>
+
+                        <h4>Provenance per field</h4>
+                        <div style="font-family:'Courier New',monospace; font-size:0.68rem; line-height:1.45; color:var(--panw-text); background:var(--panw-darker); border:1px solid var(--panw-border); border-radius:8px; padding:0.65rem;">
+{ <span style="color:var(--panw-blue)">arr</span>: { value:<span style="color:var(--panw-warning)">850000</span>, source:<span style="color:var(--panw-warning)">"sfdc"</span> },<br/>
+&nbsp;&nbsp;<span style="color:var(--panw-blue)">timeline</span>: { value:<span style="color:var(--panw-success)">"Jul 15"</span>, source:<span style="color:var(--panw-warning)">"slack"</span> } }
+                        </div>
+                        <p style="font-size:0.74rem; color:var(--panw-text-dim); margin:0.35rem 0 0;">Each field records <strong>where it came from</strong> → proves "no lost context," fully auditable.</p>
+                    </div>
+
+                    <!-- RIGHT: pipeline + why -->
+                    <div>
+                        <h4 style="margin-top:0;">② Data flow / pipeline</h4>
+                        <div style="font-size:0.8rem; line-height:1.6;">
+                            <strong>Capture</strong> (Deal ID → fetch SFDC + SOW)<br/>
+                            &nbsp;&nbsp;↓ <strong>Structure</strong> → typed unified <em>case</em> record<br/>
+                            &nbsp;&nbsp;↓ <strong>Enrich</strong> → AI tasks · scores · health (write back to record)<br/>
+                            &nbsp;&nbsp;↓ <strong>Sync</strong> → SFDC · Clarizen · Gainsight (single-writer)<br/>
+                            &nbsp;&nbsp;↓ <strong>Learn</strong> → outcomes → <code>historical_assignments</code> + <code>performance</code><br/>
+                            &nbsp;&nbsp;<span style="color:var(--panw-orange);">⟲ feeds the next recommendation</span>
+                        </div>
+
+                        <div class="card" style="margin-top:0.5rem; padding:0.7rem;">
+                            <h4 style="margin-top:0;">③ Why this approach</h4>
+                            <ul style="font-size:0.76rem; margin:0.2rem 0 0; padding-left:1.1rem;">
+                                <li><strong>One unified record, not per-team DBs</strong> → the architectural fix for the silo problem; context never re-entered.</li>
+                                <li><strong>Contract-first</strong> → design the data model, build AI around it (testable, typed).</li>
+                                <li><strong>Provenance + audit trail</strong> → every value &amp; AI decision traceable.</li>
+                                <li><strong>Prod target: Postgres + pgvector</strong> → relational truth + vector search for RAG; in-memory now, schema is production-shaped (mechanical migration).</li>
+                            </ul>
+                        </div>
+
+                        <div class="card" style="margin-top:0.5rem; padding:0.7rem;">
+                            <h4 style="margin-top:0;">④ Data strategy</h4>
+                            <p style="font-size:0.76rem; margin:0;">Synthetic but use-case-aligned seed (5 cases spanning health A–F, 8 SOWs). At scale: continuously ingest completed engagements + product docs into the vector store → powers RAG &amp; the learning loop.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1207,8 +1552,8 @@
                     <tbody>
                         <tr>
                             <td rowspan="2"><strong>Output quality</strong><br/><span style="font-size:0.8rem;color:var(--panw-text-dim);">offline eval</span></td>
-                            <td>TRD citation validity &amp; critic-issue rate</td>
-                            <td>Critic agent + golden-set comparison</td>
+                            <td>Brief faithfulness &amp; task completeness</td>
+                            <td>Golden-set comparison + LLM-as-judge</td>
                         </tr>
                         <tr>
                             <td>Task / match quality</td>
@@ -1337,56 +1682,6 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-
-        <!-- Appendix — TRD Generation (Designed / Roadmap) -->
-        <div class="slide">
-            <div class="slide-content">
-                <h2>Appendix · TRD Generation (RAG-Grounded)</h2>
-                <div style="margin:-0.5rem 0 0.75rem;">
-                    <span class="badge badge-orange">👤 Persona: PS Consultant</span>
-                    <span class="badge badge-blue">🧠 Method: agentic RAG — Plan → Draft → Critic → Revise, [DOC-X] citations</span>
-                    <span class="badge badge-purple">Model: Opus (plan/critic) + Sonnet (parallel drafters)</span>
-                    <span class="badge" style="background:rgba(246,173,85,0.18); color:var(--panw-warning); border:1px solid var(--panw-warning);">🔭 Designed — not yet wired</span>
-                </div>
-
-                <div class="flow-row">
-                    <div class="flow-node" style="border-color: var(--panw-orange);">
-                        <div class="node-title">1 · PLAN</div>
-                        <div class="node-sub">Opus decides 10–12 sections + a retrieval query per section</div>
-                    </div>
-                    <div class="flow-arrow">→</div>
-                    <div class="flow-node" style="border-color: var(--panw-purple);">
-                        <div class="node-title">2 · DRAFT</div>
-                        <div class="node-sub">Sonnet drafts sections in parallel, each grounded in retrieved docs</div>
-                    </div>
-                    <div class="flow-arrow">→</div>
-                    <div class="flow-node" style="border-color: var(--panw-blue);">
-                        <div class="node-title">3 · CRITIC</div>
-                        <div class="node-sub">Reviews for unsupported claims &amp; compliance gaps</div>
-                    </div>
-                    <div class="flow-arrow">→</div>
-                    <div class="flow-node" style="border-color: var(--panw-success);">
-                        <div class="node-title">4 · REVISE</div>
-                        <div class="node-sub">Re-drafts high-severity flagged sections</div>
-                    </div>
-                </div>
-
-                <div class="grid grid-2" style="margin-top:1rem;">
-                    <div class="card">
-                        <h4>RAG keeps it accurate</h4>
-                        <p style="font-size:0.9rem;">Each section retrieves product docs + past TRDs and injects them as <code>[DOC-X]</code> context. <strong>Every claim must cite a source; the critic rejects uncited claims.</strong> Grounding is enforced, not hoped for.</p>
-                    </div>
-                    <div class="card">
-                        <h4>Human-in-the-loop by design</h4>
-                        <p style="font-size:0.9rem;">High-stake sections (Scope, Pricing, Timeline, Success Criteria, Migration) are tagged <strong>stake: High</strong> and require human approval before the TRD ships.</p>
-                    </div>
-                </div>
-
-                <div class="quote-box" style="border-left-color: var(--panw-warning);">
-                    <strong>Status &amp; honesty:</strong> this is the assignment's headline capability and it's <strong>fully designed</strong> (the Plan→Draft→Critic→Revise contract + enforced citations). In the prototype I prioritized wiring the upstream flow end-to-end; <strong>productizing TRD = wire the route + a real vector store (pgvector/Pinecone) + activate the revise step.</strong> The contract is the deliverable; the wiring is the next sprint.
-                </div>
             </div>
         </div>
 

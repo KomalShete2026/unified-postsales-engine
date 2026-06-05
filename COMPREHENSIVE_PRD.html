@@ -412,49 +412,90 @@
 
 <h3>Solution Components</h3>
 
-<p>The platform delivers <strong>six AI use cases</strong> across the post-sales lifecycle (Pre-Sales → PS Manager → PS Consultant → CS), on a single unified record, with a human approving every high-stakes decision. Models are matched to the task ("best-fit model strategy") via an OpenAI-compatible gateway, so any model can be swapped without changing agent code.</p>
+<p>The platform delivers <strong>four AI use cases</strong> across the post-sales lifecycle, on a single unified record, with a human approving every high-stakes decision. Models are matched to the task ("best-fit model strategy") via an OpenAI-compatible gateway, so any model can be swapped without changing agent code. <strong>Right tool per job:</strong> LLMs where the task is language; deterministic math where the decision must be auditable.</p>
 
-<h4>AI Use Case 1 — Intelligent Case Intake</h4>
-<ul>
-<li>Pulls unstructured context from the <strong>DMS (SOW docs)</strong>, <strong>Slack threads</strong>, and <strong>SFDC</strong>, and AI-extracts it into a structured <strong>Design of Record</strong>.</li>
-<li>Each extracted field is stamped with its <strong>source (provenance)</strong> — proving "no lost context" and making extraction auditable.</li>
-<li><em>Best-fit model:</em> a strong reasoning / long-context model for messy SOWs, with schema-constrained output.</li>
-</ul>
+<h4>Pre-Sales — Identify &amp; hand off <em>(no AI)</em></h4>
+<p>Pre-Sales is intentionally a thin, non-AI step: the engineer enters a <strong>Deal ID</strong> → the system <strong>fetches</strong> the deal (Salesforce) + the <strong>SOW</strong> (resolved by Deal ID from an SFDC attachment / CLM / DMS — source-agnostic) → runs a <strong>completeness validation gate</strong> (deal resolves, products / ARR / region present, SOW found) → <strong>hands off to the PS Manager</strong>. No data entry, no LLM — identify, gather, validate, hand off. The SOW is <em>fetched, not parsed</em>; the engine mints the Case ID (<code>CASE-2026-NNN</code>) referencing the SFDC + SOW IDs. The AI begins post-sales.</p>
 
-<h4>AI Use Case 2 — Case Briefing &amp; Summary</h4>
+<h4>AI Use Case 1 — Case Briefing &amp; Summary</h4>
 <ul>
 <li>Persona-aware briefing so the receiving party (PS Manager triage view, or Consultant execution view) starts with an instant, plain-English summary instead of re-discovering context.</li>
 <li>Output: executive summary, key risks, recommended actions, engagement sentiment, timeline read, communication highlights.</li>
-<li><em>Best-fit model:</em> a fast, low-cost model (short, frequent, low-stakes summaries).</li>
+<li><em>Best-fit model:</em> a fast, low-cost model (short, frequent, low-stakes summaries the human still reviews — optimize for speed &amp; cost, not deep reasoning).</li>
 </ul>
 
-<h4>AI Use Case 3 — Task Generation</h4>
+<p><strong>Data pipeline:</strong> <code>POST /ai/case-summary {caseId}</code> → <strong>gather</strong> (case record + activity trail + tasks + communications) → <strong>assemble</strong> prompt → <strong>LLM</strong> (temp 0.35, JSON output) → <strong>parse &amp; validate</strong> (deterministic fallback if parse fails) → return structured brief. This is <em>retrieval-augmented in spirit, but the retrieval is direct DB reads, not vector search</em> — for a summary you want <em>this</em> case's exact data, not similar cases (contrast Task Generation, which uses vector RAG).</p>
+
+<p><strong>Data structure (output contract):</strong> strongly-typed JSON — <code>executive_summary</code>, <code>key_risks[]</code>, <code>recommended_actions[]</code>, <code>engagement_sentiment</code> (on-track / needs-attention / at-risk), <code>timeline_assessment</code>, <code>communication_highlights[]</code>, <code>generated_at</code>. Typed output means the UI renders reliably and each field is independently evaluable.</p>
+
+<p><strong>Evaluation — two buckets:</strong></p>
 <ul>
-<li>Turns the Design of Record into a standardized, dependency-aware list of 5–8 lifecycle tasks (discovery → architecture → configuration → integration → testing → documentation → training).</li>
+<li><strong>Model / output-quality metrics</strong> (offline / golden-set / LLM-as-judge): <em>factual consistency / faithfulness</em> (the #1 metric — every claim traces to the source), <em>risk recall &amp; precision</em>, <em>completeness</em>, <em>sentiment accuracy</em>, <em>format validity</em> (parse vs. fallback rate), <em>conciseness</em>, <em>consistency</em>.</li>
+<li><strong>Product / business metrics</strong> (live telemetry): <em>HITL "useful?" / acceptance rate</em>, <em>override / ignore rate</em> (should trend down), <em>time-to-triage</em> (north-star), <em>adoption rate</em>, <em>latency (p95)</em>, <em>cost per brief</em>, <em>reduction in re-discovery</em>.</li>
+</ul>
+<p><em>Framing:</em> model metrics answer "is the AI good?"; product metrics answer "is it working for the business?" The trap is optimizing only the first — a brief that scores well but the manager ignores is a failed product. <strong>Hard truth:</strong> a fluent-but-subtly-wrong summary is dangerous (false confidence) → weight faithfulness over polish, and gate on a faithfulness threshold before trusting product metrics.</p>
+
+<p><strong>In-product feedback:</strong> after each brief the user rates it 1–5★ on <em>Accuracy · Risk Coverage · Actionability · Clarity · Overall Usefulness</em> (+ free-text) — captured live, per-dimension (diagnostic), and fed to the learning loop.</p>
+
+<p><strong>Outcomes:</strong> faster triage (↓ time-to-triage) · no re-discovery · consistent quality · proactive risk visibility · trust signal captured. <strong>Ladders up to the North Star:</strong> faithfulness (accurate) → acceptance (trusted) → ↓ time-to-triage → <strong>Time-to-Value</strong>.</p>
+
+<h4>AI Use Case 2 — Task Generation (RAG-Grounded)</h4>
+<ul>
+<li><strong>RAG-grounded:</strong> retrieves <strong>similar past engagements</strong> (same products / integrations / industry) and turns the Design of Record into a standardized, dependency-aware list of 5–8 lifecycle tasks (discovery → architecture → configuration → integration → testing → documentation → training) <strong>grounded in what worked before</strong>, including past blockers.</li>
 <li>Each task carries type, priority, hour estimate, dependencies, and an AI confidence + reasoning. Includes a deterministic template fallback so it never dead-ends.</li>
-<li><em>Best-fit model:</em> a high-volume workhorse model (reliable structured JSON).</li>
+<li><em>Best-fit model:</em> embeddings + vector search for retrieval; a high-volume workhorse model for the structured generation.</li>
 </ul>
 
-<h4>AI Use Case 4 — Best-Fit Resource Allocation</h4>
+<p><strong>RAG architecture (two flows):</strong></p>
 <ul>
-<li>Ranks consultants on a transparent weighted rubric: <strong>Skills 35 · Recency 20 · Customer familiarity 15 · Timezone 10 · Availability 10 · Utilization 10</strong> — availability is only 30% combined, so the engine produces "Best Fit," not "First Available."</li>
-<li>A multi-tier agent set analyzes the case in parallel; an <strong>Orchestrator</strong> synthesizes one recommendation and <em>lowers confidence when agents disagree</em>.</li>
-<li><em>Best-fit model:</em> deterministic scoring for fairness/auditability; reasoning model only to resolve ties and explain.</li>
+<li><strong>Ingestion</strong> (build the vector DB): Raw data (past engagements / TRDs / lessons) → chunk → embed (<code>text-embedding-3-large</code>) → store in the Vector DB. <strong>Frequency: event-driven on case completion</strong> (the learning loop already triggers this), with a <strong>nightly batch backstop</strong> and a full re-index if the embedding model changes.</li>
+<li><strong>Query</strong> (per "Generate Tasks" click, real-time): <code>POST /ai/generate-tasks {caseId}</code> → duplicate-guard → embed the case → vector search → retrieve top-k similar cases + lessons + blockers → <strong>LLM</strong> generates grounded tasks (structured JSON) → validate (template fallback) → persist → status <code>tasks_generated</code>.</li>
 </ul>
+<p><em>True vector RAG (similar cases), distinct from Case Briefing's direct DB reads (this case).</em></p>
 
-<h4>AI Use Case 5 — TRD Generation (RAG-Grounded)</h4>
-<ul>
-<li>Agentic flow: <strong>Plan → Draft → Critic → Revise</strong>. Each section retrieves product docs + past engagements (RAG) and every claim must cite a source <code>[DOC-X]</code>; the critic rejects uncited claims — grounding is enforced, not hoped for.</li>
-<li>High-stake sections (Scope, Pricing, Timeline, Success Criteria, Migration) are tagged for human approval before the TRD ships.</li>
-<li><em>Best-fit model:</em> a top reasoning model for planning/critique + a high-volume model for parallel drafting.</li>
-</ul>
+<p><strong>Data structure (output — typed Task[]):</strong> <code>title</code>, <code>type</code>, <code>priority</code> (P0–P4), <code>estimated_hours</code>, <code>depends_on[]</code> (dependency graph), <code>ai_generated</code>, <code>ai_confidence</code>, <code>ai_reasoning</code> (where RAG grounding surfaces). The dependency graph makes the plan executable and sequenceable, not a flat list.</p>
 
-<h4>AI Use Case 6 — Customer Health Signals</h4>
+<p><strong>Evaluation — two buckets:</strong></p>
 <ul>
-<li>Analyzes communication sentiment and risk into a <strong>health score, NPS, adoption, and renewal-risk</strong> view on the CS dashboard; surfaces escalation risk proactively.</li>
-<li>Outcome + Time-to-Value feed the <strong>learning loop</strong>, improving future best-fit recommendations — the "Outcome Engine" payoff.</li>
-<li><em>Best-fit model:</em> a reasoning model for nuanced tone, with a keyword-heuristic fallback for resilience.</li>
+<li><strong>Implicit signal — what the user does with the tasks (diagnostic):</strong> <em>kept as-is</em> = retention rate (the headline) · <em>deleted</em> → precision problem (junk tasks) · <em>modified</em> → calibration (right task, wrong detail) · <em>added manually</em> → recall gap (AI missed tasks). Each action diagnoses a different failure. + an optional 1–5★ rating.</li>
+<li><strong>Model / output-quality</strong> (offline / golden set): task completeness (recall), task precision, dependency correctness (valid edges, no cycles), estimate reasonableness vs. actuals, RAG grounding, lifecycle coverage, format validity.</li>
+<li><strong>Product / business</strong> (live telemetry): time-to-task-list, plan accuracy vs. actuals, mid-stream task churn (rework), cost per generation.</li>
 </ul>
+<p><em>Hard truth:</em> zero-shot tasks look plausible but omit the blockers only experience knows — without RAG the model confidently drops the gotchas. So the eval that matters is "did it include what similar past deployments actually needed," measurable only with RAG + a golden set.</p>
+
+<p><strong>Outcomes:</strong> faster planning (↓ time-to-task-list) · standardized tasks · fewer missed steps/blockers · the org reuses its playbook · less mid-stream rework. <strong>Ladders up to the North Star:</strong> RAG grounding → task retention → ↓ time-to-task-list + fewer reworks → <strong>Time-to-Value</strong>.</p>
+
+<h4>AI Use Case 3 — Best-Fit Resource Allocation</h4>
+<p>The shift from "First Available" → "Best Fit," built as <strong>three layers — and the matching is NOT an LLM</strong>:</p>
+<ul>
+<li><strong>Layer 1 · Deterministic weighted scoring</strong> (the actual match — plain math, not AI): <strong>Skills 35 · Recency 20 · Customer familiarity 15 · Timezone 10 · Availability 10 · Utilization 10</strong>. Availability is only 30% combined; skill + recency + familiarity are 70% — <em>mathematically</em> why it's Best-Fit.</li>
+<li><strong>Layer 2 · Agent context</strong> (≈13 agents in parallel): Sales Intelligence, SFDC Support Risk, Implementation-RAG, Scope Creep, Skills, Workload, Performance, Complexity, Calendar, Capacity, GDPR, Multi-Cloud, Sentiment. Implementation-RAG retrieves similar past cases to ground complexity / timeline / familiarity.</li>
+<li><strong>Layer 3 · Orchestrator → Human:</strong> synthesizes score + context → recommendation + reasoning + confidence (lowers confidence when agents disagree) → the PS Manager <strong>approves / overrides / splits across a team</strong>.</li>
+<li><em>Why this design:</em> resourcing must be <strong>fair, reproducible, auditable</strong> — a manager has to defend an assignment, so the score is deterministic math, not a black box. The LLM/agents are only the judgment layer; RAG is supporting (enriches inputs), not the matcher.</li>
+</ul>
+<p><strong>Evaluation:</strong></p>
+<ul>
+<li><strong>Implicit signal — what the manager does with the pick (diagnostic):</strong> <em>approved</em> = accepted as-is (the headline) · <em>overrode</em> → wrong pick / missing context · <em>reassigned mid-stream</em> → true bad fit (strongest negative signal).</li>
+<li><strong>Model</strong> — backtest: match-score ↔ actual-outcome correlation (would the score have picked the consultant who <em>succeeded</em>?); recommendation quality vs. expert pick.</li>
+<li><strong>Product</strong> — First-Available → Best-Fit success lift, override rate, reassignment rate, time-to-assign.</li>
+</ul>
+<p><strong>Outcomes:</strong> First-Available → Best-Fit lift · fewer reassignments · ↓ time-to-assign · auditable, defensible picks · burnout guarded. <strong>Ladders up to the North Star:</strong> Best-Fit score → manager approval → ↑ deployment success + fewer reassignments → <strong>Time-to-Value</strong>.</p>
+
+<h4>AI Use Case 4 — Customer Health Signals</h4>
+<p>The "Outcome Engine" payoff, built as <strong>two layers — deterministic + AI</strong> (mirror of Best-Fit):</p>
+<ul>
+<li><strong>Layer 1 · Deterministic health score</strong> (0–100 + A–F grade, plain math): starts at 100, deducts for real signals — SLA overrun (up to −35), blocked tasks (up to −25), low completion, missing docs (−12). Auditable &amp; reproducible.</li>
+<li><strong>Layer 2 · LLM sentiment / risk:</strong> reads emails / Slack / notes → communication sentiment (positive→concerning), risk signal, AI health narrative, and a <strong>0–20 penalty that adjusts the score</strong>. Keyword-heuristic fallback if the call fails.</li>
+<li><strong>Then → action:</strong> health &lt; 60 fires the Escalation Risk Predictor (outreach + manager alert). Outcome + Time-to-Value feed the learning loop, improving future recommendations.</li>
+<li><em>Why this model:</em> the score must be auditable → deterministic; tone &amp; implied risk ("budget freeze," "exec disengagement") aren't keyword matches → needs an LLM. Right tool per job.</li>
+</ul>
+<p><strong>Evaluation:</strong></p>
+<ul>
+<li><strong>Model</strong> — <em>precision</em> (did flagged accounts actually escalate? no false alarms), <em>recall</em> (did we catch the ones that churned?), <em>lead time</em> (flagged before vs. after the escalation), <em>sentiment accuracy</em> vs. a human-labeled set.</li>
+<li><strong>Implicit signal</strong> — CS Manager <em>acted on</em> vs. <em>dismissed</em> the alert → feeds the learning loop.</li>
+<li><strong>Product</strong> — churn / escalation reduction, Time-to-Value, renewal-risk accuracy.</li>
+</ul>
+<p><strong>Outcomes:</strong> churn/escalations caught early · ↓ Time-to-Value · proactive (not reactive) CS · closes the learning loop. <strong>Ladders up to the North Star:</strong> health signal → early escalation flag (acted on) → ↓ churn + ↓ Time-to-Value → <strong>Time-to-Value</strong>.</p>
 
 <h4>Supporting layers</h4>
 <ul>
@@ -498,52 +539,39 @@
 
 <p>This section defines user-facing features across all 4 personas: Pre-Sales Engineer, PS Manager, PS Consultant, and CS Manager.</p>
 
-<h3>FR1: Pre-Sales Case Creation</h3>
+<h3>FR1: Pre-Sales Case Intake <em>(thin, no-AI step: identify → fetch → validate → hand off)</em></h3>
 
-<h4>FR1.1: SOW Repository Browser</h4>
-<p><strong>User Story:</strong> As a Pre-Sales Engineer, I want to browse existing customer SOWs so that I can use proven templates for similar customers.</p>
-
-<p><strong>Acceptance Criteria:</strong></p>
-<ul>
-<li>Display grid of SOW documents with customer name, ARR, products, date</li>
-<li>Filter by customer type (Enterprise / Mid-Market / Template)</li>
-<li>Search by customer name or product</li>
-<li>Show SFDC Case ID badge for customer SOWs</li>
-<li>Allow download of PDF files</li>
-<li>"Use This SOW" button pre-fills case creation form</li>
-</ul>
-
-<h4>FR1.2: Manual Case Creation</h4>
-<p><strong>User Story:</strong> As a Pre-Sales Engineer, I want to create a new case manually so that I can submit deployment requests for customers without an existing SOW.</p>
+<h4>FR1.1: Fetch Case by Deal ID <em>(primary path)</em></h4>
+<p><strong>User Story:</strong> As a Pre-Sales Engineer, I want to enter a Salesforce Deal ID and have the system gather everything automatically, so that I don't manually re-enter data that already exists.</p>
 
 <p><strong>Acceptance Criteria:</strong></p>
 <ul>
-<li>Form includes: customer name, industry, region, ARR, products (multi-select), business goals, integrations</li>
-<li>Required fields validated before submission</li>
-<li>Optional file upload for SOW PDF</li>
-<li>Auto-generate Case ID (format: CASE-2026-XXX)</li>
-<li>Set status to "draft" on save, "submitted" on submit</li>
-<li>Record created_by as current user with timestamp</li>
+<li>Input field for SFDC Deal ID with a "Fetch" action</li>
+<li>System fetches deal data from Salesforce (customer, industry, region, ARR, products, integrations)</li>
+<li>System auto-resolves the <strong>SOW by Deal ID</strong> from the source system (SFDC attachment / CLM / DMS — source-agnostic resolver) and attaches it</li>
+<li>SOW is <strong>fetched, not parsed</strong> (no AI at this stage); <code>data_source: 'sfdc'</code> stamped for provenance</li>
+<li>Engine mints Case ID (<code>CASE-2026-XXX</code>) referencing the SFDC opportunity + SOW document IDs</li>
 </ul>
 
-<p><strong>Validation Rules:</strong></p>
-<ul>
-<li>Customer name: required, 3-100 chars</li>
-<li>ARR: required, > 0</li>
-<li>Products: required, at least 1 selected</li>
-<li>Region: required, one of [Americas, EMEA, APAC]</li>
-</ul>
-
-<h4>FR1.3: SFDC Case Import (Optional)</h4>
-<p><strong>User Story:</strong> As a Pre-Sales Engineer, I want to import a case from Salesforce so that I don't have to manually re-enter data already in SFDC.</p>
+<h4>FR1.2: Completeness Validation Gate</h4>
+<p><strong>User Story:</strong> As a Pre-Sales Engineer, I want the system to validate the case is complete before I hand it off, so that incomplete cases don't enter the PS pipeline.</p>
 
 <p><strong>Acceptance Criteria:</strong></p>
 <ul>
-<li>Input field for SFDC Case ID with "Fetch from SFDC" button</li>
-<li>Mock API simulates SFDC case fetch (in demo mode)</li>
-<li>Pre-fill form with SFDC data (customer, ARR, products, etc.)</li>
-<li>Auto-download attached SOW if present</li>
-<li>Set sfdc_case_id field and data_source: 'sfdc'</li>
+<li>Validate: Deal ID resolves · products present · ARR &gt; 0 · region one of [Americas, EMEA, APAC] · <strong>SOW found &amp; attached</strong></li>
+<li>Block hand-off and show a checklist of what's missing if any check fails</li>
+<li>On all-green, enable "Hand off to PS Manager" → status <code>submitted</code></li>
+<li>Record <code>created_by</code> + timestamp; log an Activity</li>
+</ul>
+
+<h4>FR1.3: Manual Entry <em>(fallback only)</em></h4>
+<p><strong>User Story:</strong> As a Pre-Sales Engineer, I want to enter case details manually when no Deal ID / SOW is available, so that net-new cases can still be submitted.</p>
+
+<p><strong>Acceptance Criteria:</strong></p>
+<ul>
+<li>Manual form (customer, industry, region, ARR, products, business goals, integrations) — used only when the Deal-ID fetch can't resolve a case or SOW</li>
+<li>Optional SOW upload as the last-resort fallback if the DMS/CLM has none</li>
+<li>Same validation gate applies before hand-off; <code>data_source: 'manual'</code></li>
 </ul>
 
 <h4>FR1.4: Pre-Sales Dashboard</h4>
